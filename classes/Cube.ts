@@ -4,7 +4,6 @@ import Object3D from './Object3D';
 export class Cube extends Object3D {
   
   selfProjection: any[];
-  colors: number[][];
 
   mesh = [
     // Front face
@@ -53,7 +52,7 @@ export class Cube extends Object3D {
     [20, 21, 22],     [20, 22, 23],   // left
   ]
 
-  colors = [
+  colors: number[][] = [
     [1.0,  1.0,  1.0,  1.0],    // Front face: white
     [1.0,  0.0,  0.0,  1.0],    // Back face: red
     [0.0,  1.0,  0.0,  1.0],    // Top face: green
