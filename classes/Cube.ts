@@ -1,44 +1,53 @@
 import Object3D from './Object3D';
+import { Point3D } from './Point3D';
 
 export class Cube extends Object3D {
-  selfProjection: any[];
+
+  constructor(
+    X: number,
+    Y: number,
+    Z: number,
+    size: number,
+  ){
+    super(size);
+  }
 
   mesh = [
     // Front face
-    [-1.0, -1.0, 1.0],
-    [1.0, -1.0, 1.0],
-    [1.0, 1.0, 1.0],
-    [-1.0, 1.0, 1.0],
+    new Point3D(-1.0, -1.0, 1.0),
+    new Point3D(1.0, -1.0, 1.0),
+    new Point3D(1.0, 1.0, 1.0),
+    new Point3D(-1.0, 1.0, 1.0),
 
     // Back face
-    [-1.0, -1.0, -1.0],
-    [-1.0, 1.0, -1.0],
-    [1.0, 1.0, -1.0],
-    [1.0, -1.0, -1.0],
+    new Point3D(-1.0, -1.0, -1.0),
+    new Point3D(-1.0, 1.0, -1.0),
+    new Point3D(1.0, 1.0, -1.0),
+    new Point3D(1.0, -1.0, -1.0),
 
     // Top face
-    [-1.0, 1.0, -1.0],
-    [-1.0, 1.0, 1.0],
-    [1.0, 1.0, 1.0],
-    [1.0, 1.0, -1.0],
+    new Point3D(-1.0, 1.0, -1.0),
+    new Point3D(-1.0, 1.0, 1.0),
+    new Point3D(1.0, 1.0, 1.0),
+    new Point3D(1.0, 1.0, -1.0),
 
     // Bottom face
-    [-1.0, -1.0, -1.0],
-    [1.0, -1.0, -1.0],
-    [1.0, -1.0, 1.0],
-    [-1.0, -1.0, 1.0],
+    new Point3D(-1.0, -1.0, -1.0),
+    new Point3D(1.0, -1.0, -1.0),
+    new Point3D(1.0, -1.0, 1.0),
+    new Point3D(-1.0, -1.0, 1.0),
 
     // Right face
-    [1.0, -1.0, -1.0],
-    [1.0, 1.0, -1.0],
-    [1.0, 1.0, 1.0],
-    [1.0, -1.0, 1.0],
+    new Point3D(1.0, -1.0, -1.0),
+    new Point3D(1.0, 1.0, -1.0),
+    new Point3D(1.0, 1.0, 1.0),
+    new Point3D(1.0, -1.0, 1.0),
 
     // Left face
-    [-1.0, -1.0, -1.0],
-    [-1.0, -1.0, 1.0],
-    [-1.0, 1.0, 1.0],
-    [-1.0, 1.0, -1.0]
+    new Point3D(-1.0, -1.0, -1.0),
+    new Point3D(-1.0, -1.0, 1.0),
+    new Point3D(-1.0, 1.0, 1.0),
+    new Point3D(-1.0, 1.0, -1.0)
   ];
 
   faces = [

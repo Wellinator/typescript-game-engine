@@ -5,52 +5,50 @@ import { Point3D } from './Point3D';
 
 abstract class Object3D {
   public size;
-  abstract mesh: Vertices;
+  abstract mesh: Point3D[];
   abstract colors: number[][];
   abstract faces: number[][];
   public constants: ConstantsService;
 
-  constructor(size: number) {
+  constructor(
+    size: number
+  ) {
     this.size = size;
     this.constants = new ConstantsService();
   }
 
   public rotateX(angle = 0): Object3D {
     const rad = (angle * Math.PI) / 180;
-    this.mesh = this.mesh.map((vertex: Vertex) => {
-      const point = new Point3D(vertex[0], vertex[1], vertex[2]);
-
-      return [
+    this.mesh = this.mesh.map((point: Point3D) => {
+      return new Point3D(
         point.X,
         point.Y * Math.cos(rad) - point.Z * Math.sin(rad),
         point.Z * Math.cos(rad) + point.Y * Math.sin(rad)
-      ];
+      );
     });
     return this;
   }
 
   public rotateY(angle = 0): Object3D {
     const rad = (angle * Math.PI) / 180;
-    this.mesh = this.mesh.map((vertex: Vertex) => {
-      const point = new Point3D(vertex[0], vertex[1], vertex[2]);
-      return [
+    this.mesh = this.mesh.map((point: Point3D) => {
+      return new Point3D(
         point.Z * Math.sin(rad) + point.X * Math.cos(rad),
         point.Y,
         point.Z * Math.cos(rad) - point.X * Math.sin(rad)
-      ];
+      );
     });
     return this;
   }
 
   public rotateZ(angle = 0): Object3D {
     const rad = (angle * Math.PI) / 180;
-    this.mesh = this.mesh.map((vertex: Vertex) => {
-      const point = new Point3D(vertex[0], vertex[1], vertex[2]);
-      return [
+    this.mesh = this.mesh.map((point: Point3D) => {
+      return new Point3D(
         point.X * Math.cos(rad) - point.Y * Math.sin(rad),
         point.X * Math.sin(rad) + point.Y * Math.cos(rad),
         point.Z
-      ];
+      );
     });
     return this;
   }
@@ -71,21 +69,9 @@ abstract class Object3D {
   public render(context: CanvasRenderingContext2D) {
     let currentFace = 0;
     this.faces.forEach((face, index) => {
-      let _p1 = new Point3D(
-        this.mesh[face[0]][0] * this.size,
-        this.mesh[face[0]][1] * this.size,
-        this.mesh[face[0]][2] * this.size
-      );
-      let _p2 = new Point3D(
-        this.mesh[face[1]][0] * this.size,
-        this.mesh[face[1]][1] * this.size,
-        this.mesh[face[1]][2] * this.size
-      );
-      let _p3 = new Point3D(
-        this.mesh[face[2]][0] * this.size,
-        this.mesh[face[2]][1] * this.size,
-        this.mesh[face[2]][2] * this.size
-      );
+      let _p1 = this.mesh[face[0]];
+      let _p2 = this.mesh[face[1]];
+      let _p3 = this.mesh[face[2]];
 
       let _v1 = new Point3D(_p2.X - _p1.X, _p2.Y - _p1.Y, _p2.Z - _p1.Z);
       let _v2 = new Point3D(_p3.X - _p1.X, _p3.Y - _p1.Y, _p3.Z - _p1.Z);
@@ -96,7 +82,7 @@ abstract class Object3D {
         _v1.X * _v2.Y - _v1.Y * _v2.X
       );
 
-      if (-_p1.X * n.X + -_p1.Y * n.Y + -_p1.Z * n.Z >= 0) {
+      if (-_p1.X * n.X + -_p1.Y * n.Y + -_p1.Z * n.Z <= 0) {
         context.beginPath();
         context.moveTo(_p1.X, _p1.Y);
         context.lineTo(_p2.X, _p2.Y);
