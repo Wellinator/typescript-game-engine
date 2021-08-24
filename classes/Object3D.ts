@@ -84,9 +84,9 @@ abstract class Object3D {
 
       if (-_p1.X * n.X + -_p1.Y * n.Y + -_p1.Z * n.Z <= 0) {
         context.beginPath();
-        context.moveTo(_p1.X, _p1.Y);
-        context.lineTo(_p2.X, _p2.Y);
-        context.lineTo(_p3.X, _p3.Y);
+        context.moveTo(this.project3DPoint(_p1).X, this.project3DPoint(_p1).Y);
+        context.lineTo(this.project3DPoint(_p2).X, this.project3DPoint(_p2).Y);
+        context.lineTo(this.project3DPoint(_p3).X, this.project3DPoint(_p3).Y);
         context.closePath();
 
         context.strokeStyle = this._getFaceColor(currentFace);

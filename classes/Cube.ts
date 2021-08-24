@@ -2,53 +2,55 @@ import Object3D from './Object3D';
 import { Point3D } from './Point3D';
 
 export class Cube extends Object3D {
+  private X: number;
+  private Y: number;
+  private Z: number;
+  public mesh: Point3D[];
 
-  constructor(
-    X: number,
-    Y: number,
-    Z: number,
-    size: number,
-  ){
+  constructor(X: number, Y: number, Z: number, size: number) {
     super(size);
+    this.X = X;
+    this.Y = Y;
+    this.Z = Z;
+
+    this.mesh = [
+      // Front face
+      new Point3D(this.X - this.size, this.Y - this.size, this.Z + this.size),
+      new Point3D(this.X + this.size, this.Y - this.size, this.Z + this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, + this.size),
+      new Point3D(this.X - this.size, this.Y + this.size, + this.size),
+
+      // Back face
+      new Point3D(-1.0, -1.0, -1.0),
+      new Point3D(-1.0, 1.0, -1.0),
+      new Point3D(1.0, 1.0, -1.0),
+      new Point3D(1.0, -1.0, -1.0),
+
+      // Top face
+      new Point3D(-1.0, 1.0, -1.0),
+      new Point3D(-1.0, 1.0, 1.0),
+      new Point3D(1.0, 1.0, 1.0),
+      new Point3D(1.0, 1.0, -1.0),
+
+      // Bottom face
+      new Point3D(-1.0, -1.0, -1.0),
+      new Point3D(1.0, -1.0, -1.0),
+      new Point3D(1.0, -1.0, 1.0),
+      new Point3D(-1.0, -1.0, 1.0),
+
+      // Right face
+      new Point3D(1.0, -1.0, -1.0),
+      new Point3D(1.0, 1.0, -1.0),
+      new Point3D(1.0, 1.0, 1.0),
+      new Point3D(1.0, -1.0, 1.0),
+
+      // Left face
+      new Point3D(-1.0, -1.0, -1.0),
+      new Point3D(-1.0, -1.0, 1.0),
+      new Point3D(-1.0, 1.0, 1.0),
+      new Point3D(-1.0, 1.0, -1.0)
+    ];
   }
-
-  mesh = [
-    // Front face
-    new Point3D(-1.0, -1.0, 1.0),
-    new Point3D(1.0, -1.0, 1.0),
-    new Point3D(1.0, 1.0, 1.0),
-    new Point3D(-1.0, 1.0, 1.0),
-
-    // Back face
-    new Point3D(-1.0, -1.0, -1.0),
-    new Point3D(-1.0, 1.0, -1.0),
-    new Point3D(1.0, 1.0, -1.0),
-    new Point3D(1.0, -1.0, -1.0),
-
-    // Top face
-    new Point3D(-1.0, 1.0, -1.0),
-    new Point3D(-1.0, 1.0, 1.0),
-    new Point3D(1.0, 1.0, 1.0),
-    new Point3D(1.0, 1.0, -1.0),
-
-    // Bottom face
-    new Point3D(-1.0, -1.0, -1.0),
-    new Point3D(1.0, -1.0, -1.0),
-    new Point3D(1.0, -1.0, 1.0),
-    new Point3D(-1.0, -1.0, 1.0),
-
-    // Right face
-    new Point3D(1.0, -1.0, -1.0),
-    new Point3D(1.0, 1.0, -1.0),
-    new Point3D(1.0, 1.0, 1.0),
-    new Point3D(1.0, -1.0, 1.0),
-
-    // Left face
-    new Point3D(-1.0, -1.0, -1.0),
-    new Point3D(-1.0, -1.0, 1.0),
-    new Point3D(-1.0, 1.0, 1.0),
-    new Point3D(-1.0, 1.0, -1.0)
-  ];
 
   faces = [
     [0, 1, 2],
