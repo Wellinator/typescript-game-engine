@@ -17,38 +17,38 @@ export class Cube extends Object3D {
       // Front face
       new Point3D(this.X - this.size, this.Y - this.size, this.Z + this.size),
       new Point3D(this.X + this.size, this.Y - this.size, this.Z + this.size),
-      new Point3D(this.X + this.size, this.Y + this.size, + this.size),
-      new Point3D(this.X - this.size, this.Y + this.size, + this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, this.Z + this.size),
+      new Point3D(this.X - this.size, this.Y + this.size, this.Z + this.size),
 
       // Back face
-      new Point3D(-1.0, -1.0, -1.0),
-      new Point3D(-1.0, 1.0, -1.0),
-      new Point3D(1.0, 1.0, -1.0),
-      new Point3D(1.0, -1.0, -1.0),
+      new Point3D(this.X - this.size, this.Y - this.size, this.Z - this.size),
+      new Point3D(this.X - this.size, this.Y + this.size, this.Z - this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, this.Z - this.size),
+      new Point3D(this.X + this.size, this.Y - this.size, this.Z - this.size),
 
       // Top face
-      new Point3D(-1.0, 1.0, -1.0),
-      new Point3D(-1.0, 1.0, 1.0),
-      new Point3D(1.0, 1.0, 1.0),
-      new Point3D(1.0, 1.0, -1.0),
+      new Point3D(this.X - this.size, this.Y + this.size, this.Z - this.size),
+      new Point3D(this.X - this.size, this.Y + this.size, this.Z + this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, this.Z + this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, this.Z - this.size),
 
       // Bottom face
-      new Point3D(-1.0, -1.0, -1.0),
-      new Point3D(1.0, -1.0, -1.0),
-      new Point3D(1.0, -1.0, 1.0),
-      new Point3D(-1.0, -1.0, 1.0),
+      new Point3D(this.X - this.size, this.Y - this.size, this.Z - this.size),
+      new Point3D(this.X + this.size, this.Y - this.size, this.Z - this.size),
+      new Point3D(this.X + this.size, this.Y - this.size, this.Z + this.size),
+      new Point3D(this.X - this.size, this.Y - this.size, this.Z + this.size),
 
       // Right face
-      new Point3D(1.0, -1.0, -1.0),
-      new Point3D(1.0, 1.0, -1.0),
-      new Point3D(1.0, 1.0, 1.0),
-      new Point3D(1.0, -1.0, 1.0),
+      new Point3D(this.X + this.size, this.Y - this.size, this.Z - this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, this.Z - this.size),
+      new Point3D(this.X + this.size, this.Y + this.size, this.Z + this.size),
+      new Point3D(this.X + this.size, this.Y - this.size, this.Z + this.size),
 
       // Left face
-      new Point3D(-1.0, -1.0, -1.0),
-      new Point3D(-1.0, -1.0, 1.0),
-      new Point3D(-1.0, 1.0, 1.0),
-      new Point3D(-1.0, 1.0, -1.0)
+      new Point3D(this.X - this.size, this.Y - this.size, this.Z - this.size),
+      new Point3D(this.X - this.size, this.Y - this.size, this.Z + this.size),
+      new Point3D(this.X - this.size, this.Y + this.size, this.Z + this.size),
+      new Point3D(this.X - this.size, this.Y + this.size, this.Z - this.size)
     ];
   }
 
