@@ -1,4 +1,35 @@
 export class ConstantsService {
+
+  public PIXEL_SIZE = .5;
+  public SPEED = 1;
+
+  public get WIDTH(): number{
+    return document.documentElement.clientWidth;
+  }
+
+  public get HEIGHT(): number {
+    return document.documentElement.clientHeight;
+  }
+
+  private _FIELD_OF_VIEW: number = 100;
+  private _VIEW_DISTANCE: number = 1;
+
+  public get fieldOfView(){
+    return this._FIELD_OF_VIEW;
+  }
+
+  public set fieldOfView(value: number){
+    this._FIELD_OF_VIEW = value;
+  }
+
+  public get VIEW_DISTANCE(){
+    return this._VIEW_DISTANCE;
+  }
+
+  public set VIEW_DISTANCE(value: number){
+    this._VIEW_DISTANCE = value;
+  }
+
   public get PerspectiveMatrix(): number[][] {
     return [[1, 0, 0], [0, 1, 0], [0, 0, 0]];
   }

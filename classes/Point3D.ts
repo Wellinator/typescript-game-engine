@@ -14,26 +14,26 @@ export class Point3D {
   }
 
   get X(): number{
-    return this._X
+    return this._X;
   }
 
   set X( X:number){
-    this._X = X
+    this._X = X;
   }
 
   get Y(): number{
-    return this._Y
+    return this._Y;
   }
 
   set Y( Y:number){
-    this._Y = Y
+    this._Y = Y;
   }
 
   get Z(): number{
-    return this._Z
+    return this._Z;
   }
 
-  set Z( Y:number){
-    this._Z = Z
+  set Z( Z:number){
+    this._Z = Z;
   }
 }
