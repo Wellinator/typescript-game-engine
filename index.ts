@@ -12,7 +12,7 @@ ctx.lineWidth = constantService.PIXEL_SIZE;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
 
-const cube = new Cube(0, 0, 20, 5);
+const cube = new Cube(0, 0, 10, 20);
 
 window.document.addEventListener('keydown', (event: KeyboardEvent)=> queryButtons(event))
 
