@@ -8,57 +8,64 @@ export class Cube extends Object3D {
   public mesh: Point3D[];
 
   constructor(X: number, Y: number, Z: number, size: number) {
-    super(size);
+    super();
     this.X = X;
     this.Y = Y;
     this.Z = Z;
+    this.size = size;
 
     this.mesh = [
       // Front face
-      new Point3D(-1.0, -1.0, 1.0),
-      new Point3D(1.0, -1.0, 1.0),
-      new Point3D(1.0, 1.0, 1.0),
-      new Point3D(-1.0, 1.0, 1.0),
-  
+      new Point3D(X - size, Y - size, Z + size),
+      new Point3D(X + size, Y - size, Z + size),
+      new Point3D(X + size, Y + size, Z + size),
+      new Point3D(X - size, Y + size, Z + size),
+
       // Back face
-      new Point3D(-1.0, -1.0, -1.0),
-      new Point3D(-1.0, 1.0, -1.0),
-      new Point3D(1.0, 1.0, -1.0),
-      new Point3D(1.0, -1.0, -1.0),
-  
+      new Point3D(X - size, Y - size, Z - size),
+      new Point3D(X - size, Y + size, Z - size),
+      new Point3D(X + size, Y + size, Z - size),
+      new Point3D(X + size, Y - size, Z - size),
+
       // Top face
-      new Point3D(-1.0, 1.0, -1.0),
-      new Point3D(-1.0, 1.0, 1.0),
-      new Point3D(1.0, 1.0, 1.0),
-      new Point3D(1.0, 1.0, -1.0),
-  
+      new Point3D(X - size, Y + size, Z - size),
+      new Point3D(X - size, Y + size, Z + size),
+      new Point3D(X + size, Y + size, Z + size),
+      new Point3D(X + size, Y + size, Z - size),
+
       // Bottom face
-      new Point3D(-1.0, -1.0, -1.0),
-      new Point3D(1.0, -1.0, -1.0),
-      new Point3D(1.0, -1.0, 1.0),
-      new Point3D(-1.0, -1.0, 1.0),
-  
+      new Point3D(X - size, Y - size, Z - size),
+      new Point3D(X + size, Y - size, Z - size),
+      new Point3D(X + size, Y - size, Z + size),
+      new Point3D(X - size, Y - size, Z + size),
+
       // Right face
-      new Point3D(1.0, -1.0, -1.0),
-      new Point3D(1.0, 1.0, -1.0),
-      new Point3D(1.0, 1.0, 1.0),
-      new Point3D(1.0, -1.0, 1.0),
-  
+      new Point3D(X + size, Y - size, Z - size),
+      new Point3D(X + size, Y + size, Z - size),
+      new Point3D(X + size, Y + size, Z + size),
+      new Point3D(X + size, Y - size, Z + size),
+
       // Left face
-      new Point3D(-1.0, -1.0, -1.0),
-      new Point3D(-1.0, -1.0, 1.0),
-      new Point3D(-1.0, 1.0, 1.0),
-      new Point3D(-1.0, 1.0, -1.0)
+      new Point3D(X - size, Y - size, Z - size),
+      new Point3D(X - size, Y - size, Z + size),
+      new Point3D(X - size, Y + size, Z + size),
+      new Point3D(X - size, Y + size, Z - size)
     ];
   }
 
   faces = [
-    [0,  1,  2],      [0,  2,  3],    // front
-    [4,  5,  6],      [4,  6,  7],    // back
-    [8,  9,  10],     [8,  10, 11],   // top
-    [12, 13, 14],     [12, 14, 15],   // bottom
-    [16, 17, 18],     [16, 18, 19],   // right
-    [20, 21, 22],     [20, 22, 23],   // left
+    [0, 1, 2],
+    [0, 2, 3], // front
+    [4, 5, 6],
+    [4, 6, 7], // back
+    [8, 9, 10],
+    [8, 10, 11], // top
+    [12, 13, 14],
+    [12, 14, 15], // bottom
+    [16, 17, 18],
+    [16, 18, 19], // right
+    [20, 21, 22],
+    [20, 22, 23] // left
   ];
 
   colors: number[][] = [

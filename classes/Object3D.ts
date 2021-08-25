@@ -4,14 +4,13 @@ import { Point2D } from './Point2D';
 import { Point3D } from './Point3D';
 
 abstract class Object3D {
-  public size;
+  public size: number;
   abstract mesh: Point3D[];
   abstract colors: number[][];
   abstract faces: number[][];
   public constants: ConstantsService;
 
-  constructor(size: number) {
-    this.size = size;
+  constructor() {
     this.constants = new ConstantsService();
   }
 
@@ -52,17 +51,11 @@ abstract class Object3D {
   }
 
   public project3DPoint(point: Point3D): Point2D {
-    const _p = new Point3D(point.X, point.Y, point.Z);
     const factor =
-      this.constants.fieldOfView / (this.constants.VIEW_DISTANCE + _p.Z);
-    this.constants.PerspectiveMatrix.forEach(row => {
-      _p.X += _p.X * row[0];
-      _p.Y += _p.Y * row[1];
-      _p.Z += _p.Z * row[2];
-    });
+      this.constants.FIELD_OF_VIEW / (this.constants.VIEW_DISTANCE + point.Z);
     return new Point2D(
-      _p.X * factor + this.constants.WIDTH / 2,
-      _p.Y * factor + this.constants.HEIGHT / 2
+      point.X * factor + this.constants.WIDTH / 2,
+      point.Y * factor + this.constants.HEIGHT / 2
     );
   }
 
@@ -92,8 +85,8 @@ abstract class Object3D {
         context.strokeStyle = this._getFaceColor(currentFace);
         context.stroke();
 
-        // context.fillStyle = this._getFaceColor(currentFace);
-        // context.fill();
+        context.fillStyle = this._getFaceColor(currentFace);
+        context.fill();
       }
 
       if (index % 2) currentFace += 1;

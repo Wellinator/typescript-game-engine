@@ -11,14 +11,14 @@ export class ConstantsService {
     return document.documentElement.clientHeight;
   }
 
-  private _FIELD_OF_VIEW: number = 50;
+  private _FIELD_OF_VIEW: number = 200;
   private _VIEW_DISTANCE: number = 2;
 
-  public get fieldOfView(){
+  public get FIELD_OF_VIEW(){
     return this._FIELD_OF_VIEW;
   }
 
-  public set fieldOfView(value: number){
+  public set FIELD_OF_VIEW(value: number){
     this._FIELD_OF_VIEW = value;
   }
 
