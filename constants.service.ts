@@ -11,8 +11,8 @@ export class ConstantsService {
     return document.documentElement.clientHeight;
   }
 
-  private _FIELD_OF_VIEW: number = 100;
-  private _VIEW_DISTANCE: number = 1;
+  private _FIELD_OF_VIEW: number = 50;
+  private _VIEW_DISTANCE: number = 2;
 
   public get fieldOfView(){
     return this._FIELD_OF_VIEW;
