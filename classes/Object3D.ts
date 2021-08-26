@@ -1,5 +1,4 @@
 import { ConstantsService } from '../constants.service';
-import { Vertex, Vertices } from '../models';
 import { Point2D } from './Point2D';
 import { Point3D } from './Point3D';
 
@@ -62,12 +61,12 @@ abstract class Object3D {
   public render(context: CanvasRenderingContext2D) {
     let currentFace = 0;
     this.faces.forEach((face, index) => {
-      const _p1 = this.mesh[face[0]];
-      const _p2 = this.mesh[face[1]];
-      const _p3 = this.mesh[face[2]];
+      const vertice1 = this.mesh[face[0]];
+      const vertice2 = this.mesh[face[1]];
+      const vertice3 = this.mesh[face[2]];
 
-      const _v1 = new Point3D(_p2.X - _p1.X, _p2.Y - _p1.Y, _p2.Z - _p1.Z);
-      const _v2 = new Point3D(_p3.X - _p1.X, _p3.Y - _p1.Y, _p3.Z - _p1.Z);
+      const _v1 = new Point3D(vertice2.X - vertice1.X, vertice2.Y - vertice1.Y, vertice2.Z - vertice1.Z);
+      const _v2 = new Point3D(vertice3.X - vertice1.X, vertice3.Y - vertice1.Y, vertice3.Z - vertice1.Z);
 
       const n = new Point3D(
         _v1.Y * _v2.Z - _v1.Z * _v2.Y,
@@ -75,11 +74,11 @@ abstract class Object3D {
         _v1.X * _v2.Y - _v1.Y * _v2.X
       );
 
-      if (-_p1.X * n.X + -_p1.Y * n.Y + -_p1.Z * n.Z <= 0) {
+      if (-vertice1.X * n.X + -vertice1.Y * n.Y + -vertice1.Z * n.Z >= 0) {
         context.beginPath();
-        context.moveTo(this.project3DPoint(_p1).X, this.project3DPoint(_p1).Y);
-        context.lineTo(this.project3DPoint(_p2).X, this.project3DPoint(_p2).Y);
-        context.lineTo(this.project3DPoint(_p3).X, this.project3DPoint(_p3).Y);
+        context.moveTo(this.project3DPoint(vertice1).X, this.project3DPoint(vertice1).Y);
+        context.lineTo(this.project3DPoint(vertice2).X, this.project3DPoint(vertice2).Y);
+        context.lineTo(this.project3DPoint(vertice3).X, this.project3DPoint(vertice3).Y);
         context.closePath();
 
         context.strokeStyle = this._getFaceColor(currentFace);

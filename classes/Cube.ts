@@ -15,57 +15,24 @@ export class Cube extends Object3D {
     this.size = size;
 
     this.mesh = [
-      // Front face
-      new Point3D(X - size, Y - size, Z + size),
-      new Point3D(X + size, Y - size, Z + size),
-      new Point3D(X + size, Y + size, Z + size),
-      new Point3D(X - size, Y + size, Z + size),
-
-      // Back face
       new Point3D(X - size, Y - size, Z - size),
+      new Point3D(X + size, Y - size, Z - size),
+      new Point3D(X + size, Y + size, Z - size),
       new Point3D(X - size, Y + size, Z - size),
-      new Point3D(X + size, Y + size, Z - size),
-      new Point3D(X + size, Y - size, Z - size),
-
-      // Top face
-      new Point3D(X - size, Y + size, Z - size),
-      new Point3D(X - size, Y + size, Z + size),
-      new Point3D(X + size, Y + size, Z + size),
-      new Point3D(X + size, Y + size, Z - size),
-
-      // Bottom face
-      new Point3D(X - size, Y - size, Z - size),
-      new Point3D(X + size, Y - size, Z - size),
-      new Point3D(X + size, Y - size, Z + size),
       new Point3D(X - size, Y - size, Z + size),
-
-      // Right face
-      new Point3D(X + size, Y - size, Z - size),
-      new Point3D(X + size, Y + size, Z - size),
-      new Point3D(X + size, Y + size, Z + size),
       new Point3D(X + size, Y - size, Z + size),
-
-      // Left face
-      new Point3D(X - size, Y - size, Z - size),
-      new Point3D(X - size, Y - size, Z + size),
+      new Point3D(X + size, Y + size, Z + size),
       new Point3D(X - size, Y + size, Z + size),
-      new Point3D(X - size, Y + size, Z - size)
     ];
   }
 
   faces = [
-    [0, 1, 2],
-    [0, 2, 3], // front
-    [4, 5, 6],
-    [4, 6, 7], // back
-    [8, 9, 10],
-    [8, 10, 11], // top
-    [12, 13, 14],
-    [12, 14, 15], // bottom
-    [16, 17, 18],
-    [16, 18, 19], // right
-    [20, 21, 22],
-    [20, 22, 23] // left
+    [0, 1, 2], [0, 2, 3], // Front
+    [4, 5, 6], [4, 6, 7], // Back
+    [0, 4, 5], [0, 1, 5], // Top
+    [2, 3, 7], [2, 6, 7], // Bottom
+    [1, 2, 6], [1, 5, 6], // Right
+    [0, 3, 7], [0, 4, 7], // Left
   ];
 
   colors: number[][] = [

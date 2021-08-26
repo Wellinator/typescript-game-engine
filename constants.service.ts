@@ -1,7 +1,7 @@
 export class ConstantsService {
 
   public PIXEL_SIZE = .5;
-  public SPEED = 1;
+  public SPEED = 10;
 
   public get WIDTH(): number{
     return document.documentElement.clientWidth;
