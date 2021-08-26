@@ -74,7 +74,7 @@ abstract class Object3D {
         _v1.X * _v2.Y - _v1.Y * _v2.X
       );
 
-      if (-vertice1.X * n.X + -vertice1.Y * n.Y + -vertice1.Z * n.Z >= 0) {
+      if (-vertice1.X * n.X + -vertice1.Y * n.Y + -vertice1.Z * n.Z <= 0) {
         context.beginPath();
         context.moveTo(this.project3DPoint(vertice1).X, this.project3DPoint(vertice1).Y);
         context.lineTo(this.project3DPoint(vertice2).X, this.project3DPoint(vertice2).Y);

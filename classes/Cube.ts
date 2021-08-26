@@ -15,14 +15,14 @@ export class Cube extends Object3D {
     this.size = size;
 
     this.mesh = [
-      new Point3D(X - size, Y - size, Z - size),
-      new Point3D(X + size, Y - size, Z - size),
-      new Point3D(X + size, Y + size, Z - size),
-      new Point3D(X - size, Y + size, Z - size),
       new Point3D(X - size, Y - size, Z + size),
       new Point3D(X + size, Y - size, Z + size),
       new Point3D(X + size, Y + size, Z + size),
       new Point3D(X - size, Y + size, Z + size),
+      new Point3D(X - size, Y - size, Z - size),
+      new Point3D(X + size, Y - size, Z - size),
+      new Point3D(X + size, Y + size, Z - size),
+      new Point3D(X - size, Y + size, Z - size),
     ];
   }
 
