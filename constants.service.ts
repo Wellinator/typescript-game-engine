@@ -1,7 +1,7 @@
 export class ConstantsService {
 
   public PIXEL_SIZE = .5;
-  public SPEED = 10;
+  public SPEED = 5;
 
   public get WIDTH(): number{
     return document.documentElement.clientWidth;
@@ -11,7 +11,7 @@ export class ConstantsService {
     return document.documentElement.clientHeight;
   }
 
-  private _FIELD_OF_VIEW: number = 250;
+  private _FIELD_OF_VIEW: number = 100;
   private _VIEW_DISTANCE: number = 50;
 
   public get FIELD_OF_VIEW(){

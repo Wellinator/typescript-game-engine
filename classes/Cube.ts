@@ -15,14 +15,14 @@ export class Cube extends Object3D {
     this.size = size;
 
     this.mesh = [
-      new Point3D(X - size, Y - size, Z + size),
-      new Point3D(X + size, Y - size, Z + size),
-      new Point3D(X + size, Y + size, Z + size),
-      new Point3D(X - size, Y + size, Z + size),
+      new Point3D(X - size, Y + size, Z - size),
+      new Point3D(X + size, Y + size, Z - size),
       new Point3D(X - size, Y - size, Z - size),
       new Point3D(X + size, Y - size, Z - size),
-      new Point3D(X + size, Y + size, Z - size),
-      new Point3D(X - size, Y + size, Z - size),
+      new Point3D(X - size, Y + size, Z + size),
+      new Point3D(X + size, Y + size, Z + size),
+      new Point3D(X - size, Y - size, Z + size),
+      new Point3D(X + size, Y - size, Z + size),
     ];
   }
 
@@ -30,9 +30,9 @@ export class Cube extends Object3D {
     [0, 2, 1], [2, 3, 1], // Front
     [4, 5, 7], [4, 7, 6], // Back
     [2, 6, 3], [3, 6, 7], // Top
-    [2, 3, 7], [2, 6, 7], // Bottom
-    [1, 2, 6], [1, 5, 6], // Right
-    [0, 3, 7], [0, 4, 7], // Left
+    [0, 1, 4], [1, 5, 4], // Bottom
+    [1, 3, 5], [3, 7, 5], // Right
+    [0, 4, 2], [2, 4, 6], // Left
   ];
 
   colors: number[][] = [
