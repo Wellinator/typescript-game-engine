@@ -36,4 +36,12 @@ export class Point3D {
   set Z( Z:number){
     this._Z = Z;
   }
+
+  public crossProduct( vector: Point3D): Point3D {
+    return new Point3D(
+      this.Y * vector.Z - this.Z * vector.Y,
+      this.Z * vector.X - this.X * vector.Z,
+      this.X * vector.Y - this.Y * vector.X
+    );
+  }
 }

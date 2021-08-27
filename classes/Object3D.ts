@@ -61,48 +61,43 @@ abstract class Object3D {
   public render(context: CanvasRenderingContext2D) {
     let currentFace = 0;
     this.faces.forEach((face, index) => {
-      const vertice1 = this.mesh[face[0]];
-      const vertice2 = this.mesh[face[1]];
-      const vertice3 = this.mesh[face[2]];
+      const vertexA = this.mesh[face[0]];
+      const vertexB = this.mesh[face[1]];
+      const vertexC = this.mesh[face[2]];
 
-      const _v1 = new Point3D(
-        vertice2.X - vertice1.X,
-        vertice2.Y - vertice1.Y,
-        vertice2.Z - vertice1.Z
+      const vectorA = new Point3D(
+        vertexB.X - vertexA.X,
+        vertexB.Y - vertexA.Y,
+        vertexB.Z - vertexA.Z
       );
-      const _v2 = new Point3D(
-        vertice3.X - vertice1.X,
-        vertice3.Y - vertice1.Y,
-        vertice3.Z - vertice1.Z
-      );
-
-      const n = new Point3D(
-        _v1.Y * _v2.Z - _v1.Z * _v2.Y,
-        _v1.Z * _v2.X - _v1.X * _v2.Z,
-        _v1.X * _v2.Y - _v1.Y * _v2.X
+      const vectorB = new Point3D(
+        vertexC.X - vertexA.X,
+        vertexC.Y - vertexA.Y,
+        vertexC.Z - vertexA.Z
       );
 
-      if ( -vertice1.X * n.X + -vertice1.Y * n.Y + -vertice1.Z * n.Z >= 0) {
+      const normalVector = vectorA.crossProduct(vectorB);
+
+      if ( (-vertexA.X * normalVector.X) + (-vertexA.Y * normalVector.Y) + (-vertexA.Z * normalVector.Z) >
+        0
+      ) {
         context.beginPath();
-        context.moveTo(
-          this.project3DPoint(vertice1).X,
-          this.project3DPoint(vertice1).Y
+        context.moveTo( this.project3DPoint(vertexA).X, this.project3DPoint(vertexA).Y );
+        context.lineTo(
+          this.project3DPoint(vertexB).X,
+          this.project3DPoint(vertexB).Y
         );
         context.lineTo(
-          this.project3DPoint(vertice2).X,
-          this.project3DPoint(vertice2).Y
-        );
-        context.lineTo(
-          this.project3DPoint(vertice3).X,
-          this.project3DPoint(vertice3).Y
+          this.project3DPoint(vertexC).X,
+          this.project3DPoint(vertexC).Y
         );
         context.closePath();
 
         context.strokeStyle = this._getFaceColor(currentFace);
         context.stroke();
 
-        context.fillStyle = this._getFaceColor(currentFace);
-        context.fill();
+        // context.fillStyle = this._getFaceColor(currentFace);
+        // context.fill();
       }
 
       if (index % 2) currentFace += 1;
