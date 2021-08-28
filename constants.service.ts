@@ -12,7 +12,7 @@ export class ConstantsService {
   }
 
   private _FIELD_OF_VIEW: number = 100;
-  private _VIEW_DISTANCE: number = 50;
+  private _VIEW_DISTANCE: number = 20;
 
   public get FIELD_OF_VIEW(){
     return this._FIELD_OF_VIEW;

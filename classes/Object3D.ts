@@ -8,19 +8,23 @@ abstract class Object3D {
   abstract colors: number[][];
   abstract faces: number[][];
   public constants: ConstantsService;
+  abstract X: number;
+  abstract Y: number;
+  abstract Z: number;
 
-  constructor() {
+  constructor(X: number, Y: number, Z: number, size: number) {
     this.constants = new ConstantsService();
   }
 
   public rotateX(angle = 0): Object3D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point3D) => {
-      return new Point3D(
-        point.X,
-        point.Y * Math.cos(rad) - point.Z * Math.sin(rad),
-        point.Z * Math.cos(rad) + point.Y * Math.sin(rad)
-      );
+      const Y =
+        (point.Y - this.Y) * Math.cos(rad) - (point.Z - this.Z) * Math.sin(rad);
+      const Z =
+        (point.Z - this.Z) * Math.cos(rad) + (point.Y - this.Y) * Math.sin(rad);
+
+      return new Point3D(point.X, Y + this.Y, Z + this.Z);
     });
     return this;
   }
@@ -28,11 +32,11 @@ abstract class Object3D {
   public rotateY(angle = 0): Object3D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point3D) => {
-      return new Point3D(
-        point.Z * Math.sin(rad) + point.X * Math.cos(rad),
-        point.Y,
-        point.Z * Math.cos(rad) - point.X * Math.sin(rad)
-      );
+      const X =
+        (point.Z - this.Z) * Math.sin(rad) + (point.X - this.X) * Math.cos(rad);
+      const Z =
+        (point.Z - this.Z) * Math.cos(rad) - (point.X - this.X) * Math.sin(rad);
+      return new Point3D(X, point.Y, Z);
     });
     return this;
   }
@@ -40,11 +44,11 @@ abstract class Object3D {
   public rotateZ(angle = 0): Object3D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point3D) => {
-      return new Point3D(
-        point.X * Math.cos(rad) - point.Y * Math.sin(rad),
-        point.X * Math.sin(rad) + point.Y * Math.cos(rad),
-        point.Z
-      );
+      const X =
+        (point.X - this.X) * Math.cos(rad) - (point.Y - this.Y) * Math.sin(rad);
+      const Y =
+        (point.X - this.X) * Math.sin(rad) + (point.Y - this.Y) * Math.cos(rad);
+      return new Point3D(X, Y, point.Z);
     });
     return this;
   }
@@ -77,16 +81,33 @@ abstract class Object3D {
       );
 
       const normalVector = vectorA.crossProduct(vectorB);
-      const canDrawFace = (vertexA.X * normalVector.X) + (vertexA.Y * normalVector.Y) + (vertexA.Z * normalVector.Z) > 0;
+      const canDrawFace =
+        -vertexA.X * normalVector.X +
+          -vertexA.Y * normalVector.Y +
+          -vertexA.Z * normalVector.Z <=
+        0;
 
-      if(this.constants.DEBUG_MODE){
+      if (this.constants.DEBUG_MODE) {
         context.fillStyle = '#FFF';
-        context.fillText(` Normal Vector (N) - Face ${index}: [X: ${normalVector.X.toFixed(4)}, Y: ${normalVector.Y.toFixed(4)} Z: ${normalVector.Z.toFixed(4)}] | CanDraw? ${(vertexA.X * normalVector.X) + (vertexA.Y * normalVector.Y) + (vertexA.Z * normalVector.Z)} ${canDrawFace}`, 10, this.constants.HEIGHT - ((index + 1) * 15 ) );
+        context.fillText(
+          ` Normal Vector (N) - Face ${index}: [X: ${normalVector.X.toFixed(
+            4
+          )}, Y: ${normalVector.Y.toFixed(4)} Z: ${normalVector.Z.toFixed(
+            4
+          )}] | CanDraw? ${-vertexA.X * normalVector.X +
+            -vertexA.Y * normalVector.Y +
+            -vertexA.Z * normalVector.Z} ${canDrawFace}`,
+          10,
+          this.constants.HEIGHT - (index + 1) * 15
+        );
       }
 
       if (canDrawFace) {
         context.beginPath();
-        context.moveTo( this.project3DPoint(vertexA).X, this.project3DPoint(vertexA).Y );
+        context.moveTo(
+          this.project3DPoint(vertexA).X,
+          this.project3DPoint(vertexA).Y
+        );
         context.lineTo(
           this.project3DPoint(vertexB).X,
           this.project3DPoint(vertexB).Y

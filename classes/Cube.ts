@@ -2,13 +2,13 @@ import Object3D from './Object3D';
 import { Point3D } from './Point3D';
 
 export class Cube extends Object3D {
-  private X: number;
-  private Y: number;
-  private Z: number;
+  public X: number;
+  public Y: number;
+  public Z: number;
   public mesh: Point3D[];
 
   constructor(X: number, Y: number, Z: number, size: number) {
-    super();
+    super(X, Y, Z, size);
     this.X = X;
     this.Y = Y;
     this.Z = Z;
