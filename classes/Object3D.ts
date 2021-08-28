@@ -77,10 +77,14 @@ abstract class Object3D {
       );
 
       const normalVector = vectorA.crossProduct(vectorB);
+      const canDrawFace = (vertexA.X * normalVector.X) + (vertexA.Y * normalVector.Y) + (vertexA.Z * normalVector.Z) > 0;
 
-      if ( (-vertexA.X * normalVector.X) + (-vertexA.Y * normalVector.Y) + (-vertexA.Z * normalVector.Z) >
-        0
-      ) {
+      if(this.constants.DEBUG_MODE){
+        context.fillStyle = '#FFF';
+        context.fillText(` Normal Vector (N) - Face ${index}: [X: ${normalVector.X.toFixed(4)}, Y: ${normalVector.Y.toFixed(4)} Z: ${normalVector.Z.toFixed(4)}] | CanDraw? ${(vertexA.X * normalVector.X) + (vertexA.Y * normalVector.Y) + (vertexA.Z * normalVector.Z)} ${canDrawFace}`, 10, this.constants.HEIGHT - ((index + 1) * 15 ) );
+      }
+
+      if (canDrawFace) {
         context.beginPath();
         context.moveTo( this.project3DPoint(vertexA).X, this.project3DPoint(vertexA).Y );
         context.lineTo(
@@ -96,8 +100,8 @@ abstract class Object3D {
         context.strokeStyle = this._getFaceColor(currentFace);
         context.stroke();
 
-        // context.fillStyle = this._getFaceColor(currentFace);
-        // context.fill();
+        context.fillStyle = this._getFaceColor(currentFace);
+        context.fill();
       }
 
       if (index % 2) currentFace += 1;

@@ -41,6 +41,6 @@ export class Cube extends Object3D {
     [0.0, 1.0, 0.0, 1.0], // Top face: green
     [0.0, 0.0, 1.0, 1.0], // Bottom face: blue
     [1.0, 1.0, 0.0, 1.0], // Right face: yellow
-    [1.0, 0.0, 1.0, 1.0] // Left face: purple
+    [1.0, 0.0, 1.0, 1.0]  // Left face: purple
   ];
 }

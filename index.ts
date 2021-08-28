@@ -8,11 +8,12 @@ const ctx = canvas.getContext('2d');
 canvas.width = constantService.WIDTH;
 canvas.height = constantService.HEIGHT;
 
+ctx.font = "10px Courier New";
 ctx.lineWidth = constantService.PIXEL_SIZE;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
 
-const cube = new Cube(0, 0, 0, 20);
+const cube = new Cube( 0, 0, 0, 10);
 
 window.document.addEventListener('keydown', (event: KeyboardEvent)=> queryButtons(event))
 
@@ -41,6 +42,16 @@ const queryButtons = (event: KeyboardEvent): void => {
 function main() {
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  if(constantService.DEBUG_MODE){
+    //Print
+    ctx.fillStyle = '#FFF';
+    cube.mesh.forEach( (vtx, index) => {
+      ctx.fillText(`[X: ${vtx.X.toFixed(4)}, Y: ${vtx.Y.toFixed(4)} Z: ${vtx.Z.toFixed(4)}]`, 10, 20 + (index++ * 15 ));
+    })
+  }
+
+  ctx.fillStyle = 'black';
   cube.render(ctx);
   window.requestAnimationFrame(main);
 }

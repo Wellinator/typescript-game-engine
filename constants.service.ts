@@ -1,5 +1,5 @@
 export class ConstantsService {
-
+  public DEBUG_MODE = true;
   public PIXEL_SIZE = .5;
   public SPEED = 5;
 
