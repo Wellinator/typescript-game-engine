@@ -42,7 +42,7 @@ abstract class Object3D {
         (point.Z - this.Z) * Math.sin(rad) + (point.X - this.X) * Math.cos(rad);
       const Z =
         (point.Z - this.Z) * Math.cos(rad) - (point.X - this.X) * Math.sin(rad);
-      return new Point3D(X, point.Y, Z);
+      return new Point3D(X + this.X, point.Y, Z + this.Z);
     });
     return this;
   }
@@ -54,7 +54,7 @@ abstract class Object3D {
         (point.X - this.X) * Math.cos(rad) - (point.Y - this.Y) * Math.sin(rad);
       const Y =
         (point.X - this.X) * Math.sin(rad) + (point.Y - this.Y) * Math.cos(rad);
-      return new Point3D(X, Y, point.Z);
+      return new Point3D(X + this.X, Y + this.Y, point.Z);
     });
     return this;
   }
@@ -87,11 +87,7 @@ abstract class Object3D {
       );
 
       const normalVector = vectorA.crossProduct(vectorB);
-      const canDrawFace =
-        -vertexA.X * normalVector.X +
-          -vertexA.Y * normalVector.Y +
-          -vertexA.Z * normalVector.Z <=
-        0;
+      const canDrawFace = vertexA.X * normalVector.X + vertexA.Y * normalVector.Y + vertexA.Z * normalVector.Z > 0;
 
       if (this.constants.DEBUG_MODE) {
         context.fillStyle = '#FFF';

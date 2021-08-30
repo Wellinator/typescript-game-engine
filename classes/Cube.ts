@@ -14,7 +14,7 @@ export class Cube extends Object3D {
     size: number
   ) {
     super(X, Y, Z, size);
-    this.size = size;
+    this.size = size * 0.5;
     this.X = X;
     this.Y = Y;
     this.Z = Z;
