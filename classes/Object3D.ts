@@ -12,8 +12,14 @@ abstract class Object3D {
   abstract Y: number;
   abstract Z: number;
 
-  constructor(X: number, Y: number, Z: number, size: number) {
+  constructor(
+    X: number, 
+    Y: number, 
+    Z: number, 
+    size: number
+  ) {
     this.constants = new ConstantsService();
+    this.size = size;
   }
 
   public rotateX(angle = 0): Object3D {

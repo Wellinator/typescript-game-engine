@@ -13,7 +13,7 @@ ctx.lineWidth = constantService.PIXEL_SIZE;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
 
-const cube = new Cube( 0, 0, 0, 10);
+const cube = new Cube( 0, 0, 0, 50);
 
 window.document.addEventListener('keydown', (event: KeyboardEvent)=> queryButtons(event))
 
@@ -42,6 +42,7 @@ const queryButtons = (event: KeyboardEvent): void => {
 function main() {
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  cube.render(ctx);
   
   if(constantService.DEBUG_MODE){
     //Print
@@ -50,9 +51,7 @@ function main() {
       ctx.fillText(`[X: ${vtx.X.toFixed(4)}, Y: ${vtx.Y.toFixed(4)} Z: ${vtx.Z.toFixed(4)}]`, 10, 20 + (index++ * 15 ));
     })
   }
-
-  ctx.fillStyle = 'black';
-  cube.render(ctx);
+  
   window.requestAnimationFrame(main);
 }
 

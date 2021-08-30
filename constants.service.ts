@@ -11,8 +11,8 @@ export class ConstantsService {
     return document.documentElement.clientHeight;
   }
 
-  private _FIELD_OF_VIEW: number = 100;
-  private _VIEW_DISTANCE: number = 20;
+  private _FIELD_OF_VIEW: number = 150;
+  private _VIEW_DISTANCE: number = 150;
 
   public get FIELD_OF_VIEW(){
     return this._FIELD_OF_VIEW;
@@ -28,33 +28,5 @@ export class ConstantsService {
 
   public set VIEW_DISTANCE(value: number){
     this._VIEW_DISTANCE = value;
-  }
-
-  public get PerspectiveMatrix(): number[][] {
-    return [[1, 0, 0], [0, 1, 0], [0, 0, 0]];
-  }
-
-  public RotateXMatrix(angle: number): number[][] {
-    return [
-      [1, 0, 0],
-      [0, Math.cos(angle), -Math.sin(angle)],
-      [0, Math.sin(angle), Math.cos(angle)]
-    ];
-  }
-
-  public RotateYMatrix(angle: number): number[][] {
-    return [
-      [Math.cos(angle), 0, Math.sin(angle)],
-      [0, 1, 0],
-      [-Math.sin(angle), 0, Math.cos(angle)]
-    ];
-  }
-
-  public RotateZMatrix(angle: number): number[][] {
-    return [
-      [Math.cos(angle), -Math.sin(angle), 0],
-      [Math.sin(angle), Math.cos(angle), 0],
-      [0, 0, 1]
-    ];
   }
 }

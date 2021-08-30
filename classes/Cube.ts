@@ -7,22 +7,27 @@ export class Cube extends Object3D {
   public Z: number;
   public mesh: Point3D[];
 
-  constructor(X: number, Y: number, Z: number, size: number) {
+  constructor(
+    X: number, 
+    Y: number, 
+    Z: number, 
+    size: number
+  ) {
     super(X, Y, Z, size);
+    this.size = size;
     this.X = X;
     this.Y = Y;
     this.Z = Z;
-    this.size = size;
 
     this.mesh = [
-      new Point3D(X - size, Y + size, Z - size),
-      new Point3D(X + size, Y + size, Z - size),
-      new Point3D(X + size, Y - size, Z - size),
-      new Point3D(X - size, Y - size, Z - size),
-      new Point3D(X - size, Y + size, Z + size),
-      new Point3D(X + size, Y + size, Z + size),
-      new Point3D(X + size, Y - size, Z + size),
-      new Point3D(X - size, Y - size, Z + size),
+      new Point3D(X - this.size, Y + this.size, Z - this.size),
+      new Point3D(X + this.size, Y + this.size, Z - this.size),
+      new Point3D(X + this.size, Y - this.size, Z - this.size),
+      new Point3D(X - this.size, Y - this.size, Z - this.size),
+      new Point3D(X - this.size, Y + this.size, Z + this.size),
+      new Point3D(X + this.size, Y + this.size, Z + this.size),
+      new Point3D(X + this.size, Y - this.size, Z + this.size),
+      new Point3D(X - this.size, Y - this.size, Z + this.size),
     ];
   }
 
