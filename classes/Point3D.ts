@@ -14,26 +14,34 @@ export class Point3D {
   }
 
   get X(): number{
-    return this._X
+    return this._X;
   }
 
   set X( X:number){
-    this._X = X
+    this._X = X;
   }
 
   get Y(): number{
-    return this._Y
+    return this._Y;
   }
 
   set Y( Y:number){
-    this._Y = Y
+    this._Y = Y;
   }
 
   get Z(): number{
-    return this._Z
+    return this._Z;
   }
 
-  set Z( Y:number){
-    this._Z = Z
+  set Z( Z:number){
+    this._Z = Z;
+  }
+
+  public crossProduct( vector: Point3D): Point3D {
+    return new Point3D(
+      this.Y * vector.Z - this.Z * vector.Y,
+      this.Z * vector.X - this.X * vector.Z,
+      this.X * vector.Y - this.Y * vector.X
+    );
   }
 }

@@ -1,50 +1,57 @@
 import { Cube } from './classes/Cube';
+import { ConstantsService } from './constants.service';
 
-const PIXEL_SIZE = .5;
-const SPEED = 1;
-let VIEW_DISTANCE = 5;
-const WIDTH = document.documentElement.clientWidth;
-const HEIGHT = document.documentElement.clientHeight;
+const constantService = new ConstantsService();
+
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
-canvas.width = WIDTH;
-canvas.height = HEIGHT;
+canvas.width = constantService.WIDTH;
+canvas.height = constantService.HEIGHT;
 
-ctx.lineWidth = PIXEL_SIZE;
+ctx.font = "10px Courier New";
+ctx.lineWidth = constantService.PIXEL_SIZE;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
 
-const cube = new Cube(10);
+const cube = new Cube( 0, 0, 400, 200);
 
 window.document.addEventListener('keydown', (event: KeyboardEvent)=> queryButtons(event))
 
 const queryButtons = (event: KeyboardEvent): void => {
   event.preventDefault();
   if (event.key == 'ArrowUp') {
-    cube.rotateX(-SPEED);
+    cube.rotateX(-constantService.SPEED);
   }
   else if (event.key == 'ArrowDown') {
-    cube.rotateX(SPEED);
+    cube.rotateX(constantService.SPEED);
   }
   else if (event.key == 'ArrowLeft') {
-    cube.rotateY(SPEED)
+    cube.rotateY(constantService.SPEED)
   }
   else if (event.key == 'ArrowRight') {
-    cube.rotateY(-SPEED);
+    cube.rotateY(-constantService.SPEED);
   }
   else if (event.key == '+') {
-    VIEW_DISTANCE -= SPEED / 50;
+    constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
   }
   else if (event.key == '-') {
-    VIEW_DISTANCE += SPEED / 50;
+    constantService.VIEW_DISTANCE += constantService.SPEED / 50;
   }
 }
 
 function main() {
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  cube.project(WIDTH, HEIGHT, 150, VIEW_DISTANCE );
   cube.render(ctx);
+  
+  if(constantService.DEBUG_MODE){
+    //Print
+    ctx.fillStyle = '#FFF';
+    cube.mesh.forEach( (vtx, index) => {
+      ctx.fillText(`[X: ${vtx.X.toFixed(4)}, Y: ${vtx.Y.toFixed(4)} Z: ${vtx.Z.toFixed(4)}]`, 10, 20 + (index++ * 15 ));
+    })
+  }
+  
   window.requestAnimationFrame(main);
 }
 

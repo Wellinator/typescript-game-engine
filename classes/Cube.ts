@@ -1,63 +1,51 @@
-import { ObjectPosition } from '../models';
 import Object3D from './Object3D';
+import { Point3D } from './Point3D';
 
 export class Cube extends Object3D {
-  
-  selfProjection: any[];
+  public X: number;
+  public Y: number;
+  public Z: number;
+  public mesh: Point3D[];
 
-  mesh = [
-    // Front face
-    [-1.0, -1.0,  1.0],
-    [1.0, -1.0,  1.0],
-    [1.0,  1.0,  1.0],
-    [-1.0,  1.0,  1.0],
+  constructor(
+    X: number, 
+    Y: number, 
+    Z: number, 
+    size: number
+  ) {
+    super(X, Y, Z, size);
+    this.size = size * 0.5;
+    this.X = X;
+    this.Y = Y;
+    this.Z = Z;
 
-  // Back face
-    [-1.0, -1.0, -1.0],
-    [-1.0,  1.0, -1.0],
-    [1.0,  1.0, -1.0],
-    [1.0, -1.0, -1.0],
-
-  // Top face
-    [-1.0,  1.0, -1.0],
-    [-1.0,  1.0,  1.0],
-    [1.0,  1.0,  1.0],
-    [1.0,  1.0, -1.0],
-
-  // Bottom face
-    [-1.0, -1.0, -1.0],
-    [1.0, -1.0, -1.0],
-    [1.0, -1.0,  1.0],
-    [-1.0, -1.0,  1.0],
-
-  // Right face
-    [1.0, -1.0, -1.0],
-    [1.0,  1.0, -1.0],
-    [1.0,  1.0,  1.0],
-    [1.0, -1.0,  1.0],
-
-  // Left face
-    [-1.0, -1.0, -1.0],
-    [-1.0, -1.0,  1.0],
-    [-1.0,  1.0,  1.0],
-    [-1.0,  1.0, -1.0],
-  ];
+    this.mesh = [
+      new Point3D(X - this.size, Y + this.size, Z - this.size),
+      new Point3D(X + this.size, Y + this.size, Z - this.size),
+      new Point3D(X + this.size, Y - this.size, Z - this.size),
+      new Point3D(X - this.size, Y - this.size, Z - this.size),
+      new Point3D(X - this.size, Y - this.size, Z + this.size),
+      new Point3D(X + this.size, Y - this.size, Z + this.size),
+      new Point3D(X + this.size, Y + this.size, Z + this.size),
+      new Point3D(X - this.size, Y + this.size, Z + this.size),
+    ];
+  }
 
   faces = [
-    [0,  1,  2],      [0,  2,  3],    // front
-    [4,  5,  6],      [4,  6,  7],    // back
-    [8,  9,  10],     [8,  10, 11],   // top
-    [12, 13, 14],     [12, 14, 15],   // bottom
-    [16, 17, 18],     [16, 18, 19],   // right
-    [20, 21, 22],     [20, 22, 23],   // left
-  ]
+    [0, 2, 1], [0, 3, 2], // Front
+    [2, 3, 4], [2, 4, 5], // Top
+    [1, 2, 5], [1, 5, 6], // Right
+    [0, 7, 4], [0, 4, 3], // Left
+    [5, 4, 7], [5, 7, 6], // Back
+    [0, 6, 7], [0, 1, 6], // Bottom
+  ];
 
   colors: number[][] = [
-    [1.0,  1.0,  1.0,  1.0],    // Front face: white
-    [1.0,  0.0,  0.0,  1.0],    // Back face: red
-    [0.0,  1.0,  0.0,  1.0],    // Top face: green
-    [0.0,  0.0,  1.0,  1.0],    // Bottom face: blue
-    [1.0,  1.0,  0.0,  1.0],    // Right face: yellow
-    [1.0,  0.0,  1.0,  1.0],    // Left face: purple
+    [1.0, 1.0, 1.0, 1.0], // Front face: white
+    [1.0, 0.0, 0.0, 1.0], // Back face: red
+    [0.0, 1.0, 0.0, 1.0], // Top face: green
+    [0.0, 0.0, 1.0, 1.0], // Bottom face: blue
+    [1.0, 1.0, 0.0, 1.0], // Right face: yellow
+    [1.0, 0.0, 1.0, 1.0]  // Left face: purple
   ];
 }
