@@ -96,9 +96,7 @@ abstract class Object3D {
             4
           )}, Y: ${normalVector.Y.toFixed(4)} Z: ${normalVector.Z.toFixed(
             4
-          )}] | CanDraw? ${-vertexA.X * normalVector.X +
-            -vertexA.Y * normalVector.Y +
-            -vertexA.Z * normalVector.Z} ${canDrawFace}`,
+          )}] | CanDraw? ${vertexA.X * normalVector.X + vertexA.Y * normalVector.Y + vertexA.Z * normalVector.Z} ${canDrawFace}`,
           10,
           this.constants.HEIGHT - (index + 1) * 15
         );

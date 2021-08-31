@@ -24,20 +24,20 @@ export class Cube extends Object3D {
       new Point3D(X + this.size, Y + this.size, Z - this.size),
       new Point3D(X + this.size, Y - this.size, Z - this.size),
       new Point3D(X - this.size, Y - this.size, Z - this.size),
-      new Point3D(X - this.size, Y + this.size, Z + this.size),
-      new Point3D(X + this.size, Y + this.size, Z + this.size),
-      new Point3D(X + this.size, Y - this.size, Z + this.size),
       new Point3D(X - this.size, Y - this.size, Z + this.size),
+      new Point3D(X + this.size, Y - this.size, Z + this.size),
+      new Point3D(X + this.size, Y + this.size, Z + this.size),
+      new Point3D(X - this.size, Y + this.size, Z + this.size),
     ];
   }
 
   faces = [
-    [0, 3, 2], [0, 2, 1], // Front
-    [4, 7, 6], [4, 6, 5], // Back
-    [3, 7, 6], [3, 6, 2], // Top
-    [0, 4, 5], [0, 5, 1], // Bottom
-    [1, 2, 6], [1, 6, 5], // Right
-    [0, 3, 7], [0, 7, 4], // Left
+    [0, 2, 1], [0, 3, 2], // Front
+    [2, 3, 4], [2, 4, 5], // Top
+    [1, 2, 5], [1, 5, 6], // Right
+    [0, 7, 4], [0, 4, 3], // Left
+    [5, 4, 7], [5, 7, 6], // Back
+    [0, 6, 7], [0, 1, 6], // Bottom
   ];
 
   colors: number[][] = [
