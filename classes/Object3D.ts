@@ -1,4 +1,4 @@
-import { ConstantsService } from '../constants.service';
+import { ConstantsService } from '../services/constants.service';
 import { Point2D } from './Point2D';
 import { Point3D } from './Point3D';
 

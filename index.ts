@@ -1,5 +1,5 @@
 import { Cube } from './classes/Cube';
-import { ConstantsService } from './constants.service';
+import { ConstantsService } from './services/constants.service';
 
 const constantService = new ConstantsService();
 
@@ -14,7 +14,7 @@ ctx.lineWidth = constantService.PIXEL_SIZE;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = 'white';
 
-const cube = new Cube( -150, 0, 400, 100);
+const cube = new Cube( 0, 0, 400, 100);
 
 window.document.addEventListener('keydown', (event: KeyboardEvent)=> queryButtons(event))
 
