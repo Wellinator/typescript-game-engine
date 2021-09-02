@@ -28,7 +28,7 @@ export class Engine {
       this.context.fillStyle = '#FFF';
       this.context.fillText(`FPS: ${FPS.toFixed(2)}`, this.constantsService.WIDTH - 100, 20);
     }
-    window.requestAnimationFrame(this.gameLoop);
+    window.requestAnimationFrame(this.gameLoop.bind(this));
   }
 
   private fpsCounter(): number {
