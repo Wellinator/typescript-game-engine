@@ -1,4 +1,5 @@
 import { ConstantsService } from '../services/constants.service';
+import { Scene } from './Scene';
 
 export class Engine {
   private fpsTimes: number[] = [];
@@ -13,22 +14,51 @@ export class Engine {
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
     this.context = canvas.getContext('2d');
-    this.context.font = "10px Courier New";
+    this.context.font = '10px Courier New';
     this.context.lineWidth = this.constantsService.PIXEL_SIZE;
     this.context.strokeStyle = 'white';
-    this.gameLoop()
+    this.gameLoop();
+  }
+
+  private clearFrame(): void {
+    this.context.fillStyle = 'black';
+    this.context.fillRect(
+      0,
+      0,
+      this.constantsService.WIDTH,
+      this.constantsService.WIDTH
+    );
   }
 
   private gameLoop() {
-    this.context.fillStyle = 'black';
-    this.context.fillRect(0, 0, this.constantsService.WIDTH, this.constantsService.WIDTH);
+    this.OnBeforeUpdate();
+
+    this.clearFrame();
+    const FPS = this.fpsCounter();
     
-    if(this.constantsService.DEBUG_MODE){
-      const FPS = this.fpsCounter();
+    this.OnUpdate();
+    if (this.constantsService.DEBUG_MODE) {
       this.context.fillStyle = '#FFF';
-      this.context.fillText(`FPS: ${FPS.toFixed(2)}`, this.constantsService.WIDTH - 100, 20);
+      this.context.fillText(
+        `${FPS.toFixed(1)} FPS`,
+        this.constantsService.WIDTH - 100,
+        20
+      );
     }
+    this.OnAfterUpdate();
     window.requestAnimationFrame(this.gameLoop.bind(this));
+  }
+
+  public OnBeforeUpdate() {
+    return;
+  }
+
+  public OnUpdate() {
+    return;
+  }
+
+  public OnAfterUpdate() {
+    return;
   }
 
   private fpsCounter(): number {
@@ -41,4 +71,7 @@ export class Engine {
     return this.fpsTimes.length;
   }
 
+  public create2DScene(): Scene {
+    return new Scene(this.context);
+  }
 }
