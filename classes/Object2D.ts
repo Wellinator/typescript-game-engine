@@ -2,15 +2,9 @@ import { Point2D } from './Point2D';
 
 abstract class Object2D {
   abstract mesh: Point2D[];
-  public size: number;
-  public X: number;
-  public Y: number;
-
-  constructor(X: number, Y: number, size: number) {
-    this.X = X;
-    this.Y = Y;
-    this.size = size;
-  }
+  abstract size: number;
+  abstract X: number;
+  abstract Y: number;
 
   public rotateClockWise(angle = 0): Object2D {
     const rad = (angle * Math.PI) / 180;

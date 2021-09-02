@@ -1,5 +1,5 @@
 import { ConstantsService } from '../services/constants.service';
-import { Scene } from './Scene';
+import { Scene2D } from './Scene';
 
 export class Engine {
   private fpsTimes: number[] = [];
@@ -54,6 +54,7 @@ export class Engine {
   }
 
   public OnUpdate() {
+
     return;
   }
 
@@ -71,7 +72,7 @@ export class Engine {
     return this.fpsTimes.length;
   }
 
-  public create2DScene(): Scene {
-    return new Scene(this.context);
+  public create2DScene(): Scene2D {
+    return new Scene2D(this.context);
   }
 }

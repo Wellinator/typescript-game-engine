@@ -1,6 +1,6 @@
 import Object2D from './Object2D';
 
-export class Scene {
+export class Scene2D {
   private _context: CanvasRenderingContext2D;
   private _sprites: Object2D[] = [];
 
@@ -20,4 +20,9 @@ export class Scene {
   public OnAfterUpdate() {
     return;
   }
+
+  public addObject2D(...object: Object2D[]): void{
+    this._sprites.push(...object);
+  }
+
 }
