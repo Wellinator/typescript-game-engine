@@ -36,10 +36,10 @@ const queryButtons = (event: KeyboardEvent): void => {
     
   }
   else if (event.key == 'ArrowLeft') {
-    mySprite.rotateCounterClockWise(.05)
+    mySprite.rotateCounterClockWise(5)
   }
   else if (event.key == 'ArrowRight') {
-    mySprite.rotateCounterClockWise(.05)
+    mySprite.rotateClockWise(5)
   }
   else if (event.key == '+') {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;

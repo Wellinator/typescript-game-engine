@@ -10,10 +10,11 @@ abstract class Object2D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point2D) => {
       const X =
-        (point.X - this.X) * Math.cos(rad) +
-        (point.Y - this.Y) * -Math.sin(rad);
+        (point.X - this.X) * Math.cos(rad) -
+        (point.Y - this.Y) * Math.sin(rad);
       const Y =
-        (point.Y - this.Y) * Math.sin(rad) + (point.X - this.X) * Math.cos(rad);
+        (point.X - this.X) * Math.sin(rad) + 
+        (point.Y - this.Y) * Math.cos(rad);
       return new Point2D(X + this.X, Y + this.Y);
     });
     return this;
@@ -23,10 +24,11 @@ abstract class Object2D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point2D) => {
       const X =
-        (point.X - this.X) * Math.cos(rad) + (point.Y - this.Y) * Math.sin(rad);
+        (point.X - this.X) * Math.cos(rad) +
+        (point.Y - this.Y) * Math.sin(rad);
       const Y =
-        (point.Y - this.Y) * -Math.sin(rad) +
-        (point.X - this.X) * Math.cos(rad);
+        (point.X - this.X) * - Math.sin(rad) + 
+        (point.Y - this.Y) * Math.cos(rad);
       return new Point2D(X + this.X, Y + this.Y);
     });
     return this;
@@ -39,7 +41,7 @@ abstract class Object2D {
         context.moveTo(point2d.X, point2d.Y);
       }
       context.lineTo(point2d.X, point2d.Y);
-      if (vertices.length === index && vertices.length >= 3) {
+      if ( (vertices.length - 1) === index && vertices.length >= 3) {
         context.closePath();
       }
       context.strokeStyle = 'rgba(255,255,255,1)';
