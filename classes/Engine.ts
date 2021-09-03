@@ -5,14 +5,18 @@ export class Engine {
   private fpsTimes: number[] = [];
   private context: CanvasRenderingContext2D;
   private constantsService: ConstantsService = new ConstantsService();
+  _WIDTH: number;
+  _HEIGHT: number;
 
   constructor(
     canvas: HTMLCanvasElement,
-    WIDTH: number = document.documentElement.clientWidth,
-    HEIGHT: number = document.documentElement.clientHeight
+    width = undefined,
+    height = undefined
   ) {
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
+    this._WIDTH = width || this.constantsService.WIDTH
+    this._HEIGHT = height || this.constantsService.HEIGHT;
+    canvas.width = this._WIDTH;
+    canvas.height = this._HEIGHT;
     this.context = canvas.getContext('2d');
     this.context.font = '10px Courier New';
     this.context.lineWidth = this.constantsService.PIXEL_SIZE;

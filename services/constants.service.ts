@@ -4,11 +4,11 @@ export class ConstantsService {
   public SPEED = 5;
 
   public get WIDTH(): number{
-    return document.documentElement.clientWidth;
+    return window.innerWidth;
   }
 
   public get HEIGHT(): number {
-    return document.documentElement.clientHeight;
+    return window.innerHeight;
   }
 
   private _FIELD_OF_VIEW: number = 200;
