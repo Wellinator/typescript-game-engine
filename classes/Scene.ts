@@ -3,6 +3,7 @@ import Object2D from './Object2D';
 export class Scene2D {
   private _context: CanvasRenderingContext2D;
   private _sprites: Object2D[] = [];
+  private _backGroundColor: string;
 
   constructor(context: CanvasRenderingContext2D) {
     this._context = context;
@@ -23,6 +24,14 @@ export class Scene2D {
 
   public addObject2D(...object: Object2D[]): void{
     this._sprites.push(...object);
+  }
+
+  public set backGroundColor(color: string) {
+    this._backGroundColor = color;
+  }
+
+  public get backGroundColor(): string {
+    return this._backGroundColor;
   }
 
 }

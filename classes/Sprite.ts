@@ -8,7 +8,6 @@ export class Sprite extends Object2D {
   public Y: number;
   public width: number;
   public height: number
-  private _backGroundColor: string;
   
   constructor(
     X: number, 
@@ -39,9 +38,5 @@ export class Sprite extends Object2D {
     context.closePath();
     context.stroke();
     return;
-  }
-
-  public set backGroundColor(color: string) {
-    this._backGroundColor = color;
   }
 }
