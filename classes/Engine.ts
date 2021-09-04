@@ -43,11 +43,13 @@ export class Engine {
     this.OnUpdate();
     if (this.constantsService.DEBUG_MODE) {
       this.context.fillStyle = '#FFF';
+      this.context.font = '16px Courier New';
       this.context.fillText(
         `${FPS.toFixed(1)} FPS`,
-        this.constantsService.WIDTH - 100,
+        this._WIDTH - 100,
         20
       );
+      this.context.font = '10px Courier New';
     }
     this.OnAfterUpdate();
     window.requestAnimationFrame(this.gameLoop.bind(this));

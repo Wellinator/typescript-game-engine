@@ -1,6 +1,7 @@
 import { Cube } from './classes/Cube';
 import { Engine } from './classes/Engine';
 import { Point2D } from './classes/Point2D';
+import { Triangle } from './classes/primitives/Triangle';
 import { Sprite } from './classes/Sprite';
 import { ConstantsService } from './services/constants.service';
 
@@ -8,17 +9,16 @@ const constantService = new ConstantsService();
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 
 //Create Engine;
-const engine = new Engine(canvas);
+const engine = new Engine(
+  canvas,
+  window.innerWidth * .95,
+  window.innerHeight * .95
+  );
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
-const mySprite = new Sprite(0, 0, 10);
-mySprite.mesh = [
-  new Point2D(10 * mySprite.size, 20 * mySprite.size),
-  new Point2D(20 * mySprite.size, 20 * mySprite.size),
-  new Point2D(15 * mySprite.size, 30 * mySprite.size),
-];
+const mySprite = new Triangle(100, 100, 10);
 
 scene.addObject2D(mySprite);
 
