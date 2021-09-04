@@ -21,8 +21,9 @@ const scene = engine.create2DScene();
 
 const myTriangle = new Triangle(100, 100, 50);
 const myCircle = new Circle(200, 100, 50);
+const mySprite = new Sprite(310, 100, 50);
 
-scene.addObject2D(myTriangle, myCircle);
+scene.addObject2D(myTriangle, myCircle, mySprite);
 
 engine.OnUpdate = () => {
   scene.OnUpdate();
@@ -39,9 +40,11 @@ const queryButtons = (event: KeyboardEvent): void => {
   }
   else if (event.key == 'ArrowLeft') {
     myTriangle.rotateCounterClockWise(5)
+    mySprite.rotateCounterClockWise(5)
   }
   else if (event.key == 'ArrowRight') {
     myTriangle.rotateClockWise(5)
+    mySprite.rotateClockWise(5)
   }
   else if (event.key == '+') {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
