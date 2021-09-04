@@ -18,7 +18,7 @@ const engine = new Engine(
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
-const mySprite = new Triangle(100, 100, 10);
+const mySprite = new Triangle(100, 100, 50);
 
 scene.addObject2D(mySprite);
 

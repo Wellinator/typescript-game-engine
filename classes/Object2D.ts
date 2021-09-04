@@ -34,20 +34,7 @@ abstract class Object2D {
     return this;
   }
 
-  public draw(context: CanvasRenderingContext2D): void {
-    this.mesh.forEach((point2d, index, vertices) => {
-      if (index === 0) {
-        context.beginPath();
-        context.moveTo(point2d.X, point2d.Y);
-      }
-      context.lineTo(point2d.X, point2d.Y);
-      if ( (vertices.length - 1) === index && vertices.length >= 3) {
-        context.closePath();
-      }
-      context.strokeStyle = 'rgba(255,255,255,1)';
-      context.stroke();
-    });
-  }
+  abstract draw(context: CanvasRenderingContext2D): void
 }
 
 export default Object2D;
