@@ -1,6 +1,7 @@
 import { Cube } from './classes/Cube';
 import { Engine } from './classes/Engine';
 import { Point2D } from './classes/Point2D';
+import { Circle } from './classes/primitives/Circle';
 import { Triangle } from './classes/primitives/Triangle';
 import { Sprite } from './classes/Sprite';
 import { ConstantsService } from './services/constants.service';
@@ -18,9 +19,10 @@ const engine = new Engine(
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
-const mySprite = new Triangle(100, 100, 50);
+const myTriangle = new Triangle(100, 100, 50);
+const myCircle = new Circle(200, 100, 50);
 
-scene.addObject2D(mySprite);
+scene.addObject2D(myTriangle, myCircle);
 
 engine.OnUpdate = () => {
   scene.OnUpdate();
@@ -36,10 +38,10 @@ const queryButtons = (event: KeyboardEvent): void => {
     
   }
   else if (event.key == 'ArrowLeft') {
-    mySprite.rotateCounterClockWise(5)
+    myTriangle.rotateCounterClockWise(5)
   }
   else if (event.key == 'ArrowRight') {
-    mySprite.rotateClockWise(5)
+    myTriangle.rotateClockWise(5)
   }
   else if (event.key == '+') {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
