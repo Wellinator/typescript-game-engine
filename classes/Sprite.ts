@@ -6,19 +6,27 @@ export class Sprite extends Object2D {
   public size: number;
   public X: number;
   public Y: number;
+  public width: number;
+  public height: number
   private _backGroundColor: string;
   
-  constructor(X: number, Y: number, size: number) {
+  constructor(
+    X: number, 
+    Y: number, 
+    width: number,
+    height: number
+  ) {
     super();
     this.X = X;
     this.Y = Y;
-    this.size = size;
-
+    this.width = width;
+    this.height = height;
+    
     this.mesh = [
-      new Point2D(X - size, Y - size),
-      new Point2D(X + size, Y - size),
-      new Point2D(X + size, Y + size),
-      new Point2D(X - size, Y + size),
+      new Point2D(X - width, Y - height),
+      new Point2D(X + width, Y - height),
+      new Point2D(X + width, Y + height),
+      new Point2D(X - width, Y + height),
     ]
   }
 

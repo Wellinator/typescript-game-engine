@@ -21,7 +21,7 @@ const scene = engine.create2DScene();
 
 const myTriangle = new Triangle(100, 100, 50);
 const myCircle = new Circle(200, 100, 50);
-const mySprite = new Sprite(310, 100, 50);
+const mySprite = new Sprite(310, 100, 50, 50);
 
 scene.addObject2D(myTriangle, myCircle, mySprite);
 
