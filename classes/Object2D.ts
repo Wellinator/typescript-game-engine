@@ -1,4 +1,4 @@
-import { Point2D } from './Point2D';
+import { Point2D } from "./primitives/Point2D";
 
 abstract class Object2D {
   abstract mesh: Point2D[];

@@ -1,5 +1,5 @@
 import Object2D from '../Object2D';
-import { Point2D } from '../Point2D';
+import { Point2D } from './Point2D';
 
 export class Triangle extends Object2D {
   public mesh: Point2D[];

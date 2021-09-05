@@ -1,6 +1,4 @@
-import { Cube } from './classes/Cube';
 import { Engine } from './classes/Engine';
-import { Point2D } from './classes/Point2D';
 import { Circle } from './classes/primitives/Circle';
 import { Triangle } from './classes/primitives/Triangle';
 import { Sprite } from './classes/Sprite';
@@ -24,7 +22,6 @@ const myCircle = new Circle(200, 100, 50);
 const mySprite = new Sprite(310, 100, 50, 50);
 
 scene.addObject2D(myTriangle, myCircle, mySprite);
-
 engine.OnUpdate = () => {
   scene.OnUpdate();
 }
