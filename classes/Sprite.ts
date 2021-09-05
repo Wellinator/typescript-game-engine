@@ -7,29 +7,48 @@ export class Sprite extends Object2D {
   public X: number;
   public Y: number;
   public width: number;
-  public height: number
-  
+  public height: number;
+  private assets: CanvasImageSource[] = [];
+
   constructor(
-    X: number, 
-    Y: number, 
+    X: number,
+    Y: number,
     width: number,
-    height: number
+    height: number,
+    imagePath: string | string[]
   ) {
     super();
     this.X = X;
     this.Y = Y;
     this.width = width;
     this.height = height;
-    
+
+    this._createSpritesFromPaths(imagePath);
     this.mesh = [
       new Point2D(X - width, Y - height),
       new Point2D(X + width, Y - height),
       new Point2D(X + width, Y + height),
-      new Point2D(X - width, Y + height),
-    ]
+      new Point2D(X - width, Y + height)
+    ];
   }
 
-  draw(context: CanvasRenderingContext2D): ThisType<Sprite>  {
+  private _createSpritesFromPaths(paths: string | string[]): void {
+    if (Array.isArray(paths)) {
+      paths.forEach(path => {
+        if (!!path && !!path.length) {
+          const tempImage = new Image();
+          tempImage.src = path;
+          this.assets.push(tempImage);
+        }
+      });
+      return;
+    }
+    const tempImage = new Image();
+    tempImage.src = paths;
+    this.assets.push(tempImage);
+  }
+
+  draw(context: CanvasRenderingContext2D): ThisType<Sprite> {
     context.beginPath();
     context.moveTo(this.mesh[0].X, this.mesh[0].Y);
     context.lineTo(this.mesh[1].X, this.mesh[1].Y);
