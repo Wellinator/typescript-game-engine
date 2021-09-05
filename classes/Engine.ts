@@ -5,6 +5,7 @@ export class Engine {
   private fpsTimes: number[] = [];
   private context: CanvasRenderingContext2D;
   private constantsService: ConstantsService = new ConstantsService();
+  private keysDown: string[] = [];
   _WIDTH: number;
   _HEIGHT: number;
 
@@ -13,7 +14,7 @@ export class Engine {
     width = undefined,
     height = undefined
   ) {
-    this._WIDTH = width || this.constantsService.WIDTH
+    this._WIDTH = width || this.constantsService.WIDTH;
     this._HEIGHT = height || this.constantsService.HEIGHT;
     canvas.width = this._WIDTH;
     canvas.height = this._HEIGHT;
@@ -21,7 +22,15 @@ export class Engine {
     this.context.font = '10px Courier New';
     this.context.lineWidth = this.constantsService.PIXEL_SIZE;
     this.context.strokeStyle = 'white';
+    this._initInputSystem();
     this.gameLoop();
+  }
+
+  private _initInputSystem() {
+    window.document.addEventListener(
+      'keydown',
+      (event: KeyboardEvent) => (this.keysDown[event.key] = true)
+    );
   }
 
   private clearFrame(): void {
@@ -39,16 +48,12 @@ export class Engine {
 
     this.clearFrame();
     const FPS = this.fpsCounter();
-    
+
     this.OnUpdate();
     if (this.constantsService.DEBUG_MODE) {
       this.context.fillStyle = '#FFF';
       this.context.font = '16px Courier New';
-      this.context.fillText(
-        `${FPS.toFixed(1)} FPS`,
-        this._WIDTH - 100,
-        20
-      );
+      this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
       this.context.font = '10px Courier New';
     }
     this.OnAfterUpdate();
@@ -60,7 +65,6 @@ export class Engine {
   }
 
   public OnUpdate() {
-
     return;
   }
 

@@ -10,9 +10,9 @@ const canvas: HTMLCanvasElement = document.querySelector('canvas');
 //Create Engine;
 const engine = new Engine(
   canvas,
-  window.innerWidth * .95,
-  window.innerHeight * .95
-  );
+  window.innerWidth * 0.95,
+  window.innerHeight * 0.95
+);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
@@ -24,29 +24,24 @@ const mySprite = new Sprite(310, 100, 50, 50);
 scene.addObject2D(myTriangle, myCircle, mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
-}
+};
 
-window.document.addEventListener('keydown', (event: KeyboardEvent)=> queryButtons(event))
+window.document.addEventListener('keydown', (event: KeyboardEvent) =>
+  queryButtons(event)
+);
 const queryButtons = (event: KeyboardEvent): void => {
   event.preventDefault();
   if (event.key == 'ArrowUp') {
-    
-  }
-  else if (event.key == 'ArrowDown') {
-    
-  }
-  else if (event.key == 'ArrowLeft') {
-    myTriangle.rotateCounterClockWise(5)
-    mySprite.rotateCounterClockWise(5)
-  }
-  else if (event.key == 'ArrowRight') {
-    myTriangle.rotateClockWise(5)
-    mySprite.rotateClockWise(5)
-  }
-  else if (event.key == '+') {
+  } else if (event.key == 'ArrowDown') {
+  } else if (event.key == 'ArrowLeft') {
+    myTriangle.rotateCounterClockWise(5);
+    mySprite.rotateCounterClockWise(5);
+  } else if (event.key == 'ArrowRight') {
+    myTriangle.rotateClockWise(5);
+    mySprite.rotateClockWise(5);
+  } else if (event.key == '+') {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
-  }
-  else if (event.key == '-') {
+  } else if (event.key == '-') {
     constantService.VIEW_DISTANCE += constantService.SPEED / 50;
   }
-}
+};
