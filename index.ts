@@ -25,23 +25,18 @@ scene.addObject2D(myTriangle, myCircle, mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
 };
-
-window.document.addEventListener('keydown', (event: KeyboardEvent) =>
-  queryButtons(event)
-);
-const queryButtons = (event: KeyboardEvent): void => {
-  event.preventDefault();
-  if (event.key == 'ArrowUp') {
-  } else if (event.key == 'ArrowDown') {
-  } else if (event.key == 'ArrowLeft') {
+engine.getInputKeys = (pressedKeys) => {
+  if (pressedKeys['ArrowUp']) {
+  } else if (pressedKeys['ArrowDown']) {
+  } else if (pressedKeys['ArrowLeft']) {
     myTriangle.rotateCounterClockWise(5);
     mySprite.rotateCounterClockWise(5);
-  } else if (event.key == 'ArrowRight') {
+  } else if (pressedKeys['ArrowRight']) {
     myTriangle.rotateClockWise(5);
     mySprite.rotateClockWise(5);
-  } else if (event.key == '+') {
+  } else if (pressedKeys['+']) {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
-  } else if (event.key == '-') {
+  } else if (pressedKeys['-']) {
     constantService.VIEW_DISTANCE += constantService.SPEED / 50;
   }
 };

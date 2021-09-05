@@ -5,7 +5,7 @@ export class Engine {
   private fpsTimes: number[] = [];
   private context: CanvasRenderingContext2D;
   private constantsService: ConstantsService = new ConstantsService();
-  private keysDown: string[] = [];
+  private _keysDown: string[] = [];
   _WIDTH: number;
   _HEIGHT: number;
 
@@ -29,7 +29,11 @@ export class Engine {
   private _initInputSystem() {
     window.document.addEventListener(
       'keydown',
-      (event: KeyboardEvent) => (this.keysDown[event.key] = true)
+      (event: KeyboardEvent) => (this._keysDown[event.key] = true)
+    );
+    window.document.addEventListener(
+      'keyup',
+      (event: KeyboardEvent) => (this._keysDown[event.key] = false)
     );
   }
 
@@ -44,6 +48,8 @@ export class Engine {
   }
 
   private gameLoop() {
+    this.getInputKeys(this._keysDown);
+
     this.OnBeforeUpdate();
 
     this.clearFrame();
@@ -58,6 +64,10 @@ export class Engine {
     }
     this.OnAfterUpdate();
     window.requestAnimationFrame(this.gameLoop.bind(this));
+  }
+
+  public getInputKeys(keysPressed: string[]): void {
+    return;
   }
 
   public OnBeforeUpdate() {
