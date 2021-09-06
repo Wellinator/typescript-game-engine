@@ -6,8 +6,11 @@ export class Engine {
   private context: CanvasRenderingContext2D;
   private constantsService: ConstantsService = new ConstantsService();
   private _keysDown: string[] = [];
-  _WIDTH: number;
-  _HEIGHT: number;
+  private _WIDTH: number;
+  private _HEIGHT: number;
+  private secondsPassed = 0;
+  private oldTimeStamp = 0;
+  private movingSpeed = 50;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -23,7 +26,7 @@ export class Engine {
     this.context.lineWidth = this.constantsService.PIXEL_SIZE;
     this.context.strokeStyle = 'white';
     this._initInputSystem();
-    this.gameLoop();
+    this.gameLoop(this.secondsPassed);
   }
 
   private _initInputSystem() {
@@ -47,7 +50,10 @@ export class Engine {
     );
   }
 
-  private gameLoop() {
+  private gameLoop(timeStamp: number) {
+    this.secondsPassed = (timeStamp - this.oldTimeStamp) / 1000;
+    this.oldTimeStamp = timeStamp;
+
     this.getInputKeys(this._keysDown);
 
     this.OnBeforeUpdate();
@@ -55,7 +61,7 @@ export class Engine {
     this.clearFrame();
     const FPS = this.fpsCounter();
 
-    this.OnUpdate();
+    this.OnUpdate(this.secondsPassed);
     if (this.constantsService.DEBUG_MODE) {
       this.context.fillStyle = '#FFF';
       this.context.font = '16px Courier New';
@@ -74,7 +80,7 @@ export class Engine {
     return;
   }
 
-  public OnUpdate() {
+  public OnUpdate(secondsPassed: number) {
     return;
   }
 
