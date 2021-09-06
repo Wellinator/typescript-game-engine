@@ -16,6 +16,16 @@ export class Sprite extends Object2D {
   public hitBoxColor: string = '#03FC1C';
   private _hasCollided: boolean = false;
 
+  /**
+   * Create a new Sprite.
+   * @constructor
+   * @param {striCanvasRenderingContext2Dng} context - Canvas context.
+   * @param {number} X - X axis position.
+   * @param {number} Y - Y axis position.
+   * @param {number} width - Sprite width.
+   * @param {number} height - Sprite height.
+   * @param {string} imagePath  - Relative path to sprite image assets.
+   */
   constructor(
     context: CanvasRenderingContext2D,
     X: number,
@@ -39,6 +49,16 @@ export class Sprite extends Object2D {
     ];
   }
 
+  /**
+   * Generate images from paths.
+   * @private
+   * @param {striCanvasRenderingContext2Dng} context - Canvas context.
+   * @param {number} X - X axis position.
+   * @param {number} Y - Y axis position.
+   * @param {number} width - Sprite width.
+   * @param {number} height - Sprite height.
+   * @param {string} imagePath  - Relative path to sprite image assets.
+   */  
   private _createSpritesFromPaths(paths: string | string[]): void {
     if (Array.isArray(paths)) {
       paths.forEach(path => {
@@ -60,7 +80,7 @@ export class Sprite extends Object2D {
       this.assets.forEach(asset => this._drawImage(asset));
     }
     if (this.isCollidable && this.displayHitBox) {
-      context.save()
+      context.save();
       context.strokeStyle = this.hitBoxColor;
       context.beginPath();
       context.moveTo(this.mesh[0].X, this.mesh[0].Y);
@@ -69,7 +89,7 @@ export class Sprite extends Object2D {
       context.lineTo(this.mesh[3].X, this.mesh[3].Y);
       context.closePath();
       context.stroke();
-      context.restore()
+      context.restore();
     }
     return;
   }
@@ -126,18 +146,31 @@ export class Sprite extends Object2D {
     return this._hasCollided;
   }
 
-  private _OnCillide(): void{
+  private _OnCillide(): void {
     this._hasCollided = true;
-    this.hitBoxColor = '#F54242'
+    this.hitBoxColor = '#F54242';
     this.OnCollide();
   }
 
-  public OnCollide(){
+  public OnCollide() {
     return;
   }
 
-  private _checkCollision(): boolean{
+  private _checkCollision(): boolean {
     // TODO -> Check colisions between objects and update state;
     return false;
+  }
+
+  public scale(scalingFactor: number): void {
+    this.width *= scalingFactor;
+    this.height *= scalingFactor;
+  }
+
+  public scaleX(scalingFactor: number){
+    this.width *= scalingFactor;
+  }
+
+  public scaleY(scalingFactor: number){
+    this.height *= scalingFactor;
   }
 }
