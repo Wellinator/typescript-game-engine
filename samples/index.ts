@@ -1,8 +1,8 @@
-import { Engine } from './classes/Engine';
-import { Circle } from './classes/primitives/Circle';
-import { Triangle } from './classes/primitives/Triangle';
-import { Sprite } from './classes/Sprite';
-import { ConstantsService } from './services/constants.service';
+import { Engine } from "../classes/Engine";
+import { Circle } from "../classes/primitives/Circle";
+import { Triangle } from "../classes/primitives/Triangle";
+import { Sprite } from "../classes/Sprite";
+import { ConstantsService } from "../services/constants.service";
 
 const constantService = new ConstantsService();
 const canvas: HTMLCanvasElement = document.querySelector('canvas');

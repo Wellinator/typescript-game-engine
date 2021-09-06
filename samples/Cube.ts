@@ -1,5 +1,5 @@
-import Object3D from './Object3D';
-import { Point3D } from './primitives/Point3D';
+import Object3D from "../classes/Object3D";
+import { Point3D } from "../classes/primitives/Point3D";
 
 export class Cube extends Object3D {
   public X: number;
