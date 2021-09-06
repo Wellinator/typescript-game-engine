@@ -56,6 +56,11 @@ export class Sprite extends Object2D {
     context.lineTo(this.mesh[3].X, this.mesh[3].Y);
     context.closePath();
     context.stroke();
+    if(!!this.assets.length){
+      this.assets.forEach( asset => {
+        context.drawImage(asset, this.X, this.Y, this.width, this.height);
+      })
+    }
     return;
   }
 }
