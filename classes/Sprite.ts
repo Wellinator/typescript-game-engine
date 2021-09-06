@@ -2,6 +2,7 @@ import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
 
 export class Sprite extends Object2D {
+  private _context: CanvasRenderingContext2D;
   public mesh: Point2D[];
   public size: number;
   public X: number;
@@ -9,8 +10,10 @@ export class Sprite extends Object2D {
   public width: number;
   public height: number;
   private assets: CanvasImageSource[] = [];
+  private _rad: number = 0;
 
   constructor(
+    context: CanvasRenderingContext2D,
     X: number,
     Y: number,
     width: number,
@@ -18,18 +21,13 @@ export class Sprite extends Object2D {
     imagePath: string | string[]
   ) {
     super();
+    this._context = context;
     this.X = X;
     this.Y = Y;
     this.width = width;
     this.height = height;
-
     this._createSpritesFromPaths(imagePath);
-    this.mesh = [
-      new Point2D(X - width, Y - height),
-      new Point2D(X + width, Y - height),
-      new Point2D(X + width, Y + height),
-      new Point2D(X - width, Y + height)
-    ];
+    this.mesh = [];
   }
 
   private _createSpritesFromPaths(paths: string | string[]): void {
@@ -49,18 +47,30 @@ export class Sprite extends Object2D {
   }
 
   draw(context: CanvasRenderingContext2D): ThisType<Sprite> {
-    context.beginPath();
-    context.moveTo(this.mesh[0].X, this.mesh[0].Y);
-    context.lineTo(this.mesh[1].X, this.mesh[1].Y);
-    context.lineTo(this.mesh[2].X, this.mesh[2].Y);
-    context.lineTo(this.mesh[3].X, this.mesh[3].Y);
-    context.closePath();
-    context.stroke();
-    if(!!this.assets.length){
-      this.assets.forEach( asset => {
-        context.drawImage(asset, this.X, this.Y, this.width, this.height);
-      })
+    if (!!this.assets.length) {
+      this.assets.forEach(asset => this._drawImage(asset));
     }
     return;
+  }
+
+  private _drawImage(asset: CanvasImageSource){
+    if(this.isRotated){
+      this._context.translate(this.X, this.Y);
+      this._context.rotate(this._rad);
+      this._context.translate(-this.X, -this.Y);
+      this._context.drawImage(asset, this.X - this.width / 2, this.Y - this.height/2, this.width, this.height);
+      this._context.setTransform(1, 0, 0, 1, 0, 0);
+      return;
+    }
+    this._context.drawImage(asset, this.X - this.width / 2, this.Y - this.height/2, this.width, this.height);
+  }
+
+  public rotateClockWise(angle = 0): Object2D {
+    this._rad += (angle * Math.PI) / 180;
+    return this;
+  }
+
+  public get isRotated(): boolean {
+    return this._rad !== 0;
   }
 }

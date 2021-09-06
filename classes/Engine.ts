@@ -1,5 +1,6 @@
 import { ConstantsService } from '../services/constants.service';
 import { Scene2D } from './Scene';
+import { Sprite } from './Sprite';
 
 export class Engine {
   private fpsTimes: number[] = [];
@@ -25,6 +26,8 @@ export class Engine {
     this.context.font = '10px Courier New';
     this.context.lineWidth = this.constantsService.PIXEL_SIZE;
     this.context.strokeStyle = 'white';
+    this.context.imageSmoothingEnabled = false;
+    this.context.imageSmoothingQuality = 'medium';
     this._initInputSystem();
     this.gameLoop(this.secondsPassed);
   }
@@ -101,4 +104,5 @@ export class Engine {
   public create2DScene(): Scene2D {
     return new Scene2D(this.context);
   }
+
 }
