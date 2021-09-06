@@ -32,7 +32,7 @@ engine.getInputKeys = (pressedKeys) => {
     mySprite.rotateCounterClockWise(5);
   } else if (pressedKeys['ArrowRight']) {
     myTriangle.rotateClockWise(5);
-    mySprite.rotateClockWise(1);
+    mySprite.rotateClockWise(5);
   } else if (pressedKeys['+']) {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
   } else if (pressedKeys['-']) {
