@@ -121,22 +121,17 @@ export class Sprite extends Object2D {
   public rotateClockWise(angle = 0): Object2D {
     this._rad += (angle * Math.PI) / 180;
     if (this.isCollidable) {
-      this._calculateHitBoxByAngle(angle);
+      super.rotateClockWise(angle);
     }
     return this;
   }
 
   public rotateCounterClockWise(angle = 0): Object2D {
-    // TODO -> Fix hitbox rotation
     this._rad -= (angle * Math.PI) / 180;
     if (this.isCollidable) {
-      this._calculateHitBoxByAngle(angle);
+      super.rotateCounterClockWise(angle);
     }
     return this;
-  }
-
-  private _calculateHitBoxByAngle(angle: number): void {
-    super.rotateClockWise(angle);
   }
 
   public get isRotated(): boolean {
