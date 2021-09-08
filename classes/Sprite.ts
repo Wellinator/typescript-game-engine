@@ -126,6 +126,14 @@ export class Sprite extends Object2D {
     return this;
   }
 
+  public rotateCounterClockWise(angle = 0): Object2D {
+    this._rad -= (angle * Math.PI) / 180;
+    if (this.isCollidable) {
+      this._calculateHitBoxByAngle(angle);
+    }
+    return this;
+  }
+
   private _calculateHitBoxByAngle(angle: number): void {
     super.rotateClockWise(angle);
   }
@@ -146,7 +154,7 @@ export class Sprite extends Object2D {
     return this._hasCollided;
   }
 
-  private _OnCillide(): void {
+  private _OnCollide(): void {
     this._hasCollided = true;
     this.hitBoxColor = '#F54242';
     this.OnCollide();
