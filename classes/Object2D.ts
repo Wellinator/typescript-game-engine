@@ -47,6 +47,10 @@ abstract class Object2D {
     return this;
   }
 
+  public scale(scalingFactor: number): void {
+    this.size *= scalingFactor;
+    // TODO -> Update mesh size;
+  }
 
 }
 

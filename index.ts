@@ -33,19 +33,26 @@ engine.OnUpdate = () => {
 engine.getInputKeys = pressedKeys => {
   if (pressedKeys['w']) {
     mySprite.translate(mySprite.X, mySprite.Y - 1);
-  } else if (pressedKeys['a']) {
+  }
+  if (pressedKeys['a']) {
     mySprite.translate(mySprite.X - 1, mySprite.Y);
-  } else if (pressedKeys['s']) {
+  } 
+  if (pressedKeys['s']) {
     mySprite.translate(mySprite.X, mySprite.Y + 1);
-  } else if (pressedKeys['d']) {
+  } 
+  if (pressedKeys['d']) {
     mySprite.translate(mySprite.X + 1, mySprite.Y);
-  } else if (pressedKeys['ArrowLeft']) {
+  } 
+  if (pressedKeys['ArrowLeft']) {
     mySprite.rotateCounterClockWise(5);
-  } else if (pressedKeys['ArrowRight']) {
+  } 
+  if (pressedKeys['ArrowRight']) {
     mySprite.rotateClockWise(5);
-  } else if (pressedKeys['+']) {
-    constantService.VIEW_DISTANCE -= constantService.SPEED / 50;
-  } else if (pressedKeys['-']) {
-    constantService.VIEW_DISTANCE += constantService.SPEED / 50;
+  } 
+  if (pressedKeys['ArrowUp']) {
+    mySprite.scale(1.01);
+  } 
+  if (pressedKeys['ArrowDown']) {
+    mySprite.scale(0.99);
   }
 };
