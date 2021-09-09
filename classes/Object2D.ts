@@ -35,6 +35,19 @@ abstract class Object2D {
   }
 
   abstract draw(context: CanvasRenderingContext2D): void
+
+  public translate(X: number, Y: number): Object2D{
+    this.mesh = this.mesh.map((point: Point2D) => {
+      point.X = point.X - this.X + X;
+      point.Y = point.Y - this.Y + Y;
+      return point;
+    });
+    this.X = X;
+    this.Y = Y;
+    return this;
+  }
+
+
 }
 
 export default Object2D;

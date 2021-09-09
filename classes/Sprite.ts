@@ -49,16 +49,6 @@ export class Sprite extends Object2D {
     ];
   }
 
-  /**
-   * Generate images from paths.
-   * @private
-   * @param {striCanvasRenderingContext2Dng} context - Canvas context.
-   * @param {number} X - X axis position.
-   * @param {number} Y - Y axis position.
-   * @param {number} width - Sprite width.
-   * @param {number} height - Sprite height.
-   * @param {string} imagePath  - Relative path to sprite image assets.
-   */  
   private _createSpritesFromPaths(paths: string | string[]): void {
     if (Array.isArray(paths)) {
       paths.forEach(path => {
@@ -75,7 +65,7 @@ export class Sprite extends Object2D {
     this.assets.push(tempImage);
   }
 
-  draw(context: CanvasRenderingContext2D): ThisType<Sprite> {
+  public draw(context: CanvasRenderingContext2D): ThisType<Sprite> {
     if (!!this.assets.length) {
       this.assets.forEach(asset => this._drawImage(asset));
     }
@@ -176,11 +166,5 @@ export class Sprite extends Object2D {
 
   public scaleY(scalingFactor: number){
     this.height *= scalingFactor;
-  }
-
-  public translate(X: number, Y: number): Object2D{
-    this.X = X;
-    this.Y = Y;
-    return this;
   }
 }
