@@ -48,8 +48,8 @@ export class Engine {
     this.context.fillRect(
       0,
       0,
-      this.constantsService.WIDTH,
-      this.constantsService.WIDTH
+      this._WIDTH,
+      this._HEIGHT
     );
   }
 
