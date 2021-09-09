@@ -16,22 +16,24 @@ const engine = new Engine(
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
-const myTriangle = new Triangle(100, 100, 50);
-const myCircle = new Circle(200, 100, 50);
 const mySprite = scene.createSprite(100, 210, 100, 100,'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png');
 
-scene.addObject2D(myTriangle, myCircle, mySprite);
+scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
 };
 engine.getInputKeys = (pressedKeys) => {
-  if (pressedKeys['ArrowUp']) {
-  } else if (pressedKeys['ArrowDown']) {
+  if (pressedKeys['w']) {
+    mySprite.translate(mySprite.X, --mySprite.Y);
+  } else if (pressedKeys['a']) {
+    mySprite.translate(--mySprite.X, mySprite.Y);
+  } else if (pressedKeys['s']) {
+    mySprite.translate(mySprite.X, ++mySprite.Y);
+  } else if (pressedKeys['d']) {
+    mySprite.translate(++mySprite.X, mySprite.Y);
   } else if (pressedKeys['ArrowLeft']) {
-    myTriangle.rotateCounterClockWise(5);
     mySprite.rotateCounterClockWise(5);
   } else if (pressedKeys['ArrowRight']) {
-    myTriangle.rotateClockWise(5);
     mySprite.rotateClockWise(5);
   } else if (pressedKeys['+']) {
     constantService.VIEW_DISTANCE -= constantService.SPEED / 50;

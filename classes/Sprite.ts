@@ -42,10 +42,10 @@ export class Sprite extends Object2D {
     this.height = height;
     this._createSpritesFromPaths(imagePath);
     this.mesh = [
-      new Point2D(X - width / 2, Y - height / 2),
-      new Point2D(X + width / 2, Y - height / 2),
-      new Point2D(X + width / 2, Y + height / 2),
-      new Point2D(X - width / 2, Y + height / 2)
+      new Point2D(this.X - width / 2, this.Y - height / 2),
+      new Point2D(this.X + width / 2, this.Y - height / 2),
+      new Point2D(this.X + width / 2, this.Y + height / 2),
+      new Point2D(this.X - width / 2, this.Y + height / 2)
     ];
   }
 
@@ -176,5 +176,11 @@ export class Sprite extends Object2D {
 
   public scaleY(scalingFactor: number){
     this.height *= scalingFactor;
+  }
+
+  public translate(X: number, Y: number): Object2D{
+    this.X = X;
+    this.Y = Y;
+    return this;
   }
 }
