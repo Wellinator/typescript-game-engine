@@ -155,9 +155,11 @@ export class Sprite extends Object2D {
     return false;
   }
 
-  public scale(scalingFactor: number): void {
+  public scale(scalingFactor: number): Object2D {
     this.width *= scalingFactor;
     this.height *= scalingFactor;
+    super.scale(scalingFactor);
+    return this;
   }
 
   public scaleX(scalingFactor: number){
