@@ -50,12 +50,11 @@ abstract class Object2D {
   public scale(scalingFactor: number): Object2D {
     this.size *= scalingFactor;
     this.mesh.map( point => {
-      point.X *= scalingFactor;
-      point.Y *= scalingFactor;
+      point.X = ((point.X - this.X) * scalingFactor) + this.X;
+      point.Y = ((point.Y - this.Y) * scalingFactor) + this.Y;
       return point;
     });
     return this;
-    // TODO -> Update mesh size;
   }
 
 }
