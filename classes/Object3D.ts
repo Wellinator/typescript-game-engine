@@ -1,6 +1,6 @@
 import { ConstantsService } from '../services/constants.service';
-import { Point2D } from './Point2D';
-import { Point3D } from './Point3D';
+import { Point2D } from './primitives/Point2D';
+import { Point3D } from './primitives/Point3D';
 
 abstract class Object3D {
   public size: number;
