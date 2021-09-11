@@ -7,6 +7,7 @@ const constantService = new ConstantsService();
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
+let direction = 0;
 
 //Create Engine;
 const engine = new Engine(canvas, WIDTH, HEIGHT);
@@ -21,24 +22,34 @@ const mySprite = scene.createSprite(
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
-mySprite.setVelocity(0.2);
 
 scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
 };
 engine.getInputKeys = pressedKeys => {
+  if(
+    pressedKeys['w'] ||
+    pressedKeys['a'] ||
+    pressedKeys['s'] ||
+    pressedKeys['d']
+  ){
+    mySprite.setVelocity(.5);
+  }else{
+    mySprite.setVelocity(0);
+  }
+
   if (pressedKeys['w']) {
-    mySprite.setDirection((3 * Math.PI) / 2);
+    mySprite.setDirection((270 * Math.PI) / 180);
   }
   if (pressedKeys['a']) {
-    mySprite.setDirection(Math.PI);
+    mySprite.setDirection((180 * Math.PI) / 180);
   }
   if (pressedKeys['s']) {
-    mySprite.setDirection(Math.PI / 2);
+    mySprite.setDirection((90 * Math.PI) / 180);
   }
   if (pressedKeys['d']) {
-    mySprite.setDirection(2 * Math.PI);
+    mySprite.setDirection((0 * Math.PI) / 180);
   }
   if (pressedKeys['ArrowLeft']) {
     mySprite.rotateCounterClockWise(5);

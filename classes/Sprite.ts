@@ -172,7 +172,10 @@ export class Sprite extends Object2D {
   }
 
   public update(): void {
-    this._position.addedTo(this._velocity);
+    if(this._velocity.length){
+      this._position.addedTo(this._velocity);
+      this.translate(this.X, this.Y);
+    }
     this.draw(this._context);
   }
 }

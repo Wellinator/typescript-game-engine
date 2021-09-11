@@ -27,12 +27,14 @@ abstract class Object2D {
     return this._velocity;
   }
 
-  public setVelocity(value: number){
+  public setVelocity(value: number): Object2D {
     this._velocity.setLength(value);
+    return this;
   }
 
-  public setDirection(angle: number){
+  public setDirection(angle: number): Object2D {
     this._velocity.toAngle(angle);
+    return this;
   }
 
   public rotateClockWise(angle = 0): Object2D {
