@@ -81,8 +81,8 @@ export class Vector2 {
   }
 
   public setLength(length: number): Vector2 {
-    this.X = Math.cos(length) * this.angle;
-    this.Y = Math.sin(length) * this.angle;
+    this.X = Math.cos(this.angle) * length;
+    this.Y = Math.sin(this.angle) * length;
     return this;
   }
 

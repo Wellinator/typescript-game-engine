@@ -9,11 +9,7 @@ const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
 
 //Create Engine;
-const engine = new Engine(
-  canvas,
-  WIDTH,
-  HEIGHT
-);
+const engine = new Engine(canvas, WIDTH, HEIGHT);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
@@ -25,8 +21,7 @@ const mySprite = scene.createSprite(
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
-
-mySprite
+mySprite.setVelocity(0.2);
 
 scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
@@ -34,26 +29,26 @@ engine.OnUpdate = () => {
 };
 engine.getInputKeys = pressedKeys => {
   if (pressedKeys['w']) {
-    mySprite.translate(mySprite.X, mySprite.Y - 1);
+    mySprite.setDirection((3 * Math.PI) / 2);
   }
   if (pressedKeys['a']) {
-    mySprite.translate(mySprite.X - 1, mySprite.Y);
-  } 
+    mySprite.setDirection(Math.PI);
+  }
   if (pressedKeys['s']) {
-    mySprite.translate(mySprite.X, mySprite.Y + 1);
-  } 
+    mySprite.setDirection(Math.PI / 2);
+  }
   if (pressedKeys['d']) {
-    mySprite.translate(mySprite.X + 1, mySprite.Y);
-  } 
+    mySprite.setDirection(2 * Math.PI);
+  }
   if (pressedKeys['ArrowLeft']) {
     mySprite.rotateCounterClockWise(5);
-  } 
+  }
   if (pressedKeys['ArrowRight']) {
     mySprite.rotateClockWise(5);
-  } 
+  }
   if (pressedKeys['ArrowUp']) {
     mySprite.scale(1.01);
-  } 
+  }
   if (pressedKeys['ArrowDown']) {
     mySprite.scale(0.99);
   }
