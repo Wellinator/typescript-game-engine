@@ -26,6 +26,8 @@ const mySprite = scene.createSprite(
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
+mySprite
+
 scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();

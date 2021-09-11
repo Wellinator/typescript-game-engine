@@ -1,6 +1,5 @@
 import { ConstantsService } from '../services/constants.service';
 import { Scene2D } from './Scene';
-import { Sprite } from './Sprite';
 
 export class Engine {
   private fpsTimes: number[] = [];

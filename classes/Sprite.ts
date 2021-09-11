@@ -1,12 +1,13 @@
 import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
+import { Vector2 } from './primitives/Vector2';
 
 export class Sprite extends Object2D {
+  public _position: Vector2;
+  public _velocity: Vector2;
   private _context: CanvasRenderingContext2D;
   public mesh: Point2D[];
   public size: number;
-  public X: number;
-  public Y: number;
   public width: number;
   public height: number;
   private assets: CanvasImageSource[] = [];
@@ -36,8 +37,8 @@ export class Sprite extends Object2D {
   ) {
     super();
     this._context = context;
-    this.X = X;
-    this.Y = Y;
+    this._position = new Vector2(X, Y);
+    this._velocity = new Vector2(0, 0);
     this.width = width;
     this.height = height;
     this._createSpritesFromPaths(imagePath);
@@ -162,11 +163,18 @@ export class Sprite extends Object2D {
     return this;
   }
 
-  public scaleX(scalingFactor: number){
+  public scaleX(scalingFactor: number) {
     this.width *= scalingFactor;
   }
 
-  public scaleY(scalingFactor: number){
+  public scaleY(scalingFactor: number) {
     this.height *= scalingFactor;
+  }
+
+  public update(): void {
+    if(!!this._velocity.length){
+      this._position.addedTo(this._velocity);
+    }
+    this.draw(this._context);
   }
 }

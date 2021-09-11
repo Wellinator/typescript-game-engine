@@ -3,7 +3,7 @@ import { Sprite } from './Sprite';
 
 export class Scene2D {
   private _context: CanvasRenderingContext2D;
-  private _sprites: Object2D[] = [];
+  private _sprites: Sprite[] = [];
   private _backGroundColor: string;
 
   constructor(context: CanvasRenderingContext2D) {
@@ -14,8 +14,8 @@ export class Scene2D {
     return;
   }
 
-  public OnUpdate() {
-    this._sprites.forEach(sprite => sprite.draw(this._context));
+  public OnUpdate(): void {
+    this._sprites.forEach(sprite => sprite.update());
     return;
   }
 
@@ -23,7 +23,7 @@ export class Scene2D {
     return;
   }
 
-  public addObject2D(...object: Object2D[]): void{
+  public addObject2D(...object: Sprite[]): void{
     this._sprites.push(...object);
   }
 

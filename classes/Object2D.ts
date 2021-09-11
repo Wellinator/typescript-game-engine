@@ -1,10 +1,35 @@
 import { Point2D } from "./primitives/Point2D";
+import { Vector2 } from "./primitives/Vector2";
 
 abstract class Object2D {
   abstract mesh: Point2D[];
   abstract size: number;
-  abstract X: number;
-  abstract Y: number;
+  abstract _position: Vector2;
+  abstract _velocity: Vector2;
+
+  public get X(): number{
+    return this._position.X;
+  }
+
+  public get Y(): number{
+    return this._position.Y;
+  }
+
+  public set X(value: number){
+    this._position.X = value;
+  }
+
+  public set Y(value: number){
+    this._position.Y = value;
+  }
+
+  public get velocity(){
+    return this._velocity;
+  }
+
+  public set velocity(value: Vector2){
+    this._velocity = value;
+  }
 
   public rotateClockWise(angle = 0): Object2D {
     const rad = (angle * Math.PI) / 180;
