@@ -1,13 +1,9 @@
 import { Engine } from './classes/Engine';
-import { Circle } from './classes/primitives/Circle';
-import { Triangle } from './classes/primitives/Triangle';
-import { ConstantsService } from './services/constants.service';
+import { Vector2 } from './classes/primitives/Vector2';
 
-const constantService = new ConstantsService();
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-let direction = 0;
 
 //Create Engine;
 const engine = new Engine(canvas, WIDTH, HEIGHT);
@@ -15,30 +11,26 @@ const engine = new Engine(canvas, WIDTH, HEIGHT);
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
+//Create asimple Sprite 
 const mySprite = scene.createSprite(
-  WIDTH / 2,
-  HEIGHT / 2,
+  0,
+  0,
   100,
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
+mySprite.setVelocity(0.5);
+mySprite.acceleration = new Vector2(.05, .05);
+
 scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
+  if(mySprite.X >= WIDTH ) mySprite.X = 0;
+  if(mySprite.Y >= HEIGHT ) mySprite.Y = 0;
 };
-engine.getInputKeys = pressedKeys => {
-  if(
-    pressedKeys['w'] ||
-    pressedKeys['a'] ||
-    pressedKeys['s'] ||
-    pressedKeys['d']
-  ){
-    mySprite.setVelocity(.5);
-  }else{
-    mySprite.setVelocity(0);
-  }
 
+engine.getInputKeys = pressedKeys => {
   if (pressedKeys['w']) {
     mySprite.setDirection((270 * Math.PI) / 180);
   }

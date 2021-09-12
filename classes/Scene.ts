@@ -1,4 +1,3 @@
-import Object2D from './Object2D';
 import { Sprite } from './Sprite';
 
 export class Scene2D {

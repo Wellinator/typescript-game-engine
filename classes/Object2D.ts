@@ -1,35 +1,44 @@
-import { Point2D } from "./primitives/Point2D";
-import { Vector2 } from "./primitives/Vector2";
+import { Point2D } from './primitives/Point2D';
+import { Vector2 } from './primitives/Vector2';
 
 abstract class Object2D {
   abstract mesh: Point2D[];
   abstract size: number;
-  abstract _position: Vector2;
-  abstract _velocity: Vector2;
+  public _position: Vector2;
+  public _velocity: Vector2;
+  public _acceleration: Vector2;
 
-  public get X(): number{
+  public get X(): number {
     return this._position.X;
   }
 
-  public get Y(): number{
+  public get Y(): number {
     return this._position.Y;
   }
 
-  public set X(value: number){
+  public set X(value: number) {
     this._position.X = value;
   }
 
-  public set Y(value: number){
+  public set Y(value: number) {
     this._position.Y = value;
   }
 
-  public get velocity(){
+  public get velocity() {
     return this._velocity;
   }
 
   public setVelocity(value: number): Object2D {
     this._velocity.setLength(value);
     return this;
+  }
+
+  public get acceleration(): Vector2 {
+    return this._acceleration;
+  }
+
+  public set acceleration(accelerationVector: Vector2) {
+    this._acceleration = accelerationVector;
   }
 
   public setDirection(angle: number): Object2D {
@@ -41,11 +50,9 @@ abstract class Object2D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point2D) => {
       const X =
-        (point.X - this.X) * Math.cos(rad) -
-        (point.Y - this.Y) * Math.sin(rad);
+        (point.X - this.X) * Math.cos(rad) - (point.Y - this.Y) * Math.sin(rad);
       const Y =
-        (point.X - this.X) * Math.sin(rad) + 
-        (point.Y - this.Y) * Math.cos(rad);
+        (point.X - this.X) * Math.sin(rad) + (point.Y - this.Y) * Math.cos(rad);
       return new Point2D(X + this.X, Y + this.Y);
     });
     return this;
@@ -55,19 +62,18 @@ abstract class Object2D {
     const rad = (angle * Math.PI) / 180;
     this.mesh = this.mesh.map((point: Point2D) => {
       const X =
-        (point.X - this.X) * Math.cos(rad) +
-        (point.Y - this.Y) * Math.sin(rad);
+        (point.X - this.X) * Math.cos(rad) + (point.Y - this.Y) * Math.sin(rad);
       const Y =
-        (point.X - this.X) * - Math.sin(rad) + 
+        (point.X - this.X) * -Math.sin(rad) +
         (point.Y - this.Y) * Math.cos(rad);
       return new Point2D(X + this.X, Y + this.Y);
     });
     return this;
   }
 
-  abstract draw(context: CanvasRenderingContext2D): void
+  abstract draw(context: CanvasRenderingContext2D): void;
 
-  public translate(X: number, Y: number): Object2D{
+  public translate(X: number, Y: number): Object2D {
     this.mesh = this.mesh.map((point: Point2D) => {
       point.X = point.X - this.X + X;
       point.Y = point.Y - this.Y + Y;
@@ -80,14 +86,23 @@ abstract class Object2D {
 
   public scale(scalingFactor: number): Object2D {
     this.size *= scalingFactor;
-    this.mesh.map( point => {
-      point.X = ((point.X - this.X) * scalingFactor) + this.X;
-      point.Y = ((point.Y - this.Y) * scalingFactor) + this.Y;
+    this.mesh.map(point => {
+      point.X = (point.X - this.X) * scalingFactor + this.X;
+      point.Y = (point.Y - this.Y) * scalingFactor + this.Y;
       return point;
     });
     return this;
   }
 
+  public accelerate(
+    accelerationVector: Vector2 = this._acceleration
+  ): Object2D {
+    if (accelerationVector.length) {
+      this._acceleration = accelerationVector;
+    }
+    this._velocity.addedTo(accelerationVector);
+    return this;
+  }
 }
 
 export default Object2D;
