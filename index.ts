@@ -21,12 +21,11 @@ const mySprite = scene.createSprite(
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
-//mySprite.setVelocity(0.5);
-mySprite.acceleration = new Vector2(.05, .05);
-
 scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
+
+  mySprite.accelerate(thrust);
 
   if(mySprite.X > WIDTH ) mySprite.X = 0;
   if(mySprite.X < 0 ) mySprite.X = WIDTH;
@@ -34,19 +33,22 @@ engine.OnUpdate = () => {
   if(mySprite.Y < 0 ) mySprite.Y = HEIGHT;
 };
 
+
 engine.getInputKeys = pressedKeys => {
+
   if (pressedKeys['w']) {
-    mySprite.setDirection((270 * Math.PI) / 180);
+    thrust.Y = -.01;
   }
   if (pressedKeys['a']) {
-    mySprite.setDirection((180 * Math.PI) / 180);
+    thrust.X = -.01;
   }
   if (pressedKeys['s']) {
-    mySprite.setDirection((90 * Math.PI) / 180);
+    thrust.Y = +.01;
   }
   if (pressedKeys['d']) {
-    mySprite.setDirection((0 * Math.PI) / 180);
+    thrust.X = +.01;
   }
+
   if (pressedKeys['ArrowLeft']) {
     mySprite.rotateCounterClockWise(5);
   }
@@ -60,3 +62,12 @@ engine.getInputKeys = pressedKeys => {
     mySprite.scale(0.99);
   }
 };
+
+engine.OnUnpressKey = (unpressedKey) => {
+  if(unpressedKey === 'w' || unpressedKey === 's'){
+    thrust.Y = 0;
+  }
+  if(unpressedKey === 'a' || unpressedKey === 'd'){
+    thrust.X = 0;
+  }
+}

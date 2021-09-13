@@ -10,7 +10,6 @@ export class Engine {
   private _HEIGHT: number;
   private secondsPassed = 0;
   private oldTimeStamp = 0;
-  private movingSpeed = 50;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -32,14 +31,14 @@ export class Engine {
   }
 
   private _initInputSystem() {
-    window.document.addEventListener(
-      'keydown',
-      (event: KeyboardEvent) => (this._keysDown[event.key] = true)
-    );
-    window.document.addEventListener(
-      'keyup',
-      (event: KeyboardEvent) => (this._keysDown[event.key] = false)
-    );
+    window.document.addEventListener( 'keydown', (event: KeyboardEvent) => {
+      this.OnPressKey(event.key);
+      this._keysDown[event.key] = true
+    });
+    window.document.addEventListener( 'keyup', (event: KeyboardEvent) => {
+      this.OnUnpressKey(event.key)
+      this._keysDown[event.key] = false
+    });
   }
 
   private clearFrame(): void {
@@ -75,6 +74,14 @@ export class Engine {
   }
 
   public getInputKeys(keysPressed: string[]): void {
+    return;
+  }
+
+  public OnPressKey(pressedKey: string): void{
+    return;
+  }
+
+  public OnUnpressKey(unpressedKey: string): void{
     return;
   }
 
