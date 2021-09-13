@@ -21,7 +21,7 @@ const mySprite = scene.createSprite(
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
-mySprite.setVelocity(0.5);
+//mySprite.setVelocity(0.5);
 mySprite.acceleration = new Vector2(.05, .05);
 
 scene.addObject2D(mySprite);
