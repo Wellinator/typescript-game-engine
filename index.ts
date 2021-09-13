@@ -4,6 +4,7 @@ import { Vector2 } from './classes/primitives/Vector2';
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
+const thrust = new Vector2(0, 0);
 
 //Create Engine;
 const engine = new Engine(canvas, WIDTH, HEIGHT);
@@ -26,8 +27,11 @@ mySprite.acceleration = new Vector2(.05, .05);
 scene.addObject2D(mySprite);
 engine.OnUpdate = () => {
   scene.OnUpdate();
-  if(mySprite.X >= WIDTH ) mySprite.X = 0;
-  if(mySprite.Y >= HEIGHT ) mySprite.Y = 0;
+
+  if(mySprite.X > WIDTH ) mySprite.X = 0;
+  if(mySprite.X < 0 ) mySprite.X = WIDTH;
+  if(mySprite.Y > HEIGHT ) mySprite.Y = 0;
+  if(mySprite.Y < 0 ) mySprite.Y = HEIGHT;
 };
 
 engine.getInputKeys = pressedKeys => {

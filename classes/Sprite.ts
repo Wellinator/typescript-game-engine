@@ -170,11 +170,6 @@ export class Sprite extends Object2D {
     this.height *= scalingFactor;
   }
 
-  private _update(): void {
-    this.update();
-    this.draw(this._context);
-  }
-
   public update(): void {
     if(this._velocity.length){
       this._position.addedTo(this._velocity);

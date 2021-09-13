@@ -97,9 +97,7 @@ abstract class Object2D {
   public accelerate(
     accelerationVector: Vector2 = this._acceleration
   ): Object2D {
-    if (accelerationVector.length) {
-      this._acceleration = accelerationVector;
-    }
+    this._acceleration = accelerationVector;
     this._velocity.addedTo(accelerationVector);
     return this;
   }
