@@ -31,24 +31,19 @@ export class Engine {
   }
 
   private _initInputSystem() {
-    window.document.addEventListener( 'keydown', (event: KeyboardEvent) => {
+    window.document.addEventListener('keydown', (event: KeyboardEvent) => {
       this.OnPressKey(event.key);
-      this._keysDown[event.key] = true
+      this._keysDown[event.key] = true;
     });
-    window.document.addEventListener( 'keyup', (event: KeyboardEvent) => {
-      this.OnUnpressKey(event.key)
-      this._keysDown[event.key] = false
+    window.document.addEventListener('keyup', (event: KeyboardEvent) => {
+      this.OnUnpressKey(event.key);
+      this._keysDown[event.key] = false;
     });
   }
 
   private clearFrame(): void {
     this.context.fillStyle = 'black';
-    this.context.fillRect(
-      0,
-      0,
-      this._WIDTH,
-      this._HEIGHT
-    );
+    this.context.fillRect(0, 0, this._WIDTH, this._HEIGHT);
   }
 
   private gameLoop(timeStamp: number) {
@@ -77,11 +72,11 @@ export class Engine {
     return;
   }
 
-  public OnPressKey(pressedKey: string): void{
+  public OnPressKey(pressedKey: string): void {
     return;
   }
 
-  public OnUnpressKey(unpressedKey: string): void{
+  public OnUnpressKey(unpressedKey: string): void {
     return;
   }
 
@@ -110,5 +105,4 @@ export class Engine {
   public create2DScene(): Scene2D {
     return new Scene2D(this.context);
   }
-
 }

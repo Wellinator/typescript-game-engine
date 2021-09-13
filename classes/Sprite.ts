@@ -65,21 +65,21 @@ export class Sprite extends Object2D {
     this.assets.push(tempImage);
   }
 
-  public draw(context: CanvasRenderingContext2D): ThisType<Sprite> {
+  public draw(): ThisType<Sprite> {
     if (!!this.assets.length) {
       this.assets.forEach(asset => this._drawImage(asset));
     }
     if (this.isCollidable && this.displayHitBox) {
-      context.save();
-      context.strokeStyle = this.hitBoxColor;
-      context.beginPath();
-      context.moveTo(this.mesh[0].X, this.mesh[0].Y);
-      context.lineTo(this.mesh[1].X, this.mesh[1].Y);
-      context.lineTo(this.mesh[2].X, this.mesh[2].Y);
-      context.lineTo(this.mesh[3].X, this.mesh[3].Y);
-      context.closePath();
-      context.stroke();
-      context.restore();
+      this._context.save();
+      this._context.strokeStyle = this.hitBoxColor;
+      this._context.beginPath();
+      this._context.moveTo(this.mesh[0].X, this.mesh[0].Y);
+      this._context.lineTo(this.mesh[1].X, this.mesh[1].Y);
+      this._context.lineTo(this.mesh[2].X, this.mesh[2].Y);
+      this._context.lineTo(this.mesh[3].X, this.mesh[3].Y);
+      this._context.closePath();
+      this._context.stroke();
+      this._context.restore();
     }
     return;
   }
@@ -171,10 +171,20 @@ export class Sprite extends Object2D {
   }
 
   public update(): void {
-    if(this._velocity.length){
-      this._position.addedTo(this._velocity);
-      this.accelerate();
-    }
-    this.draw(this._context);
+    this.OnBeforeUpdate();
+    this.OnUpdate();
+    this.OnAfterUpdate();
+  }
+
+  public OnBeforeUpdate() {
+    return;
+  }
+
+  public OnUpdate() {
+    return;
+  }
+
+  public OnAfterUpdate() {
+    return;
   }
 }

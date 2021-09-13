@@ -9,12 +9,22 @@ export class Scene2D {
     this._context = context;
   }
 
+  get sprites(): Sprite[] {
+    return this._sprites;
+  }
+
+  public update(): void {
+    this.OnBeforeUpdate();
+    this.OnUpdate();
+    this.OnAfterUpdate();
+  }
+
   public OnBeforeUpdate() {
     return;
   }
 
   public OnUpdate(): void {
-    this._sprites.forEach(sprite => sprite.update());
+    this.sprites.forEach(sprite => sprite.update())
     return;
   }
 
@@ -22,7 +32,7 @@ export class Scene2D {
     return;
   }
 
-  public addObject2D(...object: Sprite[]): void{
+  public addSprite(...object: Sprite[]): void{
     this._sprites.push(...object);
   }
 
