@@ -7,6 +7,7 @@ abstract class Object2D {
   public _position: Vector2;
   public _velocity: Vector2;
   public _acceleration: Vector2;
+  public _mass: number = 1;
 
   public get X(): number {
     return this._position.X;
@@ -39,6 +40,18 @@ abstract class Object2D {
 
   public set acceleration(accelerationVector: Vector2) {
     this._acceleration = accelerationVector;
+  }
+
+  public get mass(): number {
+    return this._mass;
+  }
+
+  public set mass(value: number) {
+    this._mass = value;
+  }
+
+  public get positionVector(): Vector2 {
+    return this._position;
   }
 
   public setDirection(angle: number): Object2D {
@@ -99,6 +112,25 @@ abstract class Object2D {
   ): Object2D {
     this._acceleration = accelerationVector;
     this._velocity.addedTo(accelerationVector);
+    return this;
+  }
+
+  public angleToObject(object: Object2D): number {
+    return Math.atan2(object.Y - this.Y, object.X - this.X);
+  }
+
+  public distanceToObject(object: Object2D): number {
+    const _dx = object.X - this.X;
+    const _dy = object.Y - this.Y;
+    return Math.sqrt(_dx * _dx + _dy * _dy);
+  }
+
+  public gravitateToObject(object: Object2D): Object2D {
+    const grav = new Vector2(0, 0);
+    const distance = this.distanceToObject(object);
+    grav.setLength(object.mass / (distance * distance));
+    grav.toAngle(this.angleToObject(object));
+    this._velocity.addedTo(grav)
     return this;
   }
 }
