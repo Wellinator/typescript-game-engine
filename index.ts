@@ -13,15 +13,24 @@ const engine = new Engine(canvas, WIDTH, HEIGHT);
 const scene = engine.create2DScene();
 
 //Create asimple Sprite 
-const mySprite = scene.createSprite(
-  0,
-  0,
-  100,
-  100,
+const sprite1 = scene.createSprite(
+  WIDTH/2, HEIGHT/2,
+  100, 100,
+  'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
+);
+sprite1.mass = 100;
+
+const sprite2 = scene.createSprite( 
+  0, 0,
+  100, 100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
-mySprite.OnUpdate = function() {
+sprite1.OnUpdate = function() {
+  this.draw();
+}
+
+sprite2.OnUpdate = function() {
   if(this._velocity.length){
     this._position.addedTo(this._velocity);
     this.accelerate();
@@ -29,16 +38,17 @@ mySprite.OnUpdate = function() {
   this.draw();
 }
 
-scene.addSprite(mySprite);
+scene.addSprite(sprite1, sprite2);
 engine.OnUpdate = () => {
   scene.update();
 
-  mySprite.accelerate(thrust);
+  sprite2.gravitateToObject(sprite1);
+  sprite2.accelerate(thrust);
 
-  if(mySprite.X > WIDTH ) mySprite.X = 0;
-  if(mySprite.X < 0 ) mySprite.X = WIDTH;
-  if(mySprite.Y > HEIGHT ) mySprite.Y = 0;
-  if(mySprite.Y < 0 ) mySprite.Y = HEIGHT;
+  if(sprite2.X > WIDTH ) sprite2.X = 0;
+  if(sprite2.X < 0 ) sprite2.X = WIDTH;
+  if(sprite2.Y > HEIGHT ) sprite2.Y = 0;
+  if(sprite2.Y < 0 ) sprite2.Y = HEIGHT;
 };
 
 
@@ -58,16 +68,16 @@ engine.getInputKeys = pressedKeys => {
   }
 
   if (pressedKeys['ArrowLeft']) {
-    mySprite.rotateCounterClockWise(5);
+    sprite2.rotateCounterClockWise(5);
   }
   if (pressedKeys['ArrowRight']) {
-    mySprite.rotateClockWise(5);
+    sprite2.rotateClockWise(5);
   }
   if (pressedKeys['ArrowUp']) {
-    mySprite.scale(1.01);
+    sprite2.scale(1.01);
   }
   if (pressedKeys['ArrowDown']) {
-    mySprite.scale(0.99);
+    sprite2.scale(0.99);
   }
 };
 
