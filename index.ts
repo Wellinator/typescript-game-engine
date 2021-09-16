@@ -12,31 +12,35 @@ const engine = new Engine(canvas, WIDTH, HEIGHT);
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
-//Create asimple Sprite 
+//Create asimple Sprite
 const sprite1 = scene.createSprite(
-  WIDTH/2, HEIGHT/2,
-  100, 100,
+  WIDTH / 2 + 50,
+  HEIGHT / 2 + 50,
+  100,
+  100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 sprite1.mass = 100;
 
-const sprite2 = scene.createSprite( 
-  0, 0,
-  100, 100,
+const sprite2 = scene.createSprite(
+  0,
+  0,
+  100,
+  100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
 sprite1.OnUpdate = function() {
   this.draw();
-}
+};
 
 sprite2.OnUpdate = function() {
-  if(this._velocity.length){
+  if (this._velocity.length) {
     this._position.addedTo(this._velocity);
     this.accelerate();
   }
   this.draw();
-}
+};
 
 scene.addSprite(sprite1, sprite2);
 engine.OnUpdate = () => {
@@ -45,26 +49,27 @@ engine.OnUpdate = () => {
   sprite2.gravitateToObject(sprite1);
   sprite2.accelerate(thrust);
 
-  if(sprite2.X > WIDTH ) sprite2.X = 0;
-  if(sprite2.X < 0 ) sprite2.X = WIDTH;
-  if(sprite2.Y > HEIGHT ) sprite2.Y = 0;
-  if(sprite2.Y < 0 ) sprite2.Y = HEIGHT;
+  //Edge wraping
+  if (sprite2.X - sprite2.width / 2 > WIDTH) sprite2.X = 0 - sprite2.width / 2;
+  if (sprite2.X + sprite2.width / 2 < 0) sprite2.X = WIDTH + sprite2.width / 2;
+  if (sprite2.Y - sprite2.height / 2 > HEIGHT)
+    sprite2.Y = 0 - sprite2.height / 2;
+  if (sprite2.Y + sprite2.height / 2 < 0)
+    sprite2.Y = HEIGHT + sprite2.height / 2;
 };
 
-
 engine.getInputKeys = pressedKeys => {
-
   if (pressedKeys['w']) {
-    thrust.Y = -.01;
+    thrust.Y = -0.01;
   }
   if (pressedKeys['a']) {
-    thrust.X = -.01;
+    thrust.X = -0.01;
   }
   if (pressedKeys['s']) {
-    thrust.Y = +.01;
+    thrust.Y = +0.01;
   }
   if (pressedKeys['d']) {
-    thrust.X = +.01;
+    thrust.X = +0.01;
   }
 
   if (pressedKeys['ArrowLeft']) {
@@ -81,11 +86,11 @@ engine.getInputKeys = pressedKeys => {
   }
 };
 
-engine.OnUnpressKey = (unpressedKey) => {
-  if(unpressedKey === 'w' || unpressedKey === 's'){
+engine.OnUnpressKey = unpressedKey => {
+  if (unpressedKey === 'w' || unpressedKey === 's') {
     thrust.Y = 0;
   }
-  if(unpressedKey === 'a' || unpressedKey === 'd'){
+  if (unpressedKey === 'a' || unpressedKey === 'd') {
     thrust.X = 0;
   }
-}
+};
