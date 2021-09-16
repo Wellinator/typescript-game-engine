@@ -37,8 +37,6 @@ export class Sprite extends Object2D {
     this._context = context;
     this.X = X;
     this.Y = Y;
-    this.velocity = new Vector2(0, 0);
-    this.acceleration = new Vector2(0, 0);
     this.width = width;
     this.height = height;
     this._createSpritesFromPaths(imagePath);

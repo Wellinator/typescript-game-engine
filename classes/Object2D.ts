@@ -4,9 +4,9 @@ import { Vector2 } from './primitives/Vector2';
 abstract class Object2D {
   abstract mesh: Point2D[];
   abstract size: number;
-  private _position: Vector2;
-  private _velocity: Vector2;
-  private _acceleration: Vector2;
+  private _position: Vector2 = new Vector2(0, 0);
+  private _velocity: Vector2 = new Vector2(0, 0);
+  private _acceleration: Vector2 = new Vector2(0, 0);
   private _mass: number = 1;
 
   public get X(): number {
