@@ -4,10 +4,10 @@ import { Vector2 } from './primitives/Vector2';
 abstract class Object2D {
   abstract mesh: Point2D[];
   abstract size: number;
-  public _position: Vector2;
-  public _velocity: Vector2;
-  public _acceleration: Vector2;
-  public _mass: number = 1;
+  private _position: Vector2;
+  private _velocity: Vector2;
+  private _acceleration: Vector2;
+  private _mass: number = 1;
 
   public get X(): number {
     return this._position.X;
@@ -25,13 +25,12 @@ abstract class Object2D {
     this._position.Y = value;
   }
 
-  public get velocity() {
+  public get velocity(): Vector2 {
     return this._velocity;
   }
 
-  public setVelocity(value: number): Object2D {
-    this._velocity.setLength(value);
-    return this;
+  public set velocity(velocityVector: Vector2) {
+    this._velocity.setLength(velocityVector.length);
   }
 
   public get acceleration(): Vector2 {
@@ -55,7 +54,7 @@ abstract class Object2D {
   }
 
   public setDirection(angle: number): Object2D {
-    this._velocity.toAngle(angle);
+    this.velocity.toAngle(angle);
     return this;
   }
 
@@ -111,7 +110,7 @@ abstract class Object2D {
     accelerationVector: Vector2 = this._acceleration
   ): Object2D {
     this._acceleration = accelerationVector;
-    this._velocity.addedTo(accelerationVector);
+    this.velocity.addedTo(accelerationVector);
     return this;
   }
 
@@ -130,7 +129,7 @@ abstract class Object2D {
     const distance = this.distanceToObject(object);
     grav.setLength(object.mass / (distance * distance));
     grav.toAngle(this.angleToObject(object));
-    this._velocity.addedTo(grav)
+    this.velocity.addedTo(grav)
     return this;
   }
 }
