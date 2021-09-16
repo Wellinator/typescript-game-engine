@@ -1,0 +1,1 @@
+export interface Object3DPosition {x: number; y: number; z: number};

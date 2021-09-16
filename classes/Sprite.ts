@@ -1,6 +1,5 @@
 import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
-import { Vector2 } from './primitives/Vector2';
 
 export class Sprite extends Object2D {
   private _context: CanvasRenderingContext2D;
