@@ -20,11 +20,11 @@ const sprite1 = scene.createSprite(
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
-sprite1.mass = 100;
+sprite1.mass = 50;
 
 const sprite2 = scene.createSprite(
-  0,
-  0,
+  51,
+  51,
   100,
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
@@ -50,12 +50,22 @@ engine.OnUpdate = () => {
   sprite2.accelerate(thrust);
 
   //Edge wraping
-  if (sprite2.X - sprite2.width / 2 > WIDTH) sprite2.X = 0 - sprite2.width / 2;
-  if (sprite2.X + sprite2.width / 2 < 0) sprite2.X = WIDTH + sprite2.width / 2;
-  if (sprite2.Y - sprite2.height / 2 > HEIGHT)
-    sprite2.Y = 0 - sprite2.height / 2;
-  if (sprite2.Y + sprite2.height / 2 < 0)
-    sprite2.Y = HEIGHT + sprite2.height / 2;
+  if (sprite2.X + sprite2.width / 2 > WIDTH){
+    sprite2.X = WIDTH - sprite2.width / 2;
+    sprite2.velocity.X = sprite2.velocity.X * -1;
+  };
+  if (sprite2.X - sprite2.width / 2 < 0){
+    sprite2.X = sprite2.width / 2;
+    sprite2.velocity.X = sprite2.velocity.X * -1;
+  }
+  if (sprite2.Y + sprite2.height / 2 > HEIGHT){
+    sprite2.Y = HEIGHT - sprite2.height / 2;
+    sprite2.velocity.Y = sprite2.velocity.Y * -1;
+  }
+  if (sprite2.Y - sprite2.height / 2 < 0){
+    sprite2.Y = sprite2.height / 2;
+    sprite2.velocity.Y = sprite2.velocity.Y * -1;
+  }
 };
 
 engine.getInputKeys = pressedKeys => {
