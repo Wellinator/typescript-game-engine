@@ -22,7 +22,7 @@ export class Sprite extends Object2D {
    * @param {number} Y - Y axis position.
    * @param {number} width - Sprite width.
    * @param {number} height - Sprite height.
-   * @param {string} imagePath  - Relative path to sprite image assets.
+   * @param {string} imagePath  - URL or Relative path to sprite image assets.
    */
   constructor(
     context: CanvasRenderingContext2D,
@@ -63,6 +63,12 @@ export class Sprite extends Object2D {
     this.assets.push(tempImage);
   }
 
+  /**
+   * Draw the Sprite to its context.
+   * @function
+   * @public
+   * @returns ThisType<Sprite>
+   */
   public draw(): ThisType<Sprite> {
     if (!!this.assets.length) {
       this.assets.forEach(asset => this._drawImage(asset));
@@ -82,7 +88,14 @@ export class Sprite extends Object2D {
     return;
   }
 
-  private _drawImage(asset: CanvasImageSource) {
+  /**
+   * @description Draw the Sprite to its context.
+   * @function
+   * @param {CanvasImageSource} asset - Asset to be rendered, a local image or a image url.
+   * @private
+   * @returns void
+   */
+  private _drawImage(asset: CanvasImageSource): void {
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
