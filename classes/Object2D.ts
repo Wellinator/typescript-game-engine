@@ -9,6 +9,7 @@ abstract class Object2D {
   private _acceleration: Vector2 = new Vector2(0, 0);
   private _gravity: Vector2 = new Vector2(0, 0);
   private _mass: number = 1;
+  private _friction: number = 1;
 
   public get X(): number {
     return this._position.X;
@@ -64,6 +65,14 @@ abstract class Object2D {
 
   public set gravity(gravity: Vector2) {
     this._gravity = gravity;
+  }
+
+  public get friction(): number {
+    return this._friction;
+  }
+
+  public set friction(value: number) {
+    this._friction = value;
   }
 
   public get positionVector(): Vector2 {

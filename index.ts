@@ -23,8 +23,10 @@ const sprite2 = scene.createSprite(
 sprite2.setDirection((11 * Math.PI) / 6);
 sprite2.velocity.setLength(4);
 sprite2.gravitate(0.9);
+sprite2.friction = 0.99
 
 sprite2.OnUpdate = () => {
+  sprite2.velocity.multipliedBy(sprite2.friction);
   sprite2.velocity.addedTo(sprite2.gravity);
   sprite2.position.addedTo(sprite2.velocity);
   sprite2.draw();
