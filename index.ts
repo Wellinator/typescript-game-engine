@@ -13,15 +13,6 @@ const engine = new Engine(canvas, WIDTH, HEIGHT);
 const scene = engine.create2DScene();
 
 //Create asimple Sprite
-const sprite1 = scene.createSprite(
-  WIDTH / 2 + 50,
-  HEIGHT / 2 + 50,
-  100,
-  100,
-  'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
-);
-sprite1.mass = 50;
-
 const sprite2 = scene.createSprite(
   51,
   51,
@@ -29,10 +20,6 @@ const sprite2 = scene.createSprite(
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
-
-sprite1.OnUpdate = function() {
-  this.draw();
-};
 
 sprite2.OnUpdate = function() {
   if (this._velocity.length) {
@@ -42,11 +29,11 @@ sprite2.OnUpdate = function() {
   this.draw();
 };
 
-scene.addSprite(sprite1, sprite2);
+scene.addSprite(sprite2);
 engine.OnUpdate = () => {
   scene.update();
+  sprite2
 
-  sprite2.gravitateToObject(sprite1);
   sprite2.accelerate(thrust);
 
   //Edge wraping

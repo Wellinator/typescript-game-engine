@@ -7,6 +7,7 @@ abstract class Object2D {
   private _position: Vector2 = new Vector2(0, 0);
   private _velocity: Vector2 = new Vector2(0, 0);
   private _acceleration: Vector2 = new Vector2(0, 0);
+  private _gravity: Vector2 = new Vector2(0, 0);
   private _mass: number = 1;
 
   public get X(): number {
@@ -47,6 +48,14 @@ abstract class Object2D {
 
   public set mass(value: number) {
     this._mass = value;
+  }
+
+  public get gravity(): Vector2 {
+    return this._gravity;
+  }
+
+  public set gravity(gravity: Vector2) {
+    this._gravity = gravity;
   }
 
   public get positionVector(): Vector2 {
@@ -130,6 +139,11 @@ abstract class Object2D {
     grav.setLength(object.mass / (distance * distance));
     grav.toAngle(this.angleToObject(object));
     this.velocity.addedTo(grav)
+    return this;
+  }
+
+  public gravitate(gravityValue: number): Object2D {
+    this._gravity.Y = gravityValue;
     return this;
   }
 }
