@@ -13,17 +13,25 @@ abstract class Object2D {
   public get X(): number {
     return this._position.X;
   }
+  
+  public set X(value: number) {
+    this._position.X = value;
+  }
 
   public get Y(): number {
     return this._position.Y;
   }
 
-  public set X(value: number) {
-    this._position.X = value;
-  }
-
   public set Y(value: number) {
     this._position.Y = value;
+  }
+
+  public get position(): Vector2{
+    return this._position;
+  }
+
+  public set position(position: Vector2) {
+    this._position = position;
   }
 
   public get velocity(): Vector2 {
