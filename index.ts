@@ -3,7 +3,7 @@ import { Engine } from './classes/Engine';
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-const bounce = -0.99
+const bounce = -0.8
 
 //Create Engine;
 const engine = new Engine(canvas, WIDTH, HEIGHT);
@@ -23,7 +23,7 @@ const sprite = scene.createSprite(
 sprite.setDirection((11 * Math.PI) / 6);
 sprite.velocity.setLength(4);
 sprite.gravitate(0.9);
-sprite.friction = 0.999;
+sprite.friction = .99;
 
 sprite.OnUpdate = () => {
   sprite.velocity.multipliedBy(sprite.friction);

@@ -10,6 +10,31 @@ abstract class Object2D {
   private _gravity: Vector2 = new Vector2(0, 0);
   private _mass: number = 1;
   private _friction: number = 1;
+  private _collidable: boolean = true;
+  private _hasCollided: boolean = false;
+
+  public get hasCollided(): boolean {
+    return this._hasCollided;
+  }
+
+  public set hasCollided(value: boolean) {
+    this._hasCollided = value;
+  }
+
+  get isCollidable(): boolean {
+    return this._collidable;
+  }
+
+  set collidable(value: boolean) {
+    this._collidable = value;
+  }
+
+  protected get hitBoxColor(): string {
+    if(this.isCollidable) {
+      return this.hasCollided ? '#FF0000' : '#03FC1C';
+    }
+    return '#0000FF'
+  }
 
   public get X(): number {
     return this._position.X;
