@@ -1,21 +1,30 @@
-import Object2D from './Object2D';
 import { Sprite } from './Sprite';
 
 export class Scene2D {
   private _context: CanvasRenderingContext2D;
-  private _sprites: Object2D[] = [];
+  private _sprites: Sprite[] = [];
   private _backGroundColor: string;
 
   constructor(context: CanvasRenderingContext2D) {
     this._context = context;
   }
 
+  get sprites(): Sprite[] {
+    return this._sprites;
+  }
+
+  public update(): void {
+    this.OnBeforeUpdate();
+    this.OnUpdate();
+    this.OnAfterUpdate();
+  }
+
   public OnBeforeUpdate() {
     return;
   }
 
-  public OnUpdate() {
-    this._sprites.forEach(sprite => sprite.draw(this._context));
+  public OnUpdate(): void {
+    this.sprites.forEach(sprite => sprite.update())
     return;
   }
 
@@ -23,7 +32,7 @@ export class Scene2D {
     return;
   }
 
-  public addObject2D(...object: Object2D[]): void{
+  public addSprite(...object: Sprite[]): void{
     this._sprites.push(...object);
   }
 

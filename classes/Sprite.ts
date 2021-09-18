@@ -5,8 +5,6 @@ export class Sprite extends Object2D {
   private _context: CanvasRenderingContext2D;
   public mesh: Point2D[];
   public size: number;
-  public X: number;
-  public Y: number;
   public width: number;
   public height: number;
   private assets: CanvasImageSource[] = [];
@@ -24,7 +22,7 @@ export class Sprite extends Object2D {
    * @param {number} Y - Y axis position.
    * @param {number} width - Sprite width.
    * @param {number} height - Sprite height.
-   * @param {string} imagePath  - Relative path to sprite image assets.
+   * @param {string} imagePath  - URL or Relative path to sprite image assets.
    */
   constructor(
     context: CanvasRenderingContext2D,
@@ -65,26 +63,39 @@ export class Sprite extends Object2D {
     this.assets.push(tempImage);
   }
 
-  public draw(context: CanvasRenderingContext2D): ThisType<Sprite> {
+  /**
+   * Draw the Sprite to its context.
+   * @function
+   * @public
+   * @returns ThisType<Sprite>
+   */
+  public draw(): ThisType<Sprite> {
     if (!!this.assets.length) {
       this.assets.forEach(asset => this._drawImage(asset));
     }
     if (this.isCollidable && this.displayHitBox) {
-      context.save();
-      context.strokeStyle = this.hitBoxColor;
-      context.beginPath();
-      context.moveTo(this.mesh[0].X, this.mesh[0].Y);
-      context.lineTo(this.mesh[1].X, this.mesh[1].Y);
-      context.lineTo(this.mesh[2].X, this.mesh[2].Y);
-      context.lineTo(this.mesh[3].X, this.mesh[3].Y);
-      context.closePath();
-      context.stroke();
-      context.restore();
+      this._context.save();
+      this._context.strokeStyle = this.hitBoxColor;
+      this._context.beginPath();
+      this._context.moveTo(this.mesh[0].X, this.mesh[0].Y);
+      this._context.lineTo(this.mesh[1].X, this.mesh[1].Y);
+      this._context.lineTo(this.mesh[2].X, this.mesh[2].Y);
+      this._context.lineTo(this.mesh[3].X, this.mesh[3].Y);
+      this._context.closePath();
+      this._context.stroke();
+      this._context.restore();
     }
     return;
   }
 
-  private _drawImage(asset: CanvasImageSource) {
+  /**
+   * @description Draw the Sprite to its context.
+   * @function
+   * @param {CanvasImageSource} asset - Asset to be rendered, a local image or a image url.
+   * @private
+   * @returns void
+   */
+  private _drawImage(asset: CanvasImageSource): void {
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
@@ -162,11 +173,29 @@ export class Sprite extends Object2D {
     return this;
   }
 
-  public scaleX(scalingFactor: number){
+  public scaleX(scalingFactor: number) {
     this.width *= scalingFactor;
   }
 
-  public scaleY(scalingFactor: number){
+  public scaleY(scalingFactor: number) {
     this.height *= scalingFactor;
+  }
+
+  public update(): void {
+    this.OnBeforeUpdate();
+    this.OnUpdate();
+    this.OnAfterUpdate();
+  }
+
+  public OnBeforeUpdate() {
+    return;
+  }
+
+  public OnUpdate() {
+    return;
+  }
+
+  public OnAfterUpdate() {
+    return;
   }
 }

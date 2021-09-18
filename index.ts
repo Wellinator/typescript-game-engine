@@ -1,58 +1,85 @@
 import { Engine } from './classes/Engine';
-import { Circle } from './classes/primitives/Circle';
-import { Triangle } from './classes/primitives/Triangle';
-import { ConstantsService } from './services/constants.service';
 
-const constantService = new ConstantsService();
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
+const bounce = -0.99
 
 //Create Engine;
-const engine = new Engine(
-  canvas,
-  WIDTH,
-  HEIGHT
-);
+const engine = new Engine(canvas, WIDTH, HEIGHT);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
-const mySprite = scene.createSprite(
-  WIDTH / 2,
-  HEIGHT / 2,
+//Create asimple Sprite
+const sprite = scene.createSprite(
+  51,
+  51,
   100,
   100,
   'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
 );
 
-scene.addObject2D(mySprite);
-engine.OnUpdate = () => {
-  scene.OnUpdate();
+sprite.setDirection((11 * Math.PI) / 6);
+sprite.velocity.setLength(4);
+sprite.gravitate(0.9);
+sprite.friction = 0.999;
+
+sprite.OnUpdate = () => {
+  sprite.velocity.multipliedBy(sprite.friction);
+  sprite.velocity.addedTo(sprite.gravity);
+  sprite.position.addedTo(sprite.velocity);
+  sprite.draw();
 };
-engine.getInputKeys = pressedKeys => {
+
+scene.addSprite(sprite);
+
+engine.OnUpdate = () => {
+  scene.update();
+
+  //Edge wraping
+  if (sprite.X + sprite.width / 2 > WIDTH) {
+    sprite.X = WIDTH - sprite.width / 2;
+    sprite.velocity.X = sprite.velocity.X * bounce;
+  }
+  if (sprite.X - sprite.width / 2 < 0) {
+    sprite.X = sprite.width / 2;
+    sprite.velocity.X = sprite.velocity.X * bounce;
+  }
+  if (sprite.Y + sprite.height / 2 > HEIGHT) {
+    sprite.Y = HEIGHT - sprite.height / 2;
+    sprite.velocity.Y = sprite.velocity.Y * bounce;
+  }
+  if (sprite.Y - sprite.height / 2 < 0) {
+    sprite.Y = sprite.height / 2;
+    sprite.velocity.Y = sprite.velocity.Y * bounce;
+  }
+};
+
+engine.getInputKeys = (pressedKeys) => {
   if (pressedKeys['w']) {
-    mySprite.translate(mySprite.X, mySprite.Y - 1);
+    sprite.Y = sprite.Y - 1;
   }
   if (pressedKeys['a']) {
-    mySprite.translate(mySprite.X - 1, mySprite.Y);
-  } 
+    sprite.X = sprite.X - 1;
+  }
   if (pressedKeys['s']) {
-    mySprite.translate(mySprite.X, mySprite.Y + 1);
-  } 
+    sprite.Y = sprite.Y + 1;
+  }
   if (pressedKeys['d']) {
-    mySprite.translate(mySprite.X + 1, mySprite.Y);
-  } 
+    sprite.X = sprite.X + 1;
+  }
+
   if (pressedKeys['ArrowLeft']) {
-    mySprite.rotateCounterClockWise(5);
-  } 
+    sprite.rotateCounterClockWise(5);
+  }
   if (pressedKeys['ArrowRight']) {
-    mySprite.rotateClockWise(5);
-  } 
+    sprite.rotateClockWise(5);
+  }
   if (pressedKeys['ArrowUp']) {
-    mySprite.scale(1.01);
-  } 
+    sprite.scale(1.01);
+  }
   if (pressedKeys['ArrowDown']) {
-    mySprite.scale(0.99);
+    sprite.scale(0.99);
   }
 };

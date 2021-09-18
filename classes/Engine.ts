@@ -1,6 +1,5 @@
 import { ConstantsService } from '../services/constants.service';
 import { Scene2D } from './Scene';
-import { Sprite } from './Sprite';
 
 export class Engine {
   private fpsTimes: number[] = [];
@@ -11,7 +10,6 @@ export class Engine {
   private _HEIGHT: number;
   private secondsPassed = 0;
   private oldTimeStamp = 0;
-  private movingSpeed = 50;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -33,24 +31,19 @@ export class Engine {
   }
 
   private _initInputSystem() {
-    window.document.addEventListener(
-      'keydown',
-      (event: KeyboardEvent) => (this._keysDown[event.key] = true)
-    );
-    window.document.addEventListener(
-      'keyup',
-      (event: KeyboardEvent) => (this._keysDown[event.key] = false)
-    );
+    window.document.addEventListener('keydown', (event: KeyboardEvent) => {
+      this.OnPressKey(event.key);
+      this._keysDown[event.key] = true;
+    });
+    window.document.addEventListener('keyup', (event: KeyboardEvent) => {
+      this.OnUnpressKey(event.key);
+      this._keysDown[event.key] = false;
+    });
   }
 
   private clearFrame(): void {
     this.context.fillStyle = 'black';
-    this.context.fillRect(
-      0,
-      0,
-      this._WIDTH,
-      this._HEIGHT
-    );
+    this.context.fillRect(0, 0, this._WIDTH, this._HEIGHT);
   }
 
   private gameLoop(timeStamp: number) {
@@ -79,6 +72,14 @@ export class Engine {
     return;
   }
 
+  public OnPressKey(pressedKey: string): void {
+    return;
+  }
+
+  public OnUnpressKey(unpressedKey: string): void {
+    return;
+  }
+
   public OnBeforeUpdate() {
     return;
   }
@@ -104,5 +105,4 @@ export class Engine {
   public create2DScene(): Scene2D {
     return new Scene2D(this.context);
   }
-
 }
