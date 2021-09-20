@@ -1,3 +1,4 @@
+import { EngineOptions } from '../models/EngineOptions';
 import { ConstantsService } from '../services/constants.service';
 import { Scene2D } from './Scene';
 
@@ -13,21 +14,23 @@ export class Engine {
 
   constructor(
     canvas: HTMLCanvasElement,
-    width = undefined,
-    height = undefined
+    width: number = undefined,
+    height: number = undefined,
+    options: EngineOptions = undefined
   ) {
     this._WIDTH = width || this.constantsService.WIDTH;
     this._HEIGHT = height || this.constantsService.HEIGHT;
     canvas.width = this._WIDTH;
     canvas.height = this._HEIGHT;
     this.context = canvas.getContext('2d');
-    this.context.font = '10px Courier New';
-    this.context.lineWidth = this.constantsService.PIXEL_SIZE;
-    this.context.strokeStyle = 'white';
-    this.context.imageSmoothingEnabled = false;
-    this.context.imageSmoothingQuality = 'medium';
+    this.setConfiguration({...this.defaultConfiguration, ...options});
     this._initInputSystem();
     this.gameLoop(this.secondsPassed);
+  }
+
+  private setConfiguration(options: EngineOptions){
+    const optionsProps = Object.keys(options);
+    optionsProps.forEach( prop => this.context[prop] = options[prop]);
   }
 
   private _initInputSystem() {
@@ -105,4 +108,15 @@ export class Engine {
   public create2DScene(): Scene2D {
     return new Scene2D(this.context);
   }
+
+  get defaultConfiguration(): EngineOptions{
+    return {
+      font: '10px Courier New',
+      lineWidth: this.constantsService.PIXEL_SIZE,
+      strokeStyle: 'white',
+      imageSmoothingEnabled: false,
+      imageSmoothingQuality: 'medium'
+    };
+  }
+
 }
