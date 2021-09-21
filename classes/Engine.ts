@@ -8,8 +8,9 @@ export class Engine {
   private _keysDown: string[] = [];
   private _WIDTH: number;
   private _HEIGHT: number;
-  private current_time = 0;
-  private previous_time = 0;
+  private CURRENT_FRAME_TIME = 0;
+  private PREVIOUS_FRAME_TIME = 0;
+  private FPS_LIMIT: number = 60;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -27,7 +28,7 @@ export class Engine {
     this.context.imageSmoothingEnabled = false;
     this.context.imageSmoothingQuality = 'medium';
     this._initInputSystem();
-    this.fpsController();
+    this.fpsController(this.FPS_LIMIT);
   }
 
   private _initInputSystem() {
@@ -41,10 +42,10 @@ export class Engine {
     });
   }
 
-  fpsController(FPS_LIMIT: number = 15) {
-    this.current_time = performance.now();
-    this.previous_time = this.current_time;
-    this.gameLoop(FPS_LIMIT);
+  fpsController(FPS_LIMIT: number) {
+    this.CURRENT_FRAME_TIME = performance.now();
+    this.PREVIOUS_FRAME_TIME = this.CURRENT_FRAME_TIME;
+    window.requestAnimationFrame(this.gameLoop.bind(this));
   }
 
   private clearFrame(): void {
@@ -52,26 +53,43 @@ export class Engine {
     this.context.fillRect(0, 0, this._WIDTH, this._HEIGHT);
   }
 
-  private gameLoop(FPS_LIMIT: number) {
-    window.requestAnimationFrame(this.gameLoop.bind(this, FPS_LIMIT));
-    const now = performance.now();
-    const elapsed_time = now - this.current_time;
-    const FPS_INTERVAL = 1000 / FPS_LIMIT;
-    if (elapsed_time > FPS_INTERVAL){
-      this.current_time = now - (elapsed_time % FPS_INTERVAL)
+  private gameLoop(timestamp: number) {  
+    // Set isNextFrame bool variable;
+    let isNextFrame = !(timestamp < this.PREVIOUS_FRAME_TIME + ( 1000 / this.FPS_LIMIT));
+  
+    //If it's next frame then, update and draw;
+    if (isNextFrame){
+      // Update Elapsed time;
+      this.PREVIOUS_FRAME_TIME = timestamp;
+      
+      // Get input values
       this.getInputKeys(this._keysDown);
+
+      // Call OnBeforeUpdate, used to prepare values if needed;
       this.OnBeforeUpdate();
+      
+      // Clear the canvas frame before redraw;
       this.clearFrame();
+      
       const FPS = this.fpsCounter();
+      
+      // Call the OnUpdate lifecicle function;
       this.OnUpdate();
+      
+      // Display FPS counter if DEBUG_MODE is ON;
       if (this.constantsService.DEBUG_MODE) {
         this.context.fillStyle = '#FFF';
         this.context.font = '16px Courier New';
         this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
         this.context.font = '10px Courier New';
       }
-      this.OnAfterUpdate(); 
+
+      // Call the OnAfterUpdate lifecicle function;
+      this.OnAfterUpdate();
     };
+
+    // Request for the next RAF;
+    window.requestAnimationFrame(this.gameLoop.bind(this));
   }
 
   public getInputKeys(keysPressed: string[]): void {
