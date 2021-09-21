@@ -8,8 +8,8 @@ export class Engine {
   private _keysDown: string[] = [];
   private _WIDTH: number;
   private _HEIGHT: number;
-  private secondsPassed = 0;
-  private oldTimeStamp = 0;
+  private current_time = 0;
+  private previous_time = 0;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -27,7 +27,7 @@ export class Engine {
     this.context.imageSmoothingEnabled = false;
     this.context.imageSmoothingQuality = 'medium';
     this._initInputSystem();
-    this.gameLoop(this.secondsPassed);
+    this.fpsController();
   }
 
   private _initInputSystem() {
@@ -41,31 +41,37 @@ export class Engine {
     });
   }
 
+  fpsController(FPS_LIMIT: number = 60) {
+    this.current_time = performance.now();
+    this.previous_time = this.current_time;
+    this.gameLoop(FPS_LIMIT);
+  }
+
   private clearFrame(): void {
     this.context.fillStyle = 'black';
     this.context.fillRect(0, 0, this._WIDTH, this._HEIGHT);
   }
 
-  private gameLoop(timeStamp: number) {
-    this.secondsPassed = (timeStamp - this.oldTimeStamp) / 1000;
-    this.oldTimeStamp = timeStamp;
+  private gameLoop(FPS_LIMIT: number) {
+    window.requestAnimationFrame(this.gameLoop.bind(this, FPS_LIMIT));
 
-    this.getInputKeys(this._keysDown);
-
-    this.OnBeforeUpdate();
-
-    this.clearFrame();
-    const FPS = this.fpsCounter();
-
-    this.OnUpdate(this.secondsPassed);
-    if (this.constantsService.DEBUG_MODE) {
-      this.context.fillStyle = '#FFF';
-      this.context.font = '16px Courier New';
-      this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
-      this.context.font = '10px Courier New';
-    }
-    this.OnAfterUpdate();
-    window.requestAnimationFrame(this.gameLoop.bind(this));
+    const now = performance.now();
+    const elapsed_time = now - this.current_time;
+    if (elapsed_time > 1000 / FPS_LIMIT){
+      this.current_time = now - (elapsed_time % 1000 / FPS_LIMIT)
+      this.getInputKeys(this._keysDown);
+      this.OnBeforeUpdate();
+      this.clearFrame();
+      const FPS = this.fpsCounter();
+      this.OnUpdate();
+      if (this.constantsService.DEBUG_MODE) {
+        this.context.fillStyle = '#FFF';
+        this.context.font = '16px Courier New';
+        this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
+        this.context.font = '10px Courier New';
+      }
+      this.OnAfterUpdate(); 
+    };
   }
 
   public getInputKeys(keysPressed: string[]): void {
@@ -84,7 +90,7 @@ export class Engine {
     return;
   }
 
-  public OnUpdate(secondsPassed: number) {
+  public OnUpdate() {
     return;
   }
 
