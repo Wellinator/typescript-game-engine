@@ -10,13 +10,16 @@ export class Engine {
   private _HEIGHT: number;
   private CURRENT_FRAME_TIME = 0;
   private PREVIOUS_FRAME_TIME = 0;
-  private FPS_LIMIT: number = 60;
+  private FPS_LIMIT: number;
+  private MAX_UPDATE_CALLS = 200;
 
   constructor(
     canvas: HTMLCanvasElement,
     width = undefined,
-    height = undefined
+    height = undefined,
+    fps: number = 60
   ) {
+    this.FPS_LIMIT = fps;
     this._WIDTH = width || this.constantsService.WIDTH;
     this._HEIGHT = height || this.constantsService.HEIGHT;
     canvas.width = this._WIDTH;
@@ -28,7 +31,11 @@ export class Engine {
     this.context.imageSmoothingEnabled = false;
     this.context.imageSmoothingQuality = 'medium';
     this._initInputSystem();
-    this.fpsController(this.FPS_LIMIT);
+    this.fpsController();
+  }
+
+  private get TIME_STEP(): number {
+    return 1000 / this.FPS_LIMIT;
   }
 
   private _initInputSystem() {
@@ -42,7 +49,7 @@ export class Engine {
     });
   }
 
-  fpsController(FPS_LIMIT: number) {
+  fpsController() {
     this.CURRENT_FRAME_TIME = performance.now();
     this.PREVIOUS_FRAME_TIME = this.CURRENT_FRAME_TIME;
     window.requestAnimationFrame(this.gameLoop.bind(this));
@@ -53,40 +60,63 @@ export class Engine {
     this.context.fillRect(0, 0, this._WIDTH, this._HEIGHT);
   }
 
-  private gameLoop(timestamp: number) {  
+  private gameLoop(timestamp: number) {
+    let UPDATE_STEP_COUNTER = 0;
+
     // Set isNextFrame bool variable;
-    let isNextFrame = !(timestamp < this.PREVIOUS_FRAME_TIME + ( 1000 / this.FPS_LIMIT));
-  
+    let isNextFrame = !(
+      timestamp <
+      this.PREVIOUS_FRAME_TIME + 1000 / this.FPS_LIMIT
+    );
+
     //If it's next frame then, update and draw;
-    if (isNextFrame){
+    if (isNextFrame) {
+      //Timestamp variation to update data;
+      let deltaTimestamp = timestamp - this.PREVIOUS_FRAME_TIME;
+
       // Update Elapsed time;
       this.PREVIOUS_FRAME_TIME = timestamp;
-      
-      // Get input values
-      this.getInputKeys(this._keysDown);
 
-      // Call OnBeforeUpdate, used to prepare values if needed;
-      this.OnBeforeUpdate();
-      
-      // Clear the canvas frame before redraw;
-      this.clearFrame();
-      
-      const FPS = this.fpsCounter();
-      
-      // Call the OnUpdate lifecicle function;
-      this.OnUpdate();
-      
-      // Display FPS counter if DEBUG_MODE is ON;
-      if (this.constantsService.DEBUG_MODE) {
-        this.context.fillStyle = '#FFF';
-        this.context.font = '16px Courier New';
-        this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
-        this.context.font = '10px Courier New';
+      //Fix timestamp varying size
+      while( deltaTimestamp >= this.TIME_STEP ){
+        //Updates the step counter;
+        ++UPDATE_STEP_COUNTER;
+
+        // Get input values
+        this.getInputKeys(this._keysDown);
+
+        // Call OnBeforeUpdate, used to prepare values if needed;
+        this.OnBeforeUpdate();
+
+        // Clear the canvas frame before redraw;
+        this.clearFrame();
+
+        const FPS = this.fpsCounter();
+
+        // Call the OnUpdate lifecicle function;
+        this.OnUpdate(this.TIME_STEP);
+
+        // Display FPS counter if DEBUG_MODE is ON;
+        if (this.constantsService.DEBUG_MODE) {
+          this.context.fillStyle = '#FFF';
+          this.context.font = '16px Courier New';
+          this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
+          this.context.font = '10px Courier New';
+        }
+
+        // Call the OnAfterUpdate lifecicle function;
+        this.OnAfterUpdate();
+        
+        //Update delta;
+        deltaTimestamp -= this.TIME_STEP;
+
+        //Sanity check;
+        if(UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS){
+          //Reset deltaTimestamp if the updates exceed the maximum limit calls
+          deltaTimestamp = 0;
+        }
       }
-
-      // Call the OnAfterUpdate lifecicle function;
-      this.OnAfterUpdate();
-    };
+    }
 
     // Request for the next RAF;
     window.requestAnimationFrame(this.gameLoop.bind(this));
@@ -108,7 +138,7 @@ export class Engine {
     return;
   }
 
-  public OnUpdate() {
+  public OnUpdate(deltaTimestamp: number) {
     return;
   }
 
