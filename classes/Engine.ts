@@ -41,7 +41,7 @@ export class Engine {
     });
   }
 
-  fpsController(FPS_LIMIT: number = 60) {
+  fpsController(FPS_LIMIT: number = 15) {
     this.current_time = performance.now();
     this.previous_time = this.current_time;
     this.gameLoop(FPS_LIMIT);
@@ -54,11 +54,11 @@ export class Engine {
 
   private gameLoop(FPS_LIMIT: number) {
     window.requestAnimationFrame(this.gameLoop.bind(this, FPS_LIMIT));
-
     const now = performance.now();
     const elapsed_time = now - this.current_time;
-    if (elapsed_time > 1000 / FPS_LIMIT){
-      this.current_time = now - (elapsed_time % 1000 / FPS_LIMIT)
+    const FPS_INTERVAL = 1000 / FPS_LIMIT;
+    if (elapsed_time > FPS_INTERVAL){
+      this.current_time = now - (elapsed_time % FPS_INTERVAL)
       this.getInputKeys(this._keysDown);
       this.OnBeforeUpdate();
       this.clearFrame();
