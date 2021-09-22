@@ -2,7 +2,7 @@ import { ConstantsService } from '../services/constants.service';
 import { Scene2D } from './Scene';
 
 export class Engine {
-  private fpsTimes: number[] = [];
+  private _FPS: number = 0;
   private context: CanvasRenderingContext2D;
   private constantsService: ConstantsService = new ConstantsService();
   private _keysDown: string[] = [];
@@ -11,7 +11,9 @@ export class Engine {
   private CURRENT_FRAME_TIME = 0;
   private PREVIOUS_FRAME_TIME = 0;
   private FPS_LIMIT: number;
-  private MAX_UPDATE_CALLS = 200;
+  private MAX_UPDATE_CALLS = 240;
+  private LAST_FPS_UPDATE = 0;
+  private FRAMES_THIS_SECOND = 0;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -77,6 +79,14 @@ export class Engine {
       // Update Elapsed time;
       this.PREVIOUS_FRAME_TIME = timestamp;
 
+      //Update FPS counter;
+      if(timestamp > this.LAST_FPS_UPDATE + 1000 ){
+        this.FPS = 0.25 * this.FRAMES_THIS_SECOND + 0.75 * this.FPS;
+        this.LAST_FPS_UPDATE = timestamp;
+        this.FRAMES_THIS_SECOND = 0;
+      }
+      this.FRAMES_THIS_SECOND++;
+
       //Fix timestamp varying size
       while( deltaTimestamp >= this.TIME_STEP ){
         //Updates the step counter;
@@ -91,18 +101,8 @@ export class Engine {
         // Clear the canvas frame before redraw;
         this.clearFrame();
 
-        const FPS = this.fpsCounter();
-
         // Call the OnUpdate lifecicle function;
         this.OnUpdate(this.TIME_STEP);
-
-        // Display FPS counter if DEBUG_MODE is ON;
-        if (this.constantsService.DEBUG_MODE) {
-          this.context.fillStyle = '#FFF';
-          this.context.font = '16px Courier New';
-          this.context.fillText(`${FPS.toFixed(1)} FPS`, this._WIDTH - 100, 20);
-          this.context.font = '10px Courier New';
-        }
 
         // Call the OnAfterUpdate lifecicle function;
         this.OnAfterUpdate();
@@ -146,14 +146,12 @@ export class Engine {
     return;
   }
 
-  private fpsCounter(): number {
-    let fps = performance.now();
-    const now = performance.now();
-    while (this.fpsTimes.length > 0 && this.fpsTimes[0] <= fps - 1000) {
-      this.fpsTimes.shift();
-    }
-    this.fpsTimes.push(now);
-    return this.fpsTimes.length;
+  public get FPS(): number {
+    return Math.round(this._FPS);
+  }
+
+  private set FPS(value: number){
+    this._FPS = value;
   }
 
   public create2DScene(): Scene2D {

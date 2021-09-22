@@ -54,4 +54,16 @@ export class Scene2D {
     return new Sprite(this._context, X, Y, width, height, imagePath);
   }
 
+  public print(
+    X: number,
+    Y: number,
+    text: number | string = ''
+  ): void {
+    this._context.save();
+    this._context.fillStyle = '#FFFFFF'
+    this._context.font = '16px Arial'
+    this._context.fillText(`${text}`, X, Y);
+    this._context.restore()
+  }
+
 }
