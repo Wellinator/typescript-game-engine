@@ -66,4 +66,10 @@ export class Scene2D {
     this._context.restore()
   }
 
+  public draw(): void {
+    for(let i = 0; i < this._sprites.length; i++){
+      this._sprites[i].draw(); 
+    }
+  }
+
 }

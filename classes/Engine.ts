@@ -80,7 +80,7 @@ export class Engine {
       this.PREVIOUS_FRAME_TIME = timestamp;
 
       //Update FPS counter;
-      if(timestamp > this.LAST_FPS_UPDATE + 1000 ){
+      if (timestamp > this.LAST_FPS_UPDATE + 1000) {
         this.FPS = 0.25 * this.FRAMES_THIS_SECOND + 0.75 * this.FPS;
         this.LAST_FPS_UPDATE = timestamp;
         this.FRAMES_THIS_SECOND = 0;
@@ -88,7 +88,7 @@ export class Engine {
       this.FRAMES_THIS_SECOND++;
 
       //Fix timestamp varying size
-      while( deltaTimestamp >= this.TIME_STEP ){
+      while (deltaTimestamp >= this.TIME_STEP) {
         //Updates the step counter;
         ++UPDATE_STEP_COUNTER;
 
@@ -104,14 +104,17 @@ export class Engine {
         // Call the OnUpdate lifecicle function;
         this.OnUpdate(this.TIME_STEP);
 
+        // Calls the draw function after update data;
+        this.OnDraw();
+
         // Call the OnAfterUpdate lifecicle function;
         this.OnAfterUpdate();
-        
+
         //Update delta;
         deltaTimestamp -= this.TIME_STEP;
 
         //Sanity check;
-        if(UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS){
+        if (UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS) {
           //Reset deltaTimestamp if the updates exceed the maximum limit calls
           deltaTimestamp = 0;
         }
@@ -142,6 +145,10 @@ export class Engine {
     return;
   }
 
+  public OnDraw(): void {
+    return;
+  }
+
   public OnAfterUpdate() {
     return;
   }
@@ -150,7 +157,7 @@ export class Engine {
     return Math.round(this._FPS);
   }
 
-  private set FPS(value: number){
+  private set FPS(value: number) {
     this._FPS = value;
   }
 

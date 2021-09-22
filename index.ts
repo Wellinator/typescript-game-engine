@@ -25,20 +25,20 @@ sprite.velocity.setLength(4);
 sprite.gravitate(0.9);
 sprite.friction = .99;
 
-
-
 sprite.OnUpdate = () => {
   sprite.velocity.multipliedBy(sprite.friction);
   sprite.velocity.addedTo(sprite.gravity);
-  sprite.position.addedTo(sprite.velocity);
-  sprite.draw();  
+  sprite.position.addedTo(sprite.velocity);  
 };
+
+engine.OnDraw = () => {
+  sprite.draw();
+}
 
 scene.addSprite(sprite);
 
 engine.OnUpdate = () => {
   scene.update();
-
   scene.print(10, 20, engine.FPS);
 
   //Edge wraping
