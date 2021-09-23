@@ -8,12 +8,13 @@ export class Engine {
   private _keysDown: string[] = [];
   private _WIDTH: number;
   private _HEIGHT: number;
-  private CURRENT_FRAME_TIME = 0;
-  private PREVIOUS_FRAME_TIME = 0;
+  private CURRENT_FRAME_TIME: number;
+  private PREVIOUS_FRAME_TIME: number;
+  private DELTA_TIMESTAMP: number
   private FPS_LIMIT: number;
-  private MAX_UPDATE_CALLS = 300;
-  private LAST_FPS_UPDATE = 0;
-  private FRAMES_THIS_SECOND = 0;
+  private MAX_UPDATE_CALLS: number = 300;
+  private LAST_FPS_UPDATE: number = 0;
+  private FRAMES_THIS_SECOND: number = 0;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -57,8 +58,7 @@ export class Engine {
   }
 
   fpsController() {
-    this.CURRENT_FRAME_TIME = performance.now();
-    this.PREVIOUS_FRAME_TIME = this.CURRENT_FRAME_TIME;
+    this.PREVIOUS_FRAME_TIME = performance.now();
     window.requestAnimationFrame(this.gameLoop.bind(this));
   }
 
@@ -66,21 +66,15 @@ export class Engine {
     // Request for the next RAF;
     window.requestAnimationFrame(this.gameLoop.bind(this));
     
-    let deltaTimestamp = 0;
+    this.CURRENT_FRAME_TIME = performance.now();
+    this.DELTA_TIMESTAMP = this.CURRENT_FRAME_TIME - this.PREVIOUS_FRAME_TIME;
 
-    // Set isNextFrame bool variable;
-    let isNextFrame = (
-      timestamp - this.PREVIOUS_FRAME_TIME > this.TIME_STEP
-    );
-
-    //If it's next frame then, update and draw;
-    if (isNextFrame) {
-      //console.log(this.PREVIOUS_FRAME_TIME, this.TIME_STEP);
+    //If it's next frame update then draw;
+    if (this.DELTA_TIMESTAMP > this.TIME_STEP) {
       //Timestamp variation to update data;
-      deltaTimestamp += timestamp - this.PREVIOUS_FRAME_TIME;
 
       // Update Elapsed time;
-      this.PREVIOUS_FRAME_TIME = timestamp - ((timestamp - this.PREVIOUS_FRAME_TIME) % this.TIME_STEP);
+      this.PREVIOUS_FRAME_TIME = this.CURRENT_FRAME_TIME - (this.DELTA_TIMESTAMP % this.TIME_STEP);
 
       // Clear the canvas frame before redraw;
       this.clearFrame();
@@ -90,10 +84,10 @@ export class Engine {
 
       // Call OnBeforeUpdate, used to prepare values if needed;
       this.OnBeforeUpdate();
-     
+
       //Update FPS counter;
       if (timestamp > this.LAST_FPS_UPDATE + 1000) {
-        this.FPS = 0.85 * this.FRAMES_THIS_SECOND + 0.15 * this.FPS;
+        this.FPS = this.FRAMES_THIS_SECOND;
         this.LAST_FPS_UPDATE = timestamp;
         this.FRAMES_THIS_SECOND = 0;
       }
@@ -101,18 +95,17 @@ export class Engine {
 
       let UPDATE_STEP_COUNTER = 0;
       //Fix timestamp varying size
-      while (deltaTimestamp >= this.TIME_STEP) {
-
+      while (this.DELTA_TIMESTAMP >= this.TIME_STEP) {
         // Call the OnUpdate lifecicle function;
         this.OnUpdate(this.TIME_STEP);
 
         //Update delta;
-        deltaTimestamp -= this.TIME_STEP;
+        this.DELTA_TIMESTAMP -= this.TIME_STEP;
 
         //Sanity check;
         if (++UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS) {
-          //Reset deltaTimestamp if the updates exceed the maximum limit calls
-          deltaTimestamp = 0;
+          //Reset DELTA_TIMESTAMP if the updates exceed the maximum limit calls
+          this.DELTA_TIMESTAMP = 0;
           break;
         }
       }
@@ -141,7 +134,7 @@ export class Engine {
     return;
   }
 
-  public OnUpdate(deltaTimestamp: number) {
+  public OnUpdate(deltaTime: number) {
     return;
   }
 

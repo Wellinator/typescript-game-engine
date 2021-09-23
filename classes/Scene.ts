@@ -13,9 +13,9 @@ export class Scene2D {
     return this._sprites;
   }
 
-  public update(): void {
+  public update(deltaTime: number): void {
     this.OnBeforeUpdate();
-    this.OnUpdate();
+    this.OnUpdate(deltaTime);
     this.OnAfterUpdate();
   }
 
@@ -23,8 +23,8 @@ export class Scene2D {
     return;
   }
 
-  public OnUpdate(): void {
-    this.sprites.forEach(sprite => sprite.update())
+  public OnUpdate(deltaTime: number): void {
+    this.sprites.forEach(sprite => sprite.update(deltaTime))
     return;
   }
 

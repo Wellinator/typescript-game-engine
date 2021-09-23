@@ -6,7 +6,7 @@ const HEIGHT = window.innerHeight;
 const bounce = -0.8
 
 //Create Engine;
-const engine = new Engine(canvas, WIDTH, HEIGHT, 60);
+const engine = new Engine(canvas, WIDTH, HEIGHT, 30);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
@@ -21,14 +21,14 @@ const sprite = scene.createSprite(
 );
 
 sprite.setDirection((11 * Math.PI) / 6);
-sprite.velocity.setLength(4);
-sprite.gravitate(0.9);
-sprite.friction = .99;
+sprite.velocity.setLength(1);
+sprite.gravitate(.1);
+sprite.friction = .06;
 
-sprite.OnUpdate = () => {
+sprite.OnUpdate = (deltaTime) => {
   sprite.velocity.multipliedBy(sprite.friction);
   sprite.velocity.addedTo(sprite.gravity);
-  sprite.position.addedTo(sprite.velocity);  
+  sprite.position.addedTo(sprite.velocity.multipliedBy(deltaTime));  
 };
 
 engine.OnDraw = () => {
@@ -37,8 +37,8 @@ engine.OnDraw = () => {
 
 scene.addSprite(sprite);
 
-engine.OnUpdate = () => {
-  scene.update();
+engine.OnUpdate = (deltaTime) => {
+  scene.update(deltaTime);
   scene.print(10, 20, engine.FPS);
 
   //Edge wraping
