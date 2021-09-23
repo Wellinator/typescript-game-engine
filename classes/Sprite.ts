@@ -175,9 +175,9 @@ export class Sprite extends Object2D {
     this.height *= scalingFactor;
   }
 
-  public update(deltaTime: number): void {
+  public update(deltaTimestamp: number): void {
     this.OnBeforeUpdate();
-    this.OnUpdate(deltaTime);
+    this.OnUpdate(deltaTimestamp);
     this.OnAfterUpdate();
   }
 
@@ -185,7 +185,7 @@ export class Sprite extends Object2D {
     return;
   }
 
-  public OnUpdate(deltaTime: number) {
+  public OnUpdate(deltaTimestamp: number) {
     return;
   }
 

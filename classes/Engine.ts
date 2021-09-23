@@ -95,20 +95,23 @@ export class Engine {
 
       let UPDATE_STEP_COUNTER = 0;
       //Fix timestamp varying size
-      while (this.DELTA_TIMESTAMP >= this.TIME_STEP) {
-        // Call the OnUpdate lifecicle function;
-        this.OnUpdate(this.TIME_STEP);
 
-        //Update delta;
-        this.DELTA_TIMESTAMP -= this.TIME_STEP;
+      this.OnUpdate(this.DELTA_TIMESTAMP);
 
-        //Sanity check;
-        if (++UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS) {
-          //Reset DELTA_TIMESTAMP if the updates exceed the maximum limit calls
-          this.DELTA_TIMESTAMP = 0;
-          break;
-        }
-      }
+      // while (this.DELTA_TIMESTAMP >= this.TIME_STEP) {
+      //   // Call the OnUpdate lifecicle function;
+      //   this.OnUpdate(this.TIME_STEP);
+
+      //   //Update delta;
+      //   this.DELTA_TIMESTAMP -= this.TIME_STEP;
+
+      //   //Sanity check;
+      //   if (++UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS) {
+      //     //Reset DELTA_TIMESTAMP if the updates exceed the maximum limit calls
+      //     this.DELTA_TIMESTAMP = 0;
+      //     break;
+      //   }
+      // }
 
       // Calls the draw function after update data;
       this.OnDraw();
