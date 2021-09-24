@@ -4,6 +4,8 @@ import { Scene2D } from './Scene';
 /**
  * Creates a new Engine.
  * @class
+ * @classdesc The Engine class id the core of the applications
+ * it handdles the input user keys and update the GameLoop;
  */
 export class Engine {
 
@@ -229,48 +231,107 @@ export class Engine {
       // Calls the draw function after update data;
       this.OnDraw();
 
-      // Call the OnAfterUpdate lifecicle function;
+      // Call the OnAfterUpdate life cycle function;
       this.OnAfterUpdate();
     }
   }
 
+  /**
+  * @description Function to get all the pressed keys;
+  * @public
+  * @function getInputKeys;
+  * @param {Array<string>} keysPressed;
+  * @returns {Array<string>} All the current pressed keys;
+  */  
+  public getInputKeys(keysPressed: string[]): string[] {
+    return keysPressed;
+  }
+
   
-  public getInputKeys(keysPressed: string[]): void {
-    return;
+  /**
+  * @description Function called every time a key id pressed;
+  * @public
+  * @function OnPressKey;
+  * @param {string} pressedKey a single pressed key;
+  * @returns {string} Pressed key;
+  */
+  public OnPressKey(pressedKey: string): string {
+    return pressedKey;
   }
 
-  public OnPressKey(pressedKey: string): void {
-    return;
+  /**
+  * @description Function called every time a key is unpressed;
+  * @public
+  * @function OnUnpressKey;
+  * @param {string} unpressedKey a single unpressed key;
+  * @returns {string} Unpressed key;
+  */
+  public OnUnpressKey(unpressedKey: string): string {
+    return unpressedKey;
   }
 
-  public OnUnpressKey(unpressedKey: string): void {
-    return;
-  }
 
+  /**
+  * @description This function is called before every update;
+  * @public
+  * @function OnBeforeUpdate;
+  */
   public OnBeforeUpdate() {
     return;
   }
 
+  /**
+  * @description This function is called every frameupdate, commonly used to update game data state;
+  * @public
+  * @param {number} deltaTime variation of time in milliseconds since laste frame update;
+  * @function OnUpdate;
+  */
   public OnUpdate(deltaTime: number) {
     return;
   }
 
+  /**
+  * @description This function is called after OnUpdate, used to render updated data;
+  * @public
+  * @function OnDraw;
+  */
   public OnDraw(): void {
     return;
   }
 
+  /**
+  * @description This function is called in the end of the life cycle;
+  * @public
+  * @function OnAfterUpdate;
+  */
   public OnAfterUpdate() {
     return;
   }
 
+  /**
+  * @description Getter of FPS
+  * @type {number} FPS;
+  * @public
+  */
   public get FPS(): number {
     return this._FPS;
   }
 
+  /**
+  * @description Private setter of FPS
+  * @type {number};
+  * @private
+  */
   private set FPS(value: number) {
     this._FPS = value;
   }
 
+  /**
+  * @description Crates a new 2D Scene with the current context;
+  * @public
+  * @function create2DScene;
+  * @returns {Scene2D} Scene2D;
+  */
   public create2DScene(): Scene2D {
     return new Scene2D(this.context);
   }
