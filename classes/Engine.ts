@@ -1,25 +1,116 @@
 import { ConstantsService } from '../services/constants.service';
 import { Scene2D } from './Scene';
 
+/**
+ * Creates a new Engine.
+ * @class
+ */
 export class Engine {
+
+  /**
+  * @description Used to store the FPS number;
+  * @property {number} _FPS
+  * @private
+  */
   private _FPS: number = 0;
+
+  /**
+  * @description Canvas context to render the objects;
+  * @property {CanvasRenderingContext2D} context
+  * @private
+  */
   private context: CanvasRenderingContext2D;
+
+  /**
+  * @description Depencency used to access constants values;
+  * @property {ConstantsService} constantsService;
+  * @private
+  */
   private constantsService: ConstantsService = new ConstantsService();
+
+  /**
+  * @description Array of string with the pressed keys;
+  * @property {Array<string>} _keysDown;
+  * @private
+  */
   private _keysDown: string[] = [];
+
+  /**
+  * @description Stores the width of the Canvas window;
+  * @property {number} _WIDTH;
+  * @private
+  */
   private _WIDTH: number;
+
+  /**
+  * @description Stores the height of the Canvas window;
+  * @property {number} _HEIGHT;
+  * @private
+  */
   private _HEIGHT: number;
+
+  /**
+  * @description Variable that stores the timestap of the current frame;
+  * @property {number} CURRENT_FRAME_TIME;
+  * @private
+  */
   private CURRENT_FRAME_TIME: number;
+
+  /**
+  * @description Variable that stores the timestap of the last frame;
+  * @property {number} PREVIOUS_FRAME_TIME;
+  * @private
+  */
   private PREVIOUS_FRAME_TIME: number;
+
+  /**
+  * @description Variation of time between frames in milliseconds;
+  * @property {number} DELTA_TIMESTAMP;
+  * @private
+  */
   private DELTA_TIMESTAMP: number
+
+  /**
+  * @description Maximum of frames per second;
+  * @property {number} FPS_LIMIT;
+  * @private
+  */
   private FPS_LIMIT: number;
+
+  /**
+  * @description Maximum call to prevent spiral of death;
+  * @property {number} MAX_UPDATE_CALLS;
+  * @private
+  */
   private MAX_UPDATE_CALLS: number = 300;
+
+  /**
+  * @description Value in milliseconds of last time the FPS was updated ;
+  * @property {number} LAST_FPS_UPDATE;
+  * @private
+  */
   private LAST_FPS_UPDATE: number = 0;
+
+   /**
+  * @description Integer number of frames accumulated every loop;
+  * @property {number} FRAMES_THIS_SECOND;
+  * @private
+  */
   private FRAMES_THIS_SECOND: number = 0;
 
+
+  /**
+  * @description Constructor of Engine class;
+  * @constructor
+  * @param {HTMLCanvasElement} canvas Html canvas element.
+  * @param {number} width WIDTH of the canvas.
+  * @param {number} height HEIGHT of the canvas.
+  * @param {number} height FPS limit.
+  */
   constructor(
     canvas: HTMLCanvasElement,
-    width = undefined,
-    height = undefined,
+    width: number = undefined,
+    height: number = undefined,
     fps: number = 60
   ) {
     this.FPS_LIMIT = fps;
@@ -37,11 +128,23 @@ export class Engine {
     this.fpsController();
   }
 
+  /**
+  * @description Return the number of milliseconds per frame;
+  * @private
+  * @property {number} TIME_STEP;
+  * @returns {number}
+  */
   private get TIME_STEP(): number {
     return 1000 / this.FPS_LIMIT;
   }
 
-  private _initInputSystem() {
+  /**
+  * @description Initiate the input event listeners;
+  * @private
+  * @function _initInputSystem
+  * @returns {void}
+  */
+  private _initInputSystem(): void {
     window.document.addEventListener('keydown', (event: KeyboardEvent) => {
       this.OnPressKey(event.key);
       this._keysDown[event.key] = true;
@@ -52,17 +155,36 @@ export class Engine {
     });
   }
 
+  /**
+  * @description Clear the canvas screen;
+  * @private
+  * @function clearFrame
+  * @returns {void}
+  */
   private clearFrame(): void {
     this.context.fillStyle = 'black';
     this.context.fillRect(0, 0, this._WIDTH, this._HEIGHT);
   }
 
-  fpsController() {
+  /**
+  * @description Prepare the gameloop initialization;
+  * @private
+  * @function fpsController
+  * @returns {void}
+  */
+  private fpsController(): void {
     this.PREVIOUS_FRAME_TIME = performance.now();
     window.requestAnimationFrame(this.gameLoop.bind(this));
   }
 
-  private gameLoop(timestamp: number) {
+  /**
+  * @description The gameloop function, core of the engine;
+  * @private
+  * @function gameLoop
+  * @param {number} timestamp.
+  * @returns {void}
+  */
+  private gameLoop(timestamp: number): void {
     // Request for the next RAF;
     window.requestAnimationFrame(this.gameLoop.bind(this));
     
@@ -98,20 +220,11 @@ export class Engine {
 
       this.OnUpdate(this.DELTA_TIMESTAMP);
 
-      // while (this.DELTA_TIMESTAMP >= this.TIME_STEP) {
-      //   // Call the OnUpdate lifecicle function;
-      //   this.OnUpdate(this.TIME_STEP);
-
-      //   //Update delta;
-      //   this.DELTA_TIMESTAMP -= this.TIME_STEP;
-
-      //   //Sanity check;
-      //   if (++UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS) {
-      //     //Reset DELTA_TIMESTAMP if the updates exceed the maximum limit calls
-      //     this.DELTA_TIMESTAMP = 0;
-      //     break;
-      //   }
-      // }
+      //Sanity check;
+      if (++UPDATE_STEP_COUNTER >= this.MAX_UPDATE_CALLS) {
+        //Reset DELTA_TIMESTAMP if the updates exceed the maximum limit calls
+        this.DELTA_TIMESTAMP = 0;
+      }
 
       // Calls the draw function after update data;
       this.OnDraw();
@@ -121,6 +234,7 @@ export class Engine {
     }
   }
 
+  
   public getInputKeys(keysPressed: string[]): void {
     return;
   }
@@ -150,7 +264,7 @@ export class Engine {
   }
 
   public get FPS(): number {
-    return Math.round(this._FPS);
+    return this._FPS;
   }
 
   private set FPS(value: number) {
