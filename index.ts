@@ -87,4 +87,6 @@ engine.getInputKeys = (pressedKeys) => {
   if (pressedKeys['ArrowDown']) {
     sprite.scale(0.99);
   }
+  
+  return pressedKeys;
 };
