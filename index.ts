@@ -3,17 +3,17 @@ import { Engine } from './classes/Engine';
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-const bounce = -0.8
+const bounce = -0.95
 
 //Create Engine;
-const engine = new Engine(canvas, WIDTH, HEIGHT);
+const engine = new Engine(canvas, WIDTH, HEIGHT, 144);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
 
 //Create asimple Sprite
 const sprite = scene.createSprite(
-  51,
+  WIDTH / 2,
   51,
   100,
   100,
@@ -21,21 +21,26 @@ const sprite = scene.createSprite(
 );
 
 sprite.setDirection((11 * Math.PI) / 6);
-sprite.velocity.setLength(4);
-sprite.gravitate(0.9);
-sprite.friction = .99;
+sprite.velocity.setLength(20);
+sprite.gravitate(100);
+sprite.friction = .995;
 
-sprite.OnUpdate = () => {
+sprite.OnUpdate = (deltaTimestamp) => {
   sprite.velocity.multipliedBy(sprite.friction);
   sprite.velocity.addedTo(sprite.gravity);
-  sprite.position.addedTo(sprite.velocity);
-  sprite.draw();
+  sprite.position.addedTo(sprite.velocity.multiply(deltaTimestamp / 1000));
 };
+
+engine.OnDraw = () => {
+  sprite.draw();
+}
 
 scene.addSprite(sprite);
 
-engine.OnUpdate = () => {
-  scene.update();
+engine.OnUpdate = (deltaTimestamp) => {
+  scene.update(deltaTimestamp);
+  scene.print(10, 20, engine.FPS);
+  scene.print(10, 45, deltaTimestamp / 1000);
 
   //Edge wraping
   if (sprite.X + sprite.width / 2 > WIDTH) {

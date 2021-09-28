@@ -13,9 +13,9 @@ export class Scene2D {
     return this._sprites;
   }
 
-  public update(): void {
+  public update(deltaTimestamp: number): void {
     this.OnBeforeUpdate();
-    this.OnUpdate();
+    this.OnUpdate(deltaTimestamp);
     this.OnAfterUpdate();
   }
 
@@ -23,8 +23,8 @@ export class Scene2D {
     return;
   }
 
-  public OnUpdate(): void {
-    this.sprites.forEach(sprite => sprite.update())
+  public OnUpdate(deltaTimestamp: number): void {
+    this.sprites.forEach(sprite => sprite.update(deltaTimestamp))
     return;
   }
 
@@ -52,6 +52,24 @@ export class Scene2D {
     imagePath: string | string[]
   ): Sprite {
     return new Sprite(this._context, X, Y, width, height, imagePath);
+  }
+
+  public print(
+    X: number,
+    Y: number,
+    text: number | string = ''
+  ): void {
+    this._context.save();
+    this._context.fillStyle = '#FFFFFF'
+    this._context.font = '16px Arial'
+    this._context.fillText(`${text}`, X, Y);
+    this._context.restore()
+  }
+
+  public draw(): void {
+    for(let i = 0; i < this._sprites.length; i++){
+      this._sprites[i].draw(); 
+    }
   }
 
 }
