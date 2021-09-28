@@ -17,7 +17,7 @@ const sprite = scene.createSprite(
   51,
   100,
   100,
-  'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
+  'https://cdn.jsdelivr.net/gh/Wellinator/javascript-3d-engine@sprite-animation/aprite_atlas.png'
 );
 
 sprite.setDirection((11 * Math.PI) / 6);
