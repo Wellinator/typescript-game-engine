@@ -3,10 +3,10 @@ import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
 
 export class Sprite extends Object2D {
-  private _height: number;
-  private _width: number;
-  private _scalingFactorX: number = 1;
-  private _scalingFactorY: number = 1;
+  public width: number;
+  public height: number;
+  public tileWidth: number;
+  public tileHeight: number;
   private _context: CanvasRenderingContext2D;
   public mesh: Point2D[] = [];
   public size: number;
@@ -32,24 +32,20 @@ export class Sprite extends Object2D {
     Y: number,
     width: number,
     height: number,
+    tileWidth: number = undefined,
+    tileHeight: number = undefined,
     atlas: string
   ) {
     super();
     this._context = context;
     this.X = X;
     this.Y = Y;
-    this._width = width;
-    this._height = height;
+    this.width = width;
+    this.height = height;
+    this.tileWidth = tileWidth || width;
+    this.tileHeight = tileHeight || height;
     this._createFrameFromAtlas(atlas);
   }
-
-  public get width(): number{
-    return this._width * this._scalingFactorX;
-  };
-
-  public get height(): number{
-    return this._height * this._scalingFactorY;
-  };
 
   private _createFrameFromAtlas(paths: string): void {
     this._atlas = new Image();
@@ -57,14 +53,14 @@ export class Sprite extends Object2D {
 
     //TODO -> Implements col or row oriented atlas; 
     if (
-      this._width < this._atlas.naturalWidth ||
-      this._height < this._atlas.naturalHeight
+      this.tileWidth < this._atlas.naturalWidth ||
+      this.tileHeight < this._atlas.naturalHeight
     ) {
-      for (let i = 0; i < this._atlas.naturalWidth / this._width; i++) {
-        for (let j = 0; j < this._atlas.naturalHeight / this._height; j++) {
+      for (let i = 0; i < this._atlas.naturalWidth / this.tileWidth; i++) {
+        for (let j = 0; j < this._atlas.naturalHeight / this.tileHeight; j++) {
           this._tilesMap.push({
-            x: this._width * i,
-            y: this._height * j
+            x: this.tileWidth * i,
+            y: this.tileHeight * j
           });
         }
       }
@@ -103,8 +99,8 @@ export class Sprite extends Object2D {
         this._atlas,
         this._tilesMap[tileIndex].x,
         this._tilesMap[tileIndex].y,
-        this._width,
-        this._height,
+        this.tileWidth,
+        this.tileHeight,
         this.X - this.width / 2,
         this.Y - this.height / 2,
         this.width,
@@ -117,8 +113,8 @@ export class Sprite extends Object2D {
       this._atlas,
       this._tilesMap[tileIndex].x,
       this._tilesMap[tileIndex].y,
-      this._width,
-      this._height,
+      this.tileWidth,
+      this.tileHeight,
       this.X - this.width / 2,
       this.Y - this.height / 2,
       this.width,
@@ -186,17 +182,17 @@ export class Sprite extends Object2D {
   }
 
   public scale(scalingFactor: number): Object2D {
-    this._scalingFactorX *= scalingFactor;
-    this._scalingFactorY *= scalingFactor;
+    this.width *= scalingFactor;
+    this.height *= scalingFactor;
     return this;
   }
 
   public scaleX(scalingFactor: number) {
-    this._scalingFactorX *= scalingFactor;
+    this.width *= scalingFactor;
   }
 
   public scaleY(scalingFactor: number) {
-    this._scalingFactorY *= scalingFactor;
+    this.height *= scalingFactor;
   }
 
   public update(deltaTimestamp: number): void {

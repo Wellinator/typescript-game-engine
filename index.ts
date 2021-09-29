@@ -15,12 +15,12 @@ const scene = engine.create2DScene();
 const sprite = scene.createSprite(
   WIDTH / 2,
   51,
+  100,
+  100,
   16,
   16,
   'https://cdn.jsdelivr.net/gh/Wellinator/javascript-3d-engine@sprite-animation/aprite_atlas.png'
 );
-
-sprite.scale(5)
 
 
 sprite.setDirection((11 * Math.PI) / 6);
