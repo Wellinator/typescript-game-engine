@@ -35,7 +35,7 @@ sprite.OnUpdate = (deltaTimestamp) => {
 };
 
 engine.OnDraw = () => {
-  sprite.draw();
+  sprite.drawTile(0);
 }
 
 scene.addSprite(sprite);

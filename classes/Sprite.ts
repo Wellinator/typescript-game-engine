@@ -3,16 +3,18 @@ import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
 
 export class Sprite extends Object2D {
+  private _height: number;
+  private _width: number;
+  private _scalingFactorX: number = 1;
+  private _scalingFactorY: number = 1;
   private _context: CanvasRenderingContext2D;
   public mesh: Point2D[] = [];
   public size: number;
-  public width: number;
-  public height: number;
   private assets: CanvasImageSource[] = [];
   private _rad: number = 0;
   public displayHitBox: boolean = true;
-  private _tilesMap: TileCoordinate[][] = [];
-  private _atlas: HTMLImageElement;
+  private _tilesMap: TileCoordinate[] = [];
+  private _atlas: CanvasImageSource;
 
   /**
    * Create a new Sprite.
@@ -36,30 +38,38 @@ export class Sprite extends Object2D {
     this._context = context;
     this.X = X;
     this.Y = Y;
-    this.width = width;
-    this.height = height;
+    this._width = width;
+    this._height = height;
     this._createFrameFromAtlas(atlas);
   }
+
+  public get width(): number{
+    return this._width * this._scalingFactorX;
+  };
+
+  public get height(): number{
+    return this._height * this._scalingFactorY;
+  };
 
   private _createFrameFromAtlas(paths: string): void {
     this._atlas = new Image();
     this._atlas.src = paths;
 
+    //TODO -> Implements col or row oriented atlas; 
     if (
-      this.width > this._atlas.naturalWidth ||
-      this.height > this._atlas.naturalHeight
+      this._width < this._atlas.naturalWidth ||
+      this._height < this._atlas.naturalHeight
     ) {
-      for (let i = 0; i < this._atlas.naturalWidth / this.width; i++) {
-        for (let j = 0; j < this._atlas.naturalWidth / this.width; j++) {
-          this._tilesMap[i][j] = {
-            x: this.width * i,
-            y: this.height * j
-          };
+      for (let i = 0; i < this._atlas.naturalWidth / this._width; i++) {
+        for (let j = 0; j < this._atlas.naturalHeight / this._height; j++) {
+          this._tilesMap.push({
+            x: this._width * i,
+            y: this._height * j
+          });
         }
       }
     } else {
-      this._tilesMap[0] = [];
-      this._tilesMap[0][0] = this._atlas;
+      this._tilesMap[0] = this._atlas;
     }
   }
 
@@ -73,9 +83,7 @@ export class Sprite extends Object2D {
     if (this.isCollidable && this.displayHitBox) {
       this.drawHitBox();
     }
-    if (!!this.assets.length) {
-      this.assets.forEach((asset) => this._drawImage(asset));
-    }
+    this.drawTile(0);
     return;
   }
 
@@ -86,13 +94,17 @@ export class Sprite extends Object2D {
    * @private
    * @returns void
    */
-  private _drawImage(asset: CanvasImageSource): void {
+  public drawTile(tileIndex: number): void {
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
       this._context.translate(-this.X, -this.Y);
       this._context.drawImage(
-        asset,
+        this._atlas,
+        this._tilesMap[tileIndex].x,
+        this._tilesMap[tileIndex].y,
+        this._width,
+        this._height,
         this.X - this.width / 2,
         this.Y - this.height / 2,
         this.width,
@@ -102,7 +114,11 @@ export class Sprite extends Object2D {
       return;
     }
     this._context.drawImage(
-      asset,
+      this._atlas,
+      this._tilesMap[tileIndex].x,
+      this._tilesMap[tileIndex].y,
+      this._width,
+      this._height,
       this.X - this.width / 2,
       this.Y - this.height / 2,
       this.width,
@@ -170,18 +186,17 @@ export class Sprite extends Object2D {
   }
 
   public scale(scalingFactor: number): Object2D {
-    this.width *= scalingFactor;
-    this.height *= scalingFactor;
-    super.scale(scalingFactor);
+    this._scalingFactorX *= scalingFactor;
+    this._scalingFactorY *= scalingFactor;
     return this;
   }
 
   public scaleX(scalingFactor: number) {
-    this.width *= scalingFactor;
+    this._scalingFactorX *= scalingFactor;
   }
 
   public scaleY(scalingFactor: number) {
-    this.height *= scalingFactor;
+    this._scalingFactorY *= scalingFactor;
   }
 
   public update(deltaTimestamp: number): void {
