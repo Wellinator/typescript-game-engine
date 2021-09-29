@@ -1,3 +1,4 @@
+import { TileCoordinate } from '../models/TileCoordinate';
 import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
 
@@ -10,6 +11,8 @@ export class Sprite extends Object2D {
   private assets: CanvasImageSource[] = [];
   private _rad: number = 0;
   public displayHitBox: boolean = true;
+  private _tilesMap: TileCoordinate[][] = [];
+  private _atlas: HTMLImageElement;
 
   /**
    * Create a new Sprite.
@@ -19,7 +22,7 @@ export class Sprite extends Object2D {
    * @param {number} Y - Y axis position.
    * @param {number} width - Sprite width.
    * @param {number} height - Sprite height.
-   * @param {string} imagePath  - URL or Relative path to sprite image assets.
+   * @param {string} atlas  - URL or Relative path to sprite atlas source.
    */
   constructor(
     context: CanvasRenderingContext2D,
@@ -27,7 +30,7 @@ export class Sprite extends Object2D {
     Y: number,
     width: number,
     height: number,
-    imagePath: string | string[]
+    atlas: string
   ) {
     super();
     this._context = context;
@@ -35,34 +38,40 @@ export class Sprite extends Object2D {
     this.Y = Y;
     this.width = width;
     this.height = height;
-    this._createSpritesFromPaths(imagePath);
+    this._createFrameFromAtlas(atlas);
   }
 
-  private _createSpritesFromPaths(paths: string | string[]): void {
-    if (Array.isArray(paths)) {
-      paths.forEach((path) => {
-        if (!!path && !!path.length) {
-          const tempImage = new Image();
-          tempImage.src = path;
-          this.assets.push(tempImage);
+  private _createFrameFromAtlas(paths: string): void {
+    this._atlas = new Image();
+    this._atlas.src = paths;
+
+    if (
+      this.width > this._atlas.naturalWidth ||
+      this.height > this._atlas.naturalHeight
+    ) {
+      for (let i = 0; i < this._atlas.naturalWidth / this.width; i++) {
+        for (let j = 0; j < this._atlas.naturalWidth / this.width; j++) {
+          this._tilesMap[i][j] = {
+            x: this.width * i,
+            y: this.height * j
+          };
         }
-      });
-      return;
+      }
+    } else {
+      this._tilesMap[0] = [];
+      this._tilesMap[0][0] = this._atlas;
     }
-    const tempImage = new Image();
-    tempImage.src = paths;
-    this.assets.push(tempImage);
   }
 
   /**
    * Draw the Sprite to its context.
    * @function
    * @public
-   * @returns ThisType<Sprite>
+   * @returns Sprite
    */
   public draw(): ThisType<Sprite> {
     if (this.isCollidable && this.displayHitBox) {
-      this.drawHitBox()
+      this.drawHitBox();
     }
     if (!!this.assets.length) {
       this.assets.forEach((asset) => this._drawImage(asset));
@@ -101,7 +110,7 @@ export class Sprite extends Object2D {
     );
   }
 
-  private drawHitBox(){
+  private drawHitBox() {
     this._context.save();
     this._context.lineWidth = 3;
     this._context.strokeStyle = this.hitBoxColor;
@@ -118,7 +127,7 @@ export class Sprite extends Object2D {
         this.height
       );
       this._context.setTransform(1, 0, 0, 1, 0, 0);
-    }else{
+    } else {
       this._context.rect(
         this.X - this.width / 2,
         this.Y - this.height / 2,
@@ -192,4 +201,6 @@ export class Sprite extends Object2D {
   public OnAfterUpdate() {
     return;
   }
+
+  public Animation;
 }

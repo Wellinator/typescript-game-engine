@@ -49,9 +49,9 @@ export class Scene2D {
     Y: number,
     width: number,
     height: number,
-    imagePath: string | string[]
+    atlas: string | string[]
   ): Sprite {
-    return new Sprite(this._context, X, Y, width, height, imagePath);
+    return new Sprite(this._context, X, Y, width, height, atlas);
   }
 
   public print(
