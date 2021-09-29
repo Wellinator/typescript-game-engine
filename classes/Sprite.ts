@@ -14,7 +14,7 @@ export class Sprite extends Object2D {
   private _rad: number = 0;
   public displayHitBox: boolean = true;
   private _tilesMap: TileCoordinate[] = [];
-  private _atlas: CanvasImageSource;
+  private _atlas: HTMLImageElement;
 
   /**
    * Create a new Sprite.
@@ -50,23 +50,30 @@ export class Sprite extends Object2D {
   private _createFrameFromAtlas(paths: string): void {
     this._atlas = new Image();
     this._atlas.src = paths;
+    this._populateTileMap(this._atlas);
+  }
 
-    //TODO -> Implements col or row oriented atlas; 
-    if (
+  private _isAtlasColumnsOrRowsOriented(): boolean {
+    return (
       this.tileWidth < this._atlas.naturalWidth ||
       this.tileHeight < this._atlas.naturalHeight
-    ) {
-      for (let i = 0; i < this._atlas.naturalWidth / this.tileWidth; i++) {
-        for (let j = 0; j < this._atlas.naturalHeight / this.tileHeight; j++) {
+    );
+  }
+
+  private _populateTileMap(atlas: HTMLImageElement) {
+    if (this._isAtlasColumnsOrRowsOriented) {
+      for (let i = 0; i < atlas.naturalWidth / this.tileWidth; i++) {
+        for (let j = 0; j < atlas.naturalHeight / this.tileHeight; j++) {
           this._tilesMap.push({
             x: this.tileWidth * i,
-            y: this.tileHeight * j
+            y: this.tileHeight * j,
           });
         }
       }
-    } else {
-      this._tilesMap[0] = this._atlas;
+      return;
     }
+
+    this._tilesMap[0] = this._atlas;
   }
 
   /**
