@@ -35,7 +35,6 @@ sprite.OnUpdate = (deltaTimestamp) => {
 };
 
 engine.OnDraw = () => {
-  if(engine.FPS % 10 === 0) sprite.nextTile();
   sprite.draw();
 }
 
@@ -45,7 +44,8 @@ engine.OnUpdate = (deltaTimestamp) => {
   scene.update(deltaTimestamp);
   scene.print(10, 20, engine.FPS);
   scene.print(10, 45, deltaTimestamp / 1000);
-
+  sprite.nextTile()
+  
   //Edge wraping
   if (sprite.X + sprite.width / 2 > WIDTH) {
     sprite.X = WIDTH - sprite.width / 2;
