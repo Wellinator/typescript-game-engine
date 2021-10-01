@@ -6,7 +6,7 @@ const HEIGHT = window.innerHeight;
 const bounce = -0.95
 
 //Create Engine;
-const engine = new Engine(canvas, WIDTH, HEIGHT, 144);
+const engine = new Engine(canvas, WIDTH, HEIGHT, 60);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
@@ -35,7 +35,8 @@ sprite.OnUpdate = (deltaTimestamp) => {
 };
 
 engine.OnDraw = () => {
-  sprite.drawTile(0);
+  if(engine.FPS % 10 === 0) sprite.nextTile();
+  sprite.draw();
 }
 
 scene.addSprite(sprite);

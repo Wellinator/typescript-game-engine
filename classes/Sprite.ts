@@ -10,7 +10,7 @@ export class Sprite extends Object2D {
   private _context: CanvasRenderingContext2D;
   public mesh: Point2D[] = [];
   public size: number;
-  private assets: CanvasImageSource[] = [];
+  private currentTileIndex: number = 0;
   private _rad: number = 0;
   public displayHitBox: boolean = true;
   private _tilesMap: TileCoordinate[] = [];
@@ -86,7 +86,7 @@ export class Sprite extends Object2D {
     if (this.isCollidable && this.displayHitBox) {
       this.drawHitBox();
     }
-    this.drawTile(0);
+    this.drawTile(this.currentTileIndex);
     return;
   }
 
@@ -220,5 +220,17 @@ export class Sprite extends Object2D {
     return;
   }
 
-  public Animation;
+  public animate(){
+    // TODO -> Loop in the tilesMap;
+    return;
+  };
+
+  public nextTile(){
+    if(!!this._tilesMap[this.currentTileIndex + 1]){
+      return this.currentTileIndex++;
+    }
+    return this.currentTileIndex = 0;
+  }
+
+
 }
