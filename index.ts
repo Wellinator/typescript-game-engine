@@ -19,7 +19,7 @@ const sprite = scene.createSprite(
   100,
   16,
   16,
-  ``
+  `https://raw.githubusercontent.com/Wellinator/javascript-3d-engine/sprite-animation/samples/aprite_atlas.png`
 );
 
 
