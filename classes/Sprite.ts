@@ -224,26 +224,25 @@ export class Sprite extends Object2D {
 
   public animate(
     deltaTime: number,
-    frameTime: number | number[] = this._defaultAnimationTimeDelay,
-  ){
+    frameTime: number | number[] = this._defaultAnimationTimeDelay
+  ) {
     let timeLimit = frameTime;
-    if(Array.isArray(frameTime)){
-      timeLimit = frameTime[this.currentTileIndex] || this._defaultAnimationTimeDelay;
+    if (Array.isArray(frameTime)) {
+      timeLimit =
+        frameTime[this.currentTileIndex] || this._defaultAnimationTimeDelay;
     }
     this._elapsedAnimetionTime += deltaTime;
-    if( this._elapsedAnimetionTime >= timeLimit){
+    if (this._elapsedAnimetionTime >= timeLimit) {
       this.nextTile();
       this._elapsedAnimetionTime = 0;
     }
     return;
-  };
-
-  public nextTile(){
-    if(!!this._tilesMap[this.currentTileIndex + 1]){
-      return this.currentTileIndex++;
-    }
-    return this.currentTileIndex = 0;
   }
 
-
+  public nextTile() {
+    if (!!this._tilesMap[this.currentTileIndex + 1]) {
+      return this.currentTileIndex++;
+    }
+    return (this.currentTileIndex = 0);
+  }
 }
