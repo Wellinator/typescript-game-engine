@@ -15,6 +15,8 @@ export class Sprite extends Object2D {
   public displayHitBox: boolean = true;
   private _tilesMap: TileCoordinate[] = [];
   private _atlas: HTMLImageElement;
+  private _elapsedAnimetionTime: number = 0;
+  private _defaultAnimationTimeDelay: number = 200;
 
   /**
    * Create a new Sprite.
@@ -104,8 +106,8 @@ export class Sprite extends Object2D {
       this._context.translate(-this.X, -this.Y);
       this._context.drawImage(
         this._atlas,
-        this._tilesMap[tileIndex].x,
-        this._tilesMap[tileIndex].y,
+        this._tilesMap[tileIndex]?.x,
+        this._tilesMap[tileIndex]?.y,
         this.tileWidth,
         this.tileHeight,
         this.X - this.width / 2,
@@ -118,8 +120,8 @@ export class Sprite extends Object2D {
     }
     this._context.drawImage(
       this._atlas,
-      this._tilesMap[tileIndex].x,
-      this._tilesMap[tileIndex].y,
+      this._tilesMap[tileIndex]?.x,
+      this._tilesMap[tileIndex]?.y,
       this.tileWidth,
       this.tileHeight,
       this.X - this.width / 2,
@@ -220,8 +222,19 @@ export class Sprite extends Object2D {
     return;
   }
 
-  public animate(){
-    // TODO -> Loop in the tilesMap;
+  public animate(
+    deltaTime: number,
+    frameTime: number | number[] = this._defaultAnimationTimeDelay,
+  ){
+    let timeLimit = frameTime;
+    if(Array.isArray(frameTime)){
+      timeLimit = frameTime[this.currentTileIndex] || this._defaultAnimationTimeDelay;
+    }
+    this._elapsedAnimetionTime += deltaTime;
+    if( this._elapsedAnimetionTime >= timeLimit){
+      this.nextTile();
+      this._elapsedAnimetionTime = 0;
+    }
     return;
   };
 
