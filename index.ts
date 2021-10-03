@@ -44,7 +44,7 @@ engine.OnUpdate = (deltaTimestamp) => {
   scene.update(deltaTimestamp);
   scene.print(10, 20, engine.FPS);
   scene.print(10, 45, deltaTimestamp / 1000);
-  sprite.animate(deltaTimestamp, 1000);
+  sprite.animate(deltaTimestamp);
   
   //Edge wraping
   if (sprite.X + sprite.width / 2 > WIDTH) {
