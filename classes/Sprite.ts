@@ -1,3 +1,4 @@
+import { AnimateOptions } from '../models/AnimateOptions';
 import { TileCoordinate } from '../models/TileCoordinate';
 import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
@@ -224,16 +225,23 @@ export class Sprite extends Object2D {
 
   public animate(
     deltaTime: number,
-    frameTime: number | number[] = this._defaultAnimationTimeDelay
+    options: AnimateOptions = {
+      customframeTime: this._defaultAnimationTimeDelay,
+      animateInOpositeDirection: false
+    }
   ) {
-    let timeLimit = frameTime;
-    if (Array.isArray(frameTime)) {
+    let timeLimit = options.customframeTime;
+    if (Array.isArray(options.customframeTime)) {
       timeLimit =
-        frameTime[this.currentTileIndex] || this._defaultAnimationTimeDelay;
+        options.customframeTime[this.currentTileIndex] || this._defaultAnimationTimeDelay;
     }
     this._elapsedAnimetionTime += deltaTime;
     if (this._elapsedAnimetionTime >= timeLimit) {
-      this.nextTile();
+      if(options.animateInOpositeDirection){
+        this.previousTile();
+      }else{
+        this.nextTile();
+      }
       this._elapsedAnimetionTime = 0;
     }
     return;
@@ -244,5 +252,12 @@ export class Sprite extends Object2D {
       return this.currentTileIndex++;
     }
     return (this.currentTileIndex = 0);
+  }
+
+  public previousTile() {
+    if (!!this._tilesMap[this.currentTileIndex - 1]) {
+      return this.currentTileIndex--;
+    }
+    return (this.currentTileIndex = this._tilesMap.length);
   }
 }

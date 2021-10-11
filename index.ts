@@ -6,7 +6,7 @@ const HEIGHT = window.innerHeight -25;
 const bounce = -0.8;
 
 //Create Engine;
-const engine = new Engine(canvas, WIDTH, HEIGHT, 144);
+const engine = new Engine(canvas, WIDTH, HEIGHT, 60);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
