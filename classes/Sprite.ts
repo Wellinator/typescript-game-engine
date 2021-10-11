@@ -1,21 +1,18 @@
 import { AnimateOptions } from '../models/AnimateOptions';
-import { TileCoordinate } from '../models/TileCoordinate';
 import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
+import { Tile } from './Tile';
+import { TileMap } from './TileMap';
 
 export class Sprite extends Object2D {
   public width: number;
   public height: number;
-  public tileWidth: number;
-  public tileHeight: number;
   private _context: CanvasRenderingContext2D;
   public mesh: Point2D[] = [];
   public size: number;
-  private currentTileIndex: number = 0;
   private _rad: number = 0;
   public displayHitBox: boolean = true;
-  private _tilesMap: TileCoordinate[] = [];
-  private _atlas: HTMLImageElement;
+  private _tilesMap: TileMap;
   private _elapsedAnimetionTime: number = 0;
   private _defaultAnimationTimeDelay: number = 200;
 
@@ -45,38 +42,11 @@ export class Sprite extends Object2D {
     this.Y = Y;
     this.width = width;
     this.height = height;
-    this.tileWidth = tileWidth || width;
-    this.tileHeight = tileHeight || height;
-    this._createFrameFromAtlas(atlas);
-  }
-
-  private _createFrameFromAtlas(paths: string): void {
-    this._atlas = new Image();
-    this._atlas.src = paths;
-    this._populateTileMap(this._atlas);
-  }
-
-  private _isAtlasColumnsOrRowsOriented(): boolean {
-    return (
-      this.tileWidth < this._atlas.naturalWidth ||
-      this.tileHeight < this._atlas.naturalHeight
+    this._tilesMap = new TileMap(
+      atlas,
+      tileWidth || width,
+      tileHeight || height
     );
-  }
-
-  private _populateTileMap(atlas: HTMLImageElement) {
-    if (this._isAtlasColumnsOrRowsOriented) {
-      for (let i = 0; i < atlas.naturalWidth / this.tileWidth; i++) {
-        for (let j = 0; j < atlas.naturalHeight / this.tileHeight; j++) {
-          this._tilesMap.push({
-            x: this.tileWidth * i,
-            y: this.tileHeight * j,
-          });
-        }
-      }
-      return;
-    }
-
-    this._tilesMap[0] = this._atlas;
   }
 
   /**
@@ -89,7 +59,7 @@ export class Sprite extends Object2D {
     if (this.isCollidable && this.displayHitBox) {
       this.drawHitBox();
     }
-    this.drawTile(this.currentTileIndex);
+    this.drawTile(this._tilesMap.currentTile);
     return;
   }
 
@@ -100,7 +70,8 @@ export class Sprite extends Object2D {
    * @private
    * @returns void
    */
-  public drawTile(tileIndex: number): void {
+  public drawTile(tile: Tile): void {
+    // TODO -> Fix: draw a Tile object;
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
@@ -223,41 +194,23 @@ export class Sprite extends Object2D {
     return;
   }
 
-  public animate(
-    deltaTime: number,
-    options: AnimateOptions = {
-      customframeTime: this._defaultAnimationTimeDelay,
-      animateInOpositeDirection: false
-    }
-  ) {
-    let timeLimit = options.customframeTime;
-    if (Array.isArray(options.customframeTime)) {
+  public animate(deltaTime: number, options: AnimateOptions) {
+    let timeLimit = options?.customframeTime || this._defaultAnimationTimeDelay;
+    if (Array.isArray(options?.customframeTime)) {
       timeLimit =
-        options.customframeTime[this.currentTileIndex] || this._defaultAnimationTimeDelay;
+        options?.customframeTime[options.customTilesMap.tileIndex] || 
+        this._tilesMap.tileIndex ||
+        this._defaultAnimationTimeDelay;
     }
     this._elapsedAnimetionTime += deltaTime;
     if (this._elapsedAnimetionTime >= timeLimit) {
-      if(options.animateInOpositeDirection){
-        this.previousTile();
-      }else{
-        this.nextTile();
+      if (options?.animateInOpositeDirection || false) {
+        options.customTilesMap.previousTile();
+      } else {
+        options.customTilesMap.nextTile();
       }
       this._elapsedAnimetionTime = 0;
     }
     return;
-  }
-
-  public nextTile() {
-    if (!!this._tilesMap[this.currentTileIndex + 1]) {
-      return this.currentTileIndex++;
-    }
-    return (this.currentTileIndex = 0);
-  }
-
-  public previousTile() {
-    if (!!this._tilesMap[this.currentTileIndex - 1]) {
-      return this.currentTileIndex--;
-    }
-    return (this.currentTileIndex = this._tilesMap.length);
   }
 }

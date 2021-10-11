@@ -1,4 +1,7 @@
+import { TileMap } from '../classes/TileMap';
+
 export interface AnimateOptions {
-  customframeTime: number | number[];
-  animateInOpositeDirection: boolean;
+  customTilesMap?: TileMap;
+  customframeTime?: number | number[];
+  animateInOpositeDirection?: boolean;
 }
