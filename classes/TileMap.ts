@@ -52,14 +52,22 @@ export class TileMap {
       for (let i = 0; i < atlas.naturalWidth / this.tileWidth; i++) {
         for (let j = 0; j < atlas.naturalHeight / this.tileHeight; j++) {
           this._tilesMap.push(
-            new Tile(this.tileWidth * i, this.tileHeight * j)
+            new Tile(
+              this.tileWidth * i,
+              this.tileHeight * j,
+              this.tileWidth,
+              this.tileHeight,
+              this._atlas
+            )
           );
         }
       }
       return;
     }
 
-    this._tilesMap[0] = new Tile(this.tileWidth, this.tileHeight);
+    this._tilesMap = new Array<Tile>(
+      new Tile(0, 0, this.tileWidth, this.tileHeight, this._atlas)
+    );
   }
 
   public nextTile() {
