@@ -1,4 +1,4 @@
-import { TileCoordinate } from "../models/TileCoordinate";
+import { TileCoordinate } from '../models/TileCoordinate';
 
 export class Tile implements TileCoordinate {
   private _x: number;
@@ -12,8 +12,8 @@ export class Tile implements TileCoordinate {
     y: number,
     width: number,
     height: number,
-    atlas: HTMLImageElement,
-  ){
+    atlas: HTMLImageElement
+  ) {
     this._x = x;
     this._y = y;
     this._width = width;
@@ -21,23 +21,23 @@ export class Tile implements TileCoordinate {
     this._atlas = atlas;
   }
 
-  public get x(): number{
-    return this._x
+  public get x(): number {
+    return this._x;
   }
 
-  public get y(): number{
-    return this._y
+  public get y(): number {
+    return this._y;
   }
 
-  public get width(): number{
-    return this._width
+  public get width(): number {
+    return this._width;
   }
 
-  public get height(): number{
-    return this._height
+  public get height(): number {
+    return this._height;
   }
-  
-  public get atlas(): HTMLImageElement{
+
+  public get atlas(): HTMLImageElement {
     return this._atlas;
   }
 }

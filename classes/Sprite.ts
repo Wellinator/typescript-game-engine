@@ -5,7 +5,6 @@ import { Tile } from './Tile';
 import { TileMap } from './TileMap';
 
 export class Sprite extends Object2D {
-  
   public width: number;
   public height: number;
   public mesh: Point2D[] = [];
@@ -15,7 +14,7 @@ export class Sprite extends Object2D {
   private _rad: number = 0;
   private _context: CanvasRenderingContext2D;
   private _tilesMap: TileMap;
-  private _elapsedAnimetionTime: number = 0;
+  private _elapsedAnimationTime: number = 0;
   private _defaultAnimationTimeDelay: number = 200;
 
   /**
@@ -73,7 +72,6 @@ export class Sprite extends Object2D {
    * @returns void
    */
   public drawTile(tile: Tile): void {
-
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
@@ -91,13 +89,13 @@ export class Sprite extends Object2D {
       this.width,
       this.height
     );
-    
+
     if (this.isRotated) {
       this.resetContextRotation();
     }
   }
 
-  private resetContextRotation(): ThisType<Sprite>{
+  private resetContextRotation(): ThisType<Sprite> {
     this._context.setTransform(1, 0, 0, 1, 0, 0);
     return this;
   }
@@ -197,18 +195,20 @@ export class Sprite extends Object2D {
     let timeLimit = options?.customframeTime || this._defaultAnimationTimeDelay;
     if (Array.isArray(options?.customframeTime)) {
       timeLimit =
-        options?.customframeTime[options.customTilesMap.tileIndex] || 
+        options?.customframeTime[options.customTilesMap.tileIndex] ||
         this._tilesMap.tileIndex ||
         this._defaultAnimationTimeDelay;
     }
-    this._elapsedAnimetionTime += deltaTime;
-    if (this._elapsedAnimetionTime >= timeLimit) {
+    this._elapsedAnimationTime += deltaTime;
+    if (this._elapsedAnimationTime >= timeLimit) {
+      const tileMap = options?.customTilesMap || this._tilesMap;
       if (options?.animateInOpositeDirection || false) {
-        options.customTilesMap.previousTile();
+        tileMap.previousTile();
       } else {
-        options.customTilesMap.nextTile();
+        tileMap.nextTile();
       }
-      this._elapsedAnimetionTime = 0;
+
+      this._elapsedAnimationTime = 0;
     }
     return;
   }

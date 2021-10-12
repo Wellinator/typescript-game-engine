@@ -1,7 +1,7 @@
 import { Tile } from './Tile';
 
 export class TileMap {
-  private _tilesMap?: Tile[];
+  private _tilesMap?: Tile[] = [];
   private _atlas: HTMLImageElement;
   private _tileWidth: number;
   private _tileHeight: number;
