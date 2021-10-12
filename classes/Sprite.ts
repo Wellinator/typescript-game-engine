@@ -5,13 +5,15 @@ import { Tile } from './Tile';
 import { TileMap } from './TileMap';
 
 export class Sprite extends Object2D {
+  
   public width: number;
   public height: number;
-  private _context: CanvasRenderingContext2D;
   public mesh: Point2D[] = [];
   public size: number;
-  private _rad: number = 0;
   public displayHitBox: boolean = true;
+
+  private _rad: number = 0;
+  private _context: CanvasRenderingContext2D;
   private _tilesMap: TileMap;
   private _elapsedAnimetionTime: number = 0;
   private _defaultAnimationTimeDelay: number = 200;
