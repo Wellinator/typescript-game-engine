@@ -73,36 +73,33 @@ export class Sprite extends Object2D {
    * @returns void
    */
   public drawTile(tile: Tile): void {
-    // TODO -> Fix: draw a Tile object;
+
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
       this._context.translate(-this.X, -this.Y);
-      this._context.drawImage(
-        this._atlas,
-        this._tilesMap[tileIndex]?.x,
-        this._tilesMap[tileIndex]?.y,
-        this.tileWidth,
-        this.tileHeight,
-        this.X - this.width / 2,
-        this.Y - this.height / 2,
-        this.width,
-        this.height
-      );
-      this._context.setTransform(1, 0, 0, 1, 0, 0);
-      return;
     }
+
     this._context.drawImage(
-      this._atlas,
-      this._tilesMap[tileIndex]?.x,
-      this._tilesMap[tileIndex]?.y,
-      this.tileWidth,
-      this.tileHeight,
+      tile.atlas,
+      tile.x,
+      tile.y,
+      tile.width,
+      tile.height,
       this.X - this.width / 2,
       this.Y - this.height / 2,
       this.width,
       this.height
     );
+    
+    if (this.isRotated) {
+      this.resetContextRotation();
+    }
+  }
+
+  private resetContextRotation(): ThisType<Sprite>{
+    this._context.setTransform(1, 0, 0, 1, 0, 0);
+    return this;
   }
 
   private drawHitBox() {
