@@ -191,7 +191,7 @@ export class Sprite extends Object2D {
     return;
   }
 
-  public animate(deltaTime: number, options: AnimateOptions) {
+  public animate(deltaTime: number, options: AnimateOptions = undefined) {
     let timeLimit = options?.customframeTime || this._defaultAnimationTimeDelay;
     if (Array.isArray(options?.customframeTime)) {
       timeLimit =
