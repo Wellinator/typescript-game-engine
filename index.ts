@@ -24,8 +24,8 @@ const sprite = scene.createSprite(
 
 sprite.setDirection((11 * Math.PI) / 6);
 sprite.velocity.setLength(50);
-sprite.gravitate(25);
-sprite.friction = 0.99;
+sprite.gravitate(50);
+sprite.friction = .98;
 
 sprite.OnUpdate = (deltaTimestamp) => {
   sprite.velocity.multipliedBy(sprite.friction);
@@ -66,16 +66,20 @@ engine.OnUpdate = (deltaTimestamp) => {
 
 engine.getInputKeys = (pressedKeys) => {
   if (pressedKeys['w']) {
-    sprite.Y = sprite.Y - 1;
+    sprite.setDirection(Math.PI / 2)
+    sprite.velocity.multipliedBy(1.25)
   }
   if (pressedKeys['a']) {
-    sprite.X = sprite.X - 1;
+    sprite.setDirection(Math.PI)
+    sprite.velocity.multipliedBy(.9);
   }
   if (pressedKeys['s']) {
-    sprite.Y = sprite.Y + 1;
+    sprite.setDirection((3 * Math.PI) / 2)
+    sprite.velocity.multipliedBy(1.1)
   }
   if (pressedKeys['d']) {
-    sprite.X = sprite.X + 1;
+    sprite.setDirection(Math.PI * 2)
+    sprite.velocity.multipliedBy(.9);
   }
 
   if (pressedKeys['ArrowLeft']) {

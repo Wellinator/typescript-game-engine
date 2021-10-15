@@ -79,11 +79,11 @@ export class Sprite extends Object2D {
     }
 
     this._context.drawImage(
-      tile.atlas,
-      tile.x,
-      tile.y,
-      tile.width,
-      tile.height,
+      tile?.atlas,
+      tile?.x,
+      tile?.y,
+      tile?.width,
+      tile?.height,
       this.X - this.width / 2,
       this.Y - this.height / 2,
       this.width,
