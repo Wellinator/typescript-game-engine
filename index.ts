@@ -75,20 +75,20 @@ fetch(
 
       engine.getInputKeys = (pressedKeys) => {
         if (pressedKeys['w']) {
-          sprite.setDirection(Math.PI / 2);
-          sprite.velocity.multipliedBy(1.25);
+          sprite.velocity.setLength(150);
+          sprite.moveUp();
         }
         if (pressedKeys['a']) {
-          sprite.setDirection(Math.PI);
-          sprite.velocity.multipliedBy(0.9);
+          sprite.velocity.setLength(150);
+          sprite.moveLeft();
         }
         if (pressedKeys['s']) {
-          sprite.setDirection((3 * Math.PI) / 2);
-          sprite.velocity.multipliedBy(1.1);
+          sprite.velocity.setLength(150);
+          sprite.moveDown();
         }
         if (pressedKeys['d']) {
-          sprite.setDirection(Math.PI * 2);
-          sprite.velocity.multipliedBy(0.9);
+          sprite.velocity.setLength(150);
+          sprite.moveRight();
         }
 
         if (pressedKeys['ArrowLeft']) {

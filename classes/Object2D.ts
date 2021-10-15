@@ -188,6 +188,26 @@ abstract class Object2D {
     this._gravity.Y = gravityValue;
     return this;
   }
+
+  public moveUp(speed: number = 1){
+    this.setDirection((3 * Math.PI) / 2);
+    this.velocity.multipliedBy(speed);
+  }
+  
+  public moveDown(speed: number = 1){
+    this.setDirection(Math.PI / 2);
+    this.velocity.multipliedBy(speed);
+  }
+
+  public moveLeft(speed: number = 1){
+    this.setDirection(Math.PI);
+    this.velocity.multipliedBy(speed);
+  }
+  
+  public moveRight(speed: number = 1){
+    this.setDirection(Math.PI * 2);
+    this.velocity.multipliedBy(speed);
+  }
 }
 
 export default Object2D;
