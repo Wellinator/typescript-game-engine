@@ -1,12 +1,12 @@
 import { Engine } from './classes/Engine';
 
 const canvas: HTMLCanvasElement = document.querySelector('canvas');
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
-const bounce = -0.95
+const WIDTH = window.innerWidth -25;
+const HEIGHT = window.innerHeight -25;
+const bounce = -0.8;
 
 //Create Engine;
-const engine = new Engine(canvas, WIDTH, HEIGHT, 144);
+const engine = new Engine(canvas, WIDTH, HEIGHT, 60);
 
 //Create a 2D scene;
 const scene = engine.create2DScene();
@@ -17,23 +17,26 @@ const sprite = scene.createSprite(
   51,
   100,
   100,
-  'https://www.seekpng.com/png/detail/383-3833431_bulbasaur-mini-sprite-bulbasaur-pixel-art.png'
+  16,
+  16,
+  `https://raw.githubusercontent.com/Wellinator/javascript-3d-engine/sprite-animation/samples/aprite_atlas.png`
 );
 
 sprite.setDirection((11 * Math.PI) / 6);
-sprite.velocity.setLength(20);
-sprite.gravitate(100);
-sprite.friction = .995;
+sprite.velocity.setLength(50);
+sprite.gravitate(50);
+sprite.friction = .98;
 
 sprite.OnUpdate = (deltaTimestamp) => {
   sprite.velocity.multipliedBy(sprite.friction);
   sprite.velocity.addedTo(sprite.gravity);
   sprite.position.addedTo(sprite.velocity.multiply(deltaTimestamp / 1000));
+  sprite.animate(deltaTimestamp);
 };
 
 engine.OnDraw = () => {
   sprite.draw();
-}
+};
 
 scene.addSprite(sprite);
 
@@ -63,16 +66,20 @@ engine.OnUpdate = (deltaTimestamp) => {
 
 engine.getInputKeys = (pressedKeys) => {
   if (pressedKeys['w']) {
-    sprite.Y = sprite.Y - 1;
+    sprite.setDirection(Math.PI / 2)
+    sprite.velocity.multipliedBy(1.25)
   }
   if (pressedKeys['a']) {
-    sprite.X = sprite.X - 1;
+    sprite.setDirection(Math.PI)
+    sprite.velocity.multipliedBy(.9);
   }
   if (pressedKeys['s']) {
-    sprite.Y = sprite.Y + 1;
+    sprite.setDirection((3 * Math.PI) / 2)
+    sprite.velocity.multipliedBy(1.1)
   }
   if (pressedKeys['d']) {
-    sprite.X = sprite.X + 1;
+    sprite.setDirection(Math.PI * 2)
+    sprite.velocity.multipliedBy(.9);
   }
 
   if (pressedKeys['ArrowLeft']) {
@@ -87,4 +94,6 @@ engine.getInputKeys = (pressedKeys) => {
   if (pressedKeys['ArrowDown']) {
     sprite.scale(0.99);
   }
+
+  return pressedKeys;
 };

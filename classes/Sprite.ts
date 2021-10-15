@@ -1,15 +1,21 @@
+import { AnimateOptions } from '../models/AnimateOptions';
 import Object2D from './Object2D';
 import { Point2D } from './primitives/Point2D';
+import { Tile } from './Tile';
+import { TileMap } from './TileMap';
 
 export class Sprite extends Object2D {
-  private _context: CanvasRenderingContext2D;
-  public mesh: Point2D[] = [];
-  public size: number;
   public width: number;
   public height: number;
-  private assets: CanvasImageSource[] = [];
-  private _rad: number = 0;
+  public mesh: Point2D[] = [];
+  public size: number;
   public displayHitBox: boolean = true;
+
+  private _rad: number = 0;
+  private _context: CanvasRenderingContext2D;
+  private _tilesMap: TileMap;
+  private _elapsedAnimationTime: number = 0;
+  private _defaultAnimationTimeDelay: number = 200;
 
   /**
    * Create a new Sprite.
@@ -19,7 +25,7 @@ export class Sprite extends Object2D {
    * @param {number} Y - Y axis position.
    * @param {number} width - Sprite width.
    * @param {number} height - Sprite height.
-   * @param {string} imagePath  - URL or Relative path to sprite image assets.
+   * @param {string} atlas  - URL or Relative path to sprite atlas source.
    */
   constructor(
     context: CanvasRenderingContext2D,
@@ -27,7 +33,9 @@ export class Sprite extends Object2D {
     Y: number,
     width: number,
     height: number,
-    imagePath: string | string[]
+    tileWidth: number = undefined,
+    tileHeight: number = undefined,
+    atlas: string
   ) {
     super();
     this._context = context;
@@ -35,38 +43,24 @@ export class Sprite extends Object2D {
     this.Y = Y;
     this.width = width;
     this.height = height;
-    this._createSpritesFromPaths(imagePath);
-  }
-
-  private _createSpritesFromPaths(paths: string | string[]): void {
-    if (Array.isArray(paths)) {
-      paths.forEach((path) => {
-        if (!!path && !!path.length) {
-          const tempImage = new Image();
-          tempImage.src = path;
-          this.assets.push(tempImage);
-        }
-      });
-      return;
-    }
-    const tempImage = new Image();
-    tempImage.src = paths;
-    this.assets.push(tempImage);
+    this._tilesMap = new TileMap(
+      atlas,
+      tileWidth || width,
+      tileHeight || height
+    );
   }
 
   /**
    * Draw the Sprite to its context.
    * @function
    * @public
-   * @returns ThisType<Sprite>
+   * @returns Sprite
    */
   public draw(): ThisType<Sprite> {
     if (this.isCollidable && this.displayHitBox) {
-      this.drawHitBox()
+      this.drawHitBox();
     }
-    if (!!this.assets.length) {
-      this.assets.forEach((asset) => this._drawImage(asset));
-    }
+    this.drawTile(this._tilesMap.currentTile);
     return;
   }
 
@@ -77,31 +71,36 @@ export class Sprite extends Object2D {
    * @private
    * @returns void
    */
-  private _drawImage(asset: CanvasImageSource): void {
+  public drawTile(tile: Tile): void {
     if (this.isRotated) {
       this._context.translate(this.X, this.Y);
       this._context.rotate(this._rad);
       this._context.translate(-this.X, -this.Y);
-      this._context.drawImage(
-        asset,
-        this.X - this.width / 2,
-        this.Y - this.height / 2,
-        this.width,
-        this.height
-      );
-      this._context.setTransform(1, 0, 0, 1, 0, 0);
-      return;
     }
+
     this._context.drawImage(
-      asset,
+      tile?.atlas,
+      tile?.x,
+      tile?.y,
+      tile?.width,
+      tile?.height,
       this.X - this.width / 2,
       this.Y - this.height / 2,
       this.width,
       this.height
     );
+
+    if (this.isRotated) {
+      this.resetContextRotation();
+    }
   }
 
-  private drawHitBox(){
+  private resetContextRotation(): ThisType<Sprite> {
+    this._context.setTransform(1, 0, 0, 1, 0, 0);
+    return this;
+  }
+
+  private drawHitBox() {
     this._context.save();
     this._context.lineWidth = 3;
     this._context.strokeStyle = this.hitBoxColor;
@@ -118,7 +117,7 @@ export class Sprite extends Object2D {
         this.height
       );
       this._context.setTransform(1, 0, 0, 1, 0, 0);
-    }else{
+    } else {
       this._context.rect(
         this.X - this.width / 2,
         this.Y - this.height / 2,
@@ -163,7 +162,6 @@ export class Sprite extends Object2D {
   public scale(scalingFactor: number): Object2D {
     this.width *= scalingFactor;
     this.height *= scalingFactor;
-    super.scale(scalingFactor);
     return this;
   }
 
@@ -190,6 +188,28 @@ export class Sprite extends Object2D {
   }
 
   public OnAfterUpdate() {
+    return;
+  }
+
+  public animate(deltaTime: number, options: AnimateOptions = undefined) {
+    let timeLimit = options?.customframeTime || this._defaultAnimationTimeDelay;
+    if (Array.isArray(options?.customframeTime)) {
+      timeLimit =
+        options?.customframeTime[options.customTilesMap.tileIndex] ||
+        this._tilesMap.tileIndex ||
+        this._defaultAnimationTimeDelay;
+    }
+    this._elapsedAnimationTime += deltaTime;
+    if (this._elapsedAnimationTime >= timeLimit) {
+      const tileMap = options?.customTilesMap || this._tilesMap;
+      if (options?.animateInOpositeDirection || false) {
+        tileMap.previousTile();
+      } else {
+        tileMap.nextTile();
+      }
+
+      this._elapsedAnimationTime = 0;
+    }
     return;
   }
 }

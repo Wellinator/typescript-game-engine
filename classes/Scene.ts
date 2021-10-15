@@ -24,7 +24,7 @@ export class Scene2D {
   }
 
   public OnUpdate(deltaTimestamp: number): void {
-    this.sprites.forEach(sprite => sprite.update(deltaTimestamp))
+    this.sprites.forEach((sprite) => sprite.update(deltaTimestamp));
     return;
   }
 
@@ -32,7 +32,7 @@ export class Scene2D {
     return;
   }
 
-  public addSprite(...object: Sprite[]): void{
+  public addSprite(...object: Sprite[]): void {
     this._sprites.push(...object);
   }
 
@@ -49,27 +49,33 @@ export class Scene2D {
     Y: number,
     width: number,
     height: number,
-    imagePath: string | string[]
+    tileWidth: number = undefined,
+    tileHeight: number = undefined,
+    atlas: string
   ): Sprite {
-    return new Sprite(this._context, X, Y, width, height, imagePath);
+    return new Sprite(
+      this._context,
+      X,
+      Y,
+      width,
+      height,
+      tileWidth,
+      tileHeight,
+      atlas
+    );
   }
 
-  public print(
-    X: number,
-    Y: number,
-    text: number | string = ''
-  ): void {
+  public print(X: number, Y: number, text: number | string = ''): void {
     this._context.save();
-    this._context.fillStyle = '#FFFFFF'
-    this._context.font = '16px Arial'
+    this._context.fillStyle = '#FFFFFF';
+    this._context.font = '16px Arial';
     this._context.fillText(`${text}`, X, Y);
-    this._context.restore()
+    this._context.restore();
   }
 
   public draw(): void {
-    for(let i = 0; i < this._sprites.length; i++){
-      this._sprites[i].draw(); 
+    for (let i = 0; i < this._sprites.length; i++) {
+      this._sprites[i].draw();
     }
   }
-
 }
