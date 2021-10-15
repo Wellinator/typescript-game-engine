@@ -7,7 +7,7 @@ export class TileMap {
   private _tileHeight: number;
   private _currentTileIndex: number = 0;
 
-  constructor(tileAtlas: string, tileWidth: number, tileHeight: number) {
+  constructor(tileAtlas: string | ArrayBuffer, tileWidth: number, tileHeight: number) {
     this._tileWidth = tileWidth;
     this._tileHeight = tileHeight;
     this._atlas = this._createFrameFromAtlas(tileAtlas);
@@ -34,9 +34,9 @@ export class TileMap {
     return this._tilesMap;
   }
 
-  private _createFrameFromAtlas(paths: string): HTMLImageElement {
+  private _createFrameFromAtlas(paths: string | ArrayBuffer): HTMLImageElement {
     const atlas = new Image();
-    atlas.src = paths;
+    atlas.src = paths.toString();
     return atlas;
   }
 

@@ -127,7 +127,6 @@ export class Engine {
     this.context.imageSmoothingEnabled = false;
     this.context.imageSmoothingQuality = 'medium';
     this._initInputSystem();
-    this.fpsController();
   }
 
   /**
@@ -169,12 +168,11 @@ export class Engine {
   }
 
   /**
-  * @description Prepare the gameloop initialization;
-  * @private
-  * @function fpsController
-  * @returns {void}
+  * @description Initiate the gameloop;
+  * @public
+  * @function Init
   */
-  private fpsController(): void {
+  public Init(): void {
     this.PREVIOUS_FRAME_TIME = performance.now();
     window.requestAnimationFrame(this.gameLoop.bind(this));
   }

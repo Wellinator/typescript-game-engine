@@ -35,7 +35,7 @@ export class Sprite extends Object2D {
     height: number,
     tileWidth: number = undefined,
     tileHeight: number = undefined,
-    atlas: string
+    atlas: string | ArrayBuffer
   ) {
     super();
     this._context = context;

@@ -51,7 +51,7 @@ export class Scene2D {
     height: number,
     tileWidth: number = undefined,
     tileHeight: number = undefined,
-    atlas: string
+    atlas: string | ArrayBuffer
   ): Sprite {
     return new Sprite(
       this._context,
