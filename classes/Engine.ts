@@ -38,6 +38,13 @@ export class Engine {
   private _keysDown: string[] = [];
 
   /**
+  * @description Array of string with the held keys;
+  * @property {Array<string>} _keysHeld;
+  * @private
+  */
+   private _keysHeld: string[] = [];
+
+  /**
   * @description Stores the width of the Canvas window;
   * @property {number} _WIDTH;
   * @private
@@ -57,6 +64,13 @@ export class Engine {
   * @private
   */
   private CURRENT_FRAME_TIME: number;
+  
+  /**
+  * @description Timeout value in millisenconds to trashold;
+  * @property {number} HOLD_KEY_TIMEOUT;
+  * @public
+  */
+  public HOLD_KEY_TIMEOUT: number = 150;
 
   /**
   * @description Variable that stores the timestap of the last frame;
@@ -147,12 +161,19 @@ export class Engine {
   */
   private _initInputSystem(): void {
     window.document.addEventListener('keydown', (event: KeyboardEvent) => {
-      this.OnPressKey(event.key);
       this._keysDown[event.key] = true;
+      this.OnPressKey(event.key);
+      setTimeout(() => {
+        if(!!this._keysDown[event.key]) {
+          this._keysHeld[event.key] = true;
+          this.OnHoldKey(event.key);
+        } 
+      }, this.HOLD_KEY_TIMEOUT);
     });
     window.document.addEventListener('keyup', (event: KeyboardEvent) => {
       this.OnUnpressKey(event.key);
       this._keysDown[event.key] = false;
+      this._keysHeld[event.key] = false;
     });
   }
 
@@ -241,8 +262,8 @@ export class Engine {
   * @param {Array<string>} keysPressed;
   * @returns {Array<string>} All the current pressed keys;
   */  
-  public getInputKeys(keysPressed: string[]): string[] {
-    return keysPressed;
+  public getInputKeys(keysPressed: string[], keysHeld: string[]): {keysPressed: string[]; keysHeld: string[]} {
+    return {keysPressed, keysHeld};
   }
 
   
@@ -255,6 +276,17 @@ export class Engine {
   */
   public OnPressKey(pressedKey: string): string {
     return pressedKey;
+  }
+  
+  /**
+  * @description Function called every time a key is held;
+  * @public
+  * @function OnPressKey;
+  * @param {string} heldKey a single pressed key;
+  * @returns {string} Held key;
+  */
+  public OnHoldKey(heldKey: string): string {
+    return heldKey;
   }
 
   /**
