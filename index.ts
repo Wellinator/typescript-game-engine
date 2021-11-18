@@ -74,8 +74,8 @@ fetch(
       };
 
       engine.getInputKeys = (keysPressed, keysHeld) => {
-        if (keysPressed['w']) {
-          if(!sprite.isJumping) sprite.jump(700);
+        if (keysPressed['w'] && !keysHeld['w']) {
+          if(sprite.Y + sprite.height / 2 >= HEIGHT) sprite.jump(700);
         }
         if (keysPressed['a']) {
           sprite.velocity.setLength(150);
