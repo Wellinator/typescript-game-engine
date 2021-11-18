@@ -60,8 +60,12 @@ export class Sprite extends Object2D {
     if (this.isCollidable && this.displayHitBox) {
       this.drawHitBox();
     }
-    this.drawTile(this._tilesMap.currentTile);
-    return;
+    if (!!this._tilesMap.currentTile) {
+      this.drawTile(this._tilesMap.currentTile);
+    } else {
+      console.warn('Error while drawing the spite');
+    }
+    return this;
   }
 
   /**
