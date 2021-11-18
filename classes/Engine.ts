@@ -223,7 +223,7 @@ export class Engine {
       this.clearFrame();
 
       // Get input values
-      this.getInputKeys(this._keysDown);
+      this.getInputKeys(this._keysDown, this._keysHeld);
 
       // Call OnBeforeUpdate, used to prepare values if needed;
       this.OnBeforeUpdate();

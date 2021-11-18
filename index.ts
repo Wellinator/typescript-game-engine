@@ -74,7 +74,7 @@ fetch(
       };
 
       engine.getInputKeys = (keysPressed, keysHeld) => {
-        if (keysPressed['w']) {
+        if (keysHeld['w']) {
           sprite.velocity.setLength(150);
           sprite.moveUp();
         }
