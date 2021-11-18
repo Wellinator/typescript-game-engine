@@ -16,6 +16,7 @@ export class Sprite extends Object2D {
   private _tilesMap: TileMap;
   private _elapsedAnimationTime: number = 0;
   private _defaultAnimationTimeDelay: number = 200;
+  private _isJumping: boolean = false
 
   /**
    * Create a new Sprite.
@@ -215,5 +216,35 @@ export class Sprite extends Object2D {
       this._elapsedAnimationTime = 0;
     }
     return;
+  }
+
+  public get isJumping(): boolean {
+    return this._isJumping;
+  }
+
+  public jump(force: number = 1){
+    this._isJumping = true;
+    this.velocity.setLength(force)
+    this.setDirection((3 * Math.PI) / 2);
+  }
+
+  public moveUp(speed: number = 1){
+    this.setDirection((3 * Math.PI) / 2);
+    this.velocity.multipliedBy(speed);
+  }
+  
+  public moveDown(speed: number = 1){
+    this.setDirection(Math.PI / 2);
+    this.velocity.multipliedBy(speed);
+  }
+
+  public moveLeft(speed: number = 1){
+    this.setDirection(Math.PI);
+    this.velocity.multipliedBy(speed);
+  }
+  
+  public moveRight(speed: number = 1){
+    this.setDirection(Math.PI * 2);
+    this.velocity.multipliedBy(speed);
   }
 }
