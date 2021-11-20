@@ -73,38 +73,40 @@ fetch(
         }
       };
 
-      engine.getInputKeys = (pressedKeys) => {
-        if (pressedKeys['w']) {
-          sprite.velocity.setLength(150);
-          sprite.moveUp();
+      engine.getInputKeys = (keysPressed, keysHeld) => {
+        if (keysPressed['w'] && !keysHeld['w']) {
+          if(sprite.Y + sprite.height / 2 >= HEIGHT) sprite.jump(700);
         }
-        if (pressedKeys['a']) {
+        if (keysPressed['a']) {
           sprite.velocity.setLength(150);
           sprite.moveLeft();
         }
-        if (pressedKeys['s']) {
+        if (keysPressed['s']) {
           sprite.velocity.setLength(150);
           sprite.moveDown();
         }
-        if (pressedKeys['d']) {
+        if (keysPressed['d']) {
           sprite.velocity.setLength(150);
           sprite.moveRight();
         }
 
-        if (pressedKeys['ArrowLeft']) {
+        if (keysPressed['ArrowLeft']) {
           sprite.rotateCounterClockWise(5);
         }
-        if (pressedKeys['ArrowRight']) {
+        if (keysPressed['ArrowRight']) {
           sprite.rotateClockWise(5);
         }
-        if (pressedKeys['ArrowUp']) {
+        if (keysPressed['ArrowUp']) {
           sprite.scale(1.01);
         }
-        if (pressedKeys['ArrowDown']) {
+        if (keysPressed['ArrowDown']) {
           sprite.scale(0.99);
         }
 
-        return pressedKeys;
+        return {
+          keysPressed,
+          keysHeld
+        };
       };
 
       scene.addSprite(sprite);
