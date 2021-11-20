@@ -53,6 +53,9 @@ export class QuadTree {
       } else if (this.southWest.insert(object)) {
         return true;
       }
+
+      this._objects.push(object);
+      return true;
     }
   }
 

@@ -9,7 +9,7 @@ export class Scene2D {
   private _backGroundColor: string;
   private _WIDTH: number;
   private _HEIGHT: number;
-  private MAX_OBJECTS: number = 3;
+  private MAX_OBJECTS: number = 2;
 
   /**
    * @description Quad Tree object;

@@ -23,10 +23,10 @@ fetch(
       //Generate sprites
       for (let i = 0; i < 20; i++) {
         let tempSprite = scene.createSprite(
-          Math.floor(Math.random() * WIDTH),
-          Math.floor(Math.random() * HEIGHT),
-          25,
-          25,
+          Math.floor(Math.random() * WIDTH + 10),
+          Math.floor(Math.random() * HEIGHT + 10),
+          16,
+          16,
           16,
           16,
           base64Asset
@@ -35,7 +35,7 @@ fetch(
       }
 
       //Create asimple Sprite
-      const sprite = scene.createSprite(0, 0, 25, 25, 16, 16, base64Asset);
+      const sprite = scene.createSprite(0, 0, 16, 16, 16, 16, base64Asset);
 
       //sprite.setDirection((11 * Math.PI) / 6);
       //sprite.velocity.setLength(0);
