@@ -6,6 +6,7 @@ For more: https://github.com/CodingTrain/QuadTree
 */
 
 import Object2D from '../classes/Object2D';
+import { Circle } from './Circle';
 import { Rectangle } from './Rectangle';
 
 export class QuadTree {
