@@ -1,12 +1,29 @@
+import { QuadTree } from '../utils/QuadTree';
+import { Rectangle } from './primitives/Rectangle';
 import { Sprite } from './Sprite';
 
 export class Scene2D {
   private _context: CanvasRenderingContext2D;
   private _sprites: Sprite[] = [];
   private _backGroundColor: string;
+  private _WIDTH: number;
+  private _HEIGHT: number;
 
-  constructor(context: CanvasRenderingContext2D) {
+  /**
+   * @description Quad Tree object;
+   * @property {QuadTree} _quadTree;
+   * @private
+   */
+   private _quadTree: QuadTree;
+
+  constructor(context: CanvasRenderingContext2D, width: number, height: number) {
     this._context = context;
+    this._WIDTH = width;
+    this._HEIGHT = height;
+    this._quadTree = new QuadTree(
+      new Rectangle(0, 0, width, height),
+      2
+    );
   }
 
   get sprites(): Sprite[] {
@@ -20,11 +37,16 @@ export class Scene2D {
   }
 
   public OnBeforeUpdate() {
+    this._quadTree.clear();
     return;
   }
 
   public OnUpdate(deltaTimestamp: number): void {
     this.sprites.forEach((sprite) => sprite.update(deltaTimestamp));
+    this.sprites.forEach( sprite => {
+      this._quadTree.insert(sprite);
+    })
+    this._quadTree.draw(this._context);
     return;
   }
 

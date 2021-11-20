@@ -23,6 +23,17 @@ export class QuadTree {
     this._capacity = n;
   }
 
+  public clear() {
+    if (!this._objects.length) return;
+    this._objects = [];
+    if (this._isDivided) {
+      this.northWest.clear();
+      this.northEast.clear();
+      this.southWest.clear();
+      this.southEast.clear();
+    }
+  }
+
   public insert(object: Object2D): boolean {
     if (!this._boundary.contains(object)) {
       return false;
@@ -80,5 +91,25 @@ export class QuadTree {
       }
     }
     return found;
+  }
+
+  draw(context: CanvasRenderingContext2D) {
+    context.save();
+    context.strokeStyle = 'red';
+    context.lineWidth = 2.5;
+    context.strokeRect(
+      this._boundary.X,
+      this._boundary.Y,
+      this._boundary.width,
+      this._boundary.height
+    );
+    context.restore();
+
+    if(this._isDivided){
+      this.northWest.draw(context);
+      this.northEast.draw(context);
+      this.southWest.draw(context);
+      this.southEast.draw(context);
+    }
   }
 }

@@ -31,6 +31,26 @@ fetch(
         base64Asset
       );
 
+      const sprite2 = scene.createSprite(
+        100,
+        51,
+        100,
+        100,
+        16,
+        16,
+        base64Asset
+      );
+
+      const sprite3 = scene.createSprite(
+        300,
+        51,
+        100,
+        100,
+        16,
+        16,
+        base64Asset
+      );
+
       sprite.setDirection((11 * Math.PI) / 6);
       sprite.velocity.setLength(50);
       sprite.gravitate(50);
@@ -46,7 +66,7 @@ fetch(
       };
 
       engine.OnDraw = () => {
-        sprite.draw();
+        scene.draw();
       };
 
       engine.OnUpdate = (deltaTimestamp) => {
@@ -107,7 +127,7 @@ fetch(
         return pressedKeys;
       };
 
-      scene.addSprite(sprite);
+      scene.addSprite(sprite, sprite2, sprite3);
       engine.Init();
     };
   });
