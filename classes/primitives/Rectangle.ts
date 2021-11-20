@@ -5,20 +5,15 @@ http://patreon.com/codingtrain
 For more: https://github.com/CodingTrain/QuadTree
 */
 
-import Object2D from "../Object2D";
-import { Point2D } from "./Point2D";
+import Object2D from '../Object2D';
 
-export class Rectangle extends Object2D {
-  mesh: Point2D[] = [];
-  size: number;
-
+export class Rectangle {
   private _X: number;
   private _Y: number;
   private _W: number;
   private _H: number;
 
   constructor(X: number, Y: number, W: number, H: number) {
-    super(); 
     this._X = X;
     this._Y = Y;
     this._W = W;
@@ -41,12 +36,12 @@ export class Rectangle extends Object2D {
     return this._H;
   }
 
-  contains(point: Object2D): boolean {
+  contains(object: Object2D): boolean {
     return (
-      point.X >= this._X - this._W &&
-      point.X < this._X + this._W &&
-      point.Y >= this._Y - this._H &&
-      point.Y < this._Y + this._H
+      object.X + object.width >= this._X &&
+      object.X <= this.X + this._W &&
+      object.Y + object.height >= this._Y &&
+      object.Y <= this.Y + this._H
     );
   }
 
@@ -58,7 +53,7 @@ export class Rectangle extends Object2D {
       range.Y + range.height < this._Y - this._H
     );
   }
-  
+
   draw(context: CanvasRenderingContext2D): void {
     context.rect(this.X, this.Y, this.width, this.height);
     return;

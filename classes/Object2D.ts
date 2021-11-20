@@ -2,6 +2,8 @@ import { Point2D } from './primitives/Point2D';
 import { Vector2 } from './primitives/Vector2';
 
 abstract class Object2D {
+  abstract width: number;
+  abstract height: number;
   abstract mesh: Point2D[];
   abstract size: number;
   private _position: Vector2 = new Vector2(0, 0);

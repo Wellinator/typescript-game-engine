@@ -20,36 +20,22 @@ fetch(
     reader.onloadend = () => {
       const base64Asset = reader.result;
 
+      //Generate sprites
+      for (let i = 0; i < 100; i++) {
+        let tempSprite = scene.createSprite(
+          Math.floor(Math.random() * WIDTH),
+          Math.floor(Math.random() * HEIGHT),
+          100,
+          100,
+          16,
+          16,
+          base64Asset
+        );
+        scene.addSprite(tempSprite);
+      }
+
       //Create asimple Sprite
-      const sprite = scene.createSprite(
-        WIDTH / 2,
-        51,
-        100,
-        100,
-        16,
-        16,
-        base64Asset
-      );
-
-      const sprite2 = scene.createSprite(
-        100,
-        51,
-        100,
-        100,
-        16,
-        16,
-        base64Asset
-      );
-
-      const sprite3 = scene.createSprite(
-        300,
-        51,
-        100,
-        100,
-        16,
-        16,
-        base64Asset
-      );
+      const sprite = scene.createSprite(0, 0, 100, 100, 16, 16, base64Asset);
 
       sprite.setDirection((11 * Math.PI) / 6);
       sprite.velocity.setLength(50);
@@ -127,7 +113,7 @@ fetch(
         return pressedKeys;
       };
 
-      scene.addSprite(sprite, sprite2, sprite3);
+      scene.addSprite(sprite);
       engine.Init();
     };
   });

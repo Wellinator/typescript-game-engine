@@ -2,17 +2,15 @@ import Object2D from '../Object2D';
 import { Point2D } from './Point2D';
 import { Rectangle } from './Rectangle';
 
-export class Circle extends Object2D {
-  public mesh: Point2D[];
-  public size: number;
+export class Circle {
   private _rSquared: number;
+  private _X: number;
+  private _Y: number;
 
   constructor(X: number, Y: number, size: number) {
-    super();
-    this.X = X;
-    this.Y = Y;
-    this.size = size;
-    this.mesh = [];
+    this._X = X;
+    this._Y = Y;
+    this._rSquared = size * size;
   }
 
   public get r(): number {
@@ -21,18 +19,18 @@ export class Circle extends Object2D {
 
   draw(context: CanvasRenderingContext2D): void {
     context.beginPath();
-    context.arc(this.X, this.Y, this.size, 0, 2 * Math.PI);
+    context.arc(this._X, this._Y, this._rSquared, 0, 2 * Math.PI);
     context.stroke();
   }
 
   contains(object: Object2D): boolean {
-    const d = Math.pow(object.X - this.X, 2) + Math.pow(object.Y - this.Y, 2);
+    const d = Math.pow(object.X - this._X, 2) + Math.pow(object.Y - this._Y, 2);
     return d <= this._rSquared;
   }
 
   intersects(range: Rectangle): boolean {
-    const xDist = Math.abs(range.X - this.X);
-    const yDist = Math.abs(range.Y - this.Y);
+    const xDist = Math.abs(range.X - this._X);
+    const yDist = Math.abs(range.Y - this._Y);
     const r = this.r;
     const w = range.width;
     const h = range.height;

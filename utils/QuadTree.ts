@@ -26,12 +26,11 @@ export class QuadTree {
   public clear() {
     if (!this._objects.length) return;
     this._objects = [];
-    if (this._isDivided) {
-      this.northWest.clear();
-      this.northEast.clear();
-      this.southWest.clear();
-      this.southEast.clear();
-    }
+    this._isDivided = false;
+    this.northWest = undefined;
+    this.northEast = undefined;
+    this.southWest = undefined;
+    this.southEast = undefined;
   }
 
   public insert(object: Object2D): boolean {
@@ -62,10 +61,10 @@ export class QuadTree {
     const y = this._boundary.Y;
     const w = this._boundary.width;
     const h = this._boundary.height;
-    const ne = new Rectangle(x + w / 2, y - h / 2, w / 2, h / 2);
-    const nw = new Rectangle(x - w / 2, y - h / 2, w / 2, h / 2);
+    const ne = new Rectangle(x + w / 2, y, w / 2, h / 2);
+    const nw = new Rectangle(x, y, w / 2, h / 2);
     const se = new Rectangle(x + w / 2, y + h / 2, w / 2, h / 2);
-    const sw = new Rectangle(x - w / 2, y + h / 2, w / 2, h / 2);
+    const sw = new Rectangle(x, y + h / 2, w / 2, h / 2);
 
     this.northEast = new QuadTree(ne, this._capacity);
     this.northWest = new QuadTree(nw, this._capacity);
@@ -74,7 +73,11 @@ export class QuadTree {
     this._isDivided = true;
   }
 
-  public query(range: Rectangle, found: Object2D[] = []): Object2D[] {
+  public query(range: Rectangle, found: Object2D[]): Object2D[] {
+    if (!found) {
+      found = [];
+    }
+
     if (!this._boundary.intersects(range)) {
       return;
     } else {
@@ -105,7 +108,7 @@ export class QuadTree {
     );
     context.restore();
 
-    if(this._isDivided){
+    if (this._isDivided) {
       this.northWest.draw(context);
       this.northEast.draw(context);
       this.southWest.draw(context);
