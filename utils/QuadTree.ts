@@ -99,7 +99,7 @@ export class QuadTree {
   draw(context: CanvasRenderingContext2D) {
     context.save();
     context.strokeStyle = 'red';
-    context.lineWidth = 2.5;
+    context.lineWidth = 1;
     context.strokeRect(
       this._boundary.X,
       this._boundary.Y,

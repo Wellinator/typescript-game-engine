@@ -1,33 +1,39 @@
 import { QuadTree } from '../utils/QuadTree';
+import Object2D from './Object2D';
 import { Rectangle } from './primitives/Rectangle';
 import { Sprite } from './Sprite';
 
 export class Scene2D {
   private _context: CanvasRenderingContext2D;
-  private _sprites: Sprite[] = [];
+  private _objects: Object2D[] = [];
   private _backGroundColor: string;
   private _WIDTH: number;
   private _HEIGHT: number;
+  private MAX_OBJECTS: number = 3;
 
   /**
    * @description Quad Tree object;
    * @property {QuadTree} _quadTree;
    * @private
    */
-   private _quadTree: QuadTree;
+  private _quadTree: QuadTree;
 
-  constructor(context: CanvasRenderingContext2D, width: number, height: number) {
+  constructor(
+    context: CanvasRenderingContext2D,
+    width: number,
+    height: number
+  ) {
     this._context = context;
     this._WIDTH = width;
     this._HEIGHT = height;
     this._quadTree = new QuadTree(
       new Rectangle(0, 0, width, height),
-      2
+      this.MAX_OBJECTS
     );
   }
 
-  get sprites(): Sprite[] {
-    return this._sprites;
+  get objectsInScene(): Object2D[] {
+    return this._objects;
   }
 
   public update(deltaTimestamp: number): void {
@@ -37,15 +43,18 @@ export class Scene2D {
   }
 
   public OnBeforeUpdate() {
-    this._quadTree.clear();
+    this._quadTree = new QuadTree(
+      new Rectangle(0, 0, this._WIDTH, this._HEIGHT),
+      this.MAX_OBJECTS
+    );
     return;
   }
 
   public OnUpdate(deltaTimestamp: number): void {
-    this.sprites.forEach((sprite) => sprite.update(deltaTimestamp));
-    this.sprites.forEach( sprite => {
-      this._quadTree.insert(sprite);
-    })
+    this.objectsInScene.forEach((object) => object.update(deltaTimestamp));
+    this.objectsInScene.forEach((object) => {
+      this._quadTree.insert(object);
+    });
     this._quadTree.draw(this._context);
     return;
   }
@@ -54,8 +63,8 @@ export class Scene2D {
     return;
   }
 
-  public addSprite(...object: Sprite[]): void {
-    this._sprites.push(...object);
+  public addObjectToScene(...object: Object2D[]): void {
+    this._objects.push(...object);
   }
 
   public set backGroundColor(color: string) {
@@ -96,8 +105,8 @@ export class Scene2D {
   }
 
   public draw(): void {
-    for (let i = 0; i < this._sprites.length; i++) {
-      this._sprites[i].draw();
+    for (let i = 0; i < this._objects.length; i++) {
+      this._objects[i].draw();
     }
   }
 }

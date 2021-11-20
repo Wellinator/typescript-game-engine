@@ -32,16 +32,16 @@ abstract class Object2D {
   }
 
   protected get hitBoxColor(): string {
-    if(this.isCollidable) {
+    if (this.isCollidable) {
       return this.hasCollided ? '#FF0000' : '#03FC1C';
     }
-    return '#0000FF'
+    return '#0000FF';
   }
 
   public get X(): number {
     return this._position.X;
   }
-  
+
   public set X(value: number) {
     this._position.X = value;
   }
@@ -54,7 +54,7 @@ abstract class Object2D {
     this._position.Y = value;
   }
 
-  public get position(): Vector2{
+  public get position(): Vector2 {
     return this._position;
   }
 
@@ -136,7 +136,13 @@ abstract class Object2D {
     return this;
   }
 
-  abstract draw(context: CanvasRenderingContext2D): void;
+  /**
+   * Draw the Sprite to its context.
+   * @function
+   * @public
+   * @returns Sprite
+   */
+  abstract draw(): ThisType<Object2D>
 
   public translate(X: number, Y: number): Object2D {
     this.mesh = this.mesh.map((point: Point2D) => {
@@ -151,7 +157,7 @@ abstract class Object2D {
 
   public scale(scalingFactor: number): Object2D {
     this.size *= scalingFactor;
-    this.mesh.map(point => {
+    this.mesh.map((point) => {
       point.X = (point.X - this.X) * scalingFactor + this.X;
       point.Y = (point.Y - this.Y) * scalingFactor + this.Y;
       return point;
@@ -182,7 +188,7 @@ abstract class Object2D {
     const distance = this.distanceToObject(object);
     grav.setLength(object.mass / (distance * distance));
     grav.toAngle(this.angleToObject(object));
-    this.velocity.addedTo(grav)
+    this.velocity.addedTo(grav);
     return this;
   }
 
@@ -191,24 +197,42 @@ abstract class Object2D {
     return this;
   }
 
-  public moveUp(speed: number = 1){
+  public moveUp(speed: number = 1) {
     this.setDirection((3 * Math.PI) / 2);
     this.velocity.multipliedBy(speed);
   }
-  
-  public moveDown(speed: number = 1){
+
+  public moveDown(speed: number = 1) {
     this.setDirection(Math.PI / 2);
     this.velocity.multipliedBy(speed);
   }
 
-  public moveLeft(speed: number = 1){
+  public moveLeft(speed: number = 1) {
     this.setDirection(Math.PI);
     this.velocity.multipliedBy(speed);
   }
-  
-  public moveRight(speed: number = 1){
+
+  public moveRight(speed: number = 1) {
     this.setDirection(Math.PI * 2);
     this.velocity.multipliedBy(speed);
+  }
+
+  public update(deltaTimestamp: number): void {
+    this.OnBeforeUpdate(deltaTimestamp);
+    this.OnUpdate(deltaTimestamp);
+    this.OnAfterUpdate(deltaTimestamp);
+  }
+
+  public OnBeforeUpdate(deltaTimestamp: number) {
+    return;
+  }
+
+  public OnUpdate(deltaTimestamp: number) {
+    return;
+  }
+
+  public OnAfterUpdate(deltaTimestamp: number) {
+    return;
   }
 }
 

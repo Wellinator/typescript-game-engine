@@ -38,10 +38,10 @@ export class Rectangle {
 
   contains(object: Object2D): boolean {
     return (
-      object.X + object.width >= this._X &&
-      object.X <= this.X + this._W &&
-      object.Y + object.height >= this._Y &&
-      object.Y <= this.Y + this._H
+      object.X + object.width / 2 >= this._X &&
+      object.X - object.width / 2 <= this.X + this._W &&
+      object.Y + object.height / 2 >= this._Y &&
+      object.Y - object.height / 2 <= this.Y + this._H
     );
   }
 

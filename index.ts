@@ -21,26 +21,26 @@ fetch(
       const base64Asset = reader.result;
 
       //Generate sprites
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 20; i++) {
         let tempSprite = scene.createSprite(
           Math.floor(Math.random() * WIDTH),
           Math.floor(Math.random() * HEIGHT),
-          100,
-          100,
+          25,
+          25,
           16,
           16,
           base64Asset
         );
-        scene.addSprite(tempSprite);
+        scene.addObjectToScene(tempSprite);
       }
 
       //Create asimple Sprite
-      const sprite = scene.createSprite(0, 0, 100, 100, 16, 16, base64Asset);
+      const sprite = scene.createSprite(0, 0, 25, 25, 16, 16, base64Asset);
 
-      sprite.setDirection((11 * Math.PI) / 6);
-      sprite.velocity.setLength(50);
-      sprite.gravitate(50);
-      sprite.friction = 0.98;
+      //sprite.setDirection((11 * Math.PI) / 6);
+      //sprite.velocity.setLength(0);
+      //sprite.gravitate(50);
+      sprite.friction = 0.9;
 
       sprite.OnUpdate = (deltaTimestamp) => {
         sprite.velocity.multipliedBy(sprite.friction);
@@ -59,6 +59,8 @@ fetch(
         scene.update(deltaTimestamp);
         scene.print(10, 20, engine.FPS);
         scene.print(10, 45, deltaTimestamp / 1000);
+        scene.print(10, 70, Math.round(sprite.X));
+        scene.print(50, 70, Math.round(sprite.Y));
 
         //Edge wraping
         if (sprite.X + sprite.width / 2 > WIDTH) {
@@ -85,15 +87,15 @@ fetch(
           sprite.moveUp();
         }
         if (pressedKeys['a']) {
-          sprite.velocity.setLength(150);
+          sprite.velocity.setLength(100);
           sprite.moveLeft();
         }
         if (pressedKeys['s']) {
-          sprite.velocity.setLength(150);
+          sprite.velocity.setLength(100);
           sprite.moveDown();
         }
         if (pressedKeys['d']) {
-          sprite.velocity.setLength(150);
+          sprite.velocity.setLength(100);
           sprite.moveRight();
         }
 
@@ -113,7 +115,7 @@ fetch(
         return pressedKeys;
       };
 
-      scene.addSprite(sprite);
+      scene.addObjectToScene(sprite);
       engine.Init();
     };
   });

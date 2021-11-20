@@ -50,12 +50,7 @@ export class Sprite extends Object2D {
     );
   }
 
-  /**
-   * Draw the Sprite to its context.
-   * @function
-   * @public
-   * @returns Sprite
-   */
+  
   public draw(): ThisType<Sprite> {
     if (this.isCollidable && this.displayHitBox) {
       this.drawHitBox();
@@ -171,24 +166,6 @@ export class Sprite extends Object2D {
 
   public scaleY(scalingFactor: number) {
     this.height *= scalingFactor;
-  }
-
-  public update(deltaTimestamp: number): void {
-    this.OnBeforeUpdate();
-    this.OnUpdate(deltaTimestamp);
-    this.OnAfterUpdate();
-  }
-
-  public OnBeforeUpdate() {
-    return;
-  }
-
-  public OnUpdate(deltaTimestamp: number) {
-    return;
-  }
-
-  public OnAfterUpdate() {
-    return;
   }
 
   public animate(deltaTime: number, options: AnimateOptions = undefined) {
